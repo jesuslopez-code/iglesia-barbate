@@ -1,0 +1,37 @@
+<nav class="navbar">
+  <ul class="nav-list">
+    @for (item of menuItems; track item.label) {
+
+      <li class="nav-item" [class.has-children]="item.children">
+
+        @if (item.children) {
+          <span class="nav-link dropdown-toggle">
+            {{ item.label }} ▼
+          </span>
+
+          <ul class="dropdown-menu">
+            @for (subItem of item.children; track subItem.label) {
+              <li>
+                <a [routerLink]="subItem.path"
+                   routerLinkActive="active"
+                   class="dropdown-item">
+                  {{ subItem.label }}
+                </a>
+              </li>
+            }
+          </ul>
+        }
+
+        @else {
+          <a [routerLink]="item.path"
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}"
+             class="nav-link">
+            {{ item.label }}
+          </a>
+        }
+
+      </li>
+    }
+  </ul>
+</nav>

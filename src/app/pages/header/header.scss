@@ -1,0 +1,28 @@
+.main-header {
+ background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/fondo-trigo.png');
+    background-size: cover;
+  // Centra la imagen de fondo
+  background-position: center 50%;
+  // Evita que se repita
+  background-repeat: no-repeat;
+  height: 250px;
+  width: 100%;
+  color: white;
+  padding: 1rem 2rem;
+  display: grid;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  flex-direction: column;
+
+
+
+  h1 {
+   margin-top: 8%;
+    font-size: 3.5rem;
+    margin-top: 5%;
+    margin-left: 30%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+}

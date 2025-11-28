@@ -1,0 +1,84 @@
+// Contenedor principal del widget para limitar el ancho
+.networks-widget {
+  width: 100%;
+  max-width: 250px; // Ajusta este ancho según donde lo vayas a poner
+  margin: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+// ESTILO DEL TÍTULO (El bloque gris)
+.widget-title {
+  background-color: #e0e0e0; // Gris claro
+  border: 2px solid #7f7f7f; // Borde gris oscuro
+  text-align: center;
+  padding: 0.8rem 0;
+  margin-bottom: 0.5rem; // Separación con la tarjeta
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  color: #000;
+  text-transform: uppercase;
+
+  // EL TRUCO DE LA SOMBRA SÓLIDA ESTILO "RETRO 3D"
+  // Desplazamiento X, Desplazamiento Y, Desenfoque (0), Color
+  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
+}
+
+
+// ESTILO DE LA TARJETA BLANCA
+.widget-card {
+  background-color: white;
+  padding: 2rem;
+  // Sombra suave y difuminada para la tarjeta
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  border-radius: 4px; // Opcional: bordes ligeramente redondeados
+}
+
+// Estilos de la lista
+.social-list {
+  list-style: none; // Quitamos los puntos de la lista
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column; // Iconos en vertical uno debajo de otro
+  gap: 1.5rem; // Espacio entre cada icono
+  align-items: flex-start; // Alineamos los iconos a la izquierda
+}
+
+// Estilos de los enlaces/iconos
+.social-link {
+  font-size: 1.5rem;
+  color: #444; // Color gris oscuro inicial
+  transition: all 0.3s ease;
+  text-decoration: none; // Quitamos el subrayado
+
+  // Efecto Hover: cambia al color de la marca al pasar el ratón
+  &:hover {
+    transform: translateX(5px); // Pequeño movimiento a la derecha
+
+    &.twitter { color: #1DA1F2; }
+    &.facebook { color: #1877F2; }
+    &.youtube { color: #FF0000; }
+    &.tiktok { color: #000000; }
+    &.spotify { color: #1DB954; }
+    &.instagram { color: #E1306C; }
+    .network-name {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0); // El texto se mueve suavemente a su sitio
+  }
+  }
+  .network-name {
+  // 1. Estado inicial: Oculto
+  opacity: 0;
+  visibility: hidden; // Para que no moleste ni ocupe espacio real mientras no se ve
+
+  // 2. Posición y estilo
+  margin-left: 15px; // Separación del icono
+  font-size: 1.1rem;
+  font-weight: 600;
+  white-space: nowrap; // Evita que el texto salte de línea
+  // 3. Preparar la animación
+  transform: translateX(-10px); // Empieza un poco desplazado a la izquierda
+  transition: all 0.3s ease-in-out; // Transición suave para todo
+}
+}
