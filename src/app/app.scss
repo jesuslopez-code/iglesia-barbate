@@ -1,15 +1,14 @@
-:host {
-  /* 1. Definimos que este componente ocupará AL MENOS el 100% de la altura de la ventana */
-  min-height: 100vh;
+body{
 
-  /* 2. Activamos Flexbox en modo columna (vertical) */
-  display: flex;
-  flex-direction: column;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  /* Patrón de ruido sutil */
+  background-image: url('/fondo.png');
+  background-repeat: no-repeat;
+  color: white;
+  background-size: cover;
 }
 
-/* Paso 2: Hacer que el contenido principal crezca */
-main {
-  /* 3. Esta es la clave: le decimos al MAIN que crezca (flex-grow)
-     para ocupar todo el espacio vacío disponible. */
-  flex: 1;
+carousel{
+  height: 300px;
 }

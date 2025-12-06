@@ -1,0 +1,24 @@
+/* Definición de la animación "Aparecer hacia arriba" */
+@keyframes fadeInUp {
+  // Estado inicial (0%)
+  from {
+    opacity: 0;               // Totalmente transparente
+  }
+  // Estado final (100%)
+  to {
+    opacity: 1;               // Totalmente visible
+    transform: translateY(0); // En su posición original exacta
+  }
+}
+
+/* La clase que aplicamos al carrusel */
+.animate-entry {
+  // Nombre de la animación | Duración | Curva de velocidad | Estado final
+  animation: fadeInUp 1s ease-out forwards;
+
+  // Opcional: Si quieres que tarde un poquito en empezar a moverse
+  // animation-delay: 0.2s;
+
+  // 'forwards' es importante: asegura que el elemento se quede
+  // en el estado final (visible) cuando acabe la animación.
+}

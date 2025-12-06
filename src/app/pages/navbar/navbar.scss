@@ -88,3 +88,13 @@
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+// src/app/header/header.component.scss
+
+// ... (el resto del CSS del hero-header sigue igual) ...
+
+// Estilos del Logo
+.logo {
+  border-radius: 50%;
+}
+

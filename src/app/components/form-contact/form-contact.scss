@@ -1,0 +1,11 @@
+.btn-custom-pink {
+  background-color: #b83ee8;
+  border-color: #b83ee8;
+  color: white;
+
+  /* Opcional: Efecto al pasar el ratón (hover) */
+  &:hover {
+    background-color: #c7236f; /* Un tono más oscuro */
+    border-color: #bd2169;
+  }
+}

@@ -1,37 +1,57 @@
-<nav class="navbar">
-  <ul class="nav-list">
-    @for (item of menuItems; track item.label) {
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
 
-      <li class="nav-item" [class.has-children]="item.children">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion" aria-controls="menuNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        @if (item.children) {
-          <span class="nav-link dropdown-toggle">
-            {{ item.label }} ▼
-          </span>
+    <div class="collapse navbar-collapse" id="menuNavegacion">
 
-          <ul class="dropdown-menu">
-            @for (subItem of item.children; track subItem.label) {
-              <li>
-                <a [routerLink]="subItem.path"
-                   routerLinkActive="active"
-                   class="dropdown-item">
-                  {{ subItem.label }}
-                </a>
-              </li>
-            }
-          </ul>
+      <ul class="navbar-nav w-100 nav-fill align-items-center"> <li class="nav-item">
+            <div class="logo-container p-2">
+              <img src="logo.jpg" alt="Logo Iglesia" class="logo" style="height: 50px; width: auto;">
+            </div>
+        </li>
+
+        @for (item of menuItems; track item.label) {
+
+          @if (item.children) {
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fw-bold"
+                 href="#"
+                 role="button"
+                 data-bs-toggle="dropdown"
+                 aria-expanded="false">
+                {{ item.label }}
+              </a>
+
+              <ul class="dropdown-menu">
+                @for (subItem of item.children; track subItem.label) {
+                  <li>
+                    <a [routerLink]="subItem.path"
+                       routerLinkActive="active"
+                       class="dropdown-item">
+                      {{ subItem.label }}
+                    </a>
+                  </li>
+                }
+              </ul>
+            </li>
+          }
+
+          @else {
+            <li class="nav-item">
+              <a [routerLink]="item.path"
+                 routerLinkActive="active"
+                 [routerLinkActiveOptions]="{exact: true}"
+                 class="nav-link fw-bold">
+                {{ item.label }}
+              </a>
+            </li>
+          }
+
         }
-
-        @else {
-          <a [routerLink]="item.path"
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}"
-             class="nav-link">
-            {{ item.label }}
-          </a>
-        }
-
-      </li>
-    }
-  </ul>
+      </ul>
+    </div>
+  </div>
 </nav>
