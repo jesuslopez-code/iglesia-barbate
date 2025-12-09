@@ -1,23 +1,42 @@
-<form class="mb-4">
-  <div class="card p-4 shadow-sm" style="max-width: 800px; width: 100%;">
-    <h3 class="card-title mb-3 text-center fw-bold">Contáctanos</h3>
+<form #contactForm (ngSubmit)="sendEmail($event)" class="mb-4">
+
+  <div class="card p-4 shadow-sm">
+    <h3 class="card-title mb-4 text-center fw-bold text-primary">Contáctanos</h3>
+
+    @if (isSending) {
+      <div class="alert alert-info text-center">Enviando mensaje...</div>
+    }
+    @if (hasError) {
+      <div class="alert alert-danger text-center">Hubo un error. Revisa tu conexión.</div>
+    }
+    @if (isSuccess) {
+      <div class="alert alert-success text-center">¡Mensaje enviado con éxito!</div>
+    }
+
     <div class="mb-3">
-      <label for="name" class="form-label">Nombre</label>
-      <input type="text" class="form-control" id="name" placeholder="Tu nombre" required>
+      <label for="name" class="form-label fw-bold">Nombre</label>
+      <input type="text" class="form-control form-control-lg" id="name" name="from_name" placeholder="Tu nombre" required [disabled]="isSending || isSuccess">
     </div>
 
     <div class="mb-3">
-      <label for="email" class="form-label">Correo Electrónico</label>
-      <input type="email" class="form-control" id="email" placeholder="" required>
+      <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+      <input type="email" class="form-control form-control-lg" id="email" name="from_email" placeholder="tu@email.com" required [disabled]="isSending || isSuccess">
     </div>
-    <div>
-      <label for="message" class="form-label">Mensaje</label>
-        <div class="mb-3">
-        <textarea class="form-control" id="message" rows="3" placeholder="Escribe tu mensaje aquí..." required></textarea>
+
+    <div class="mb-4">
+      <label for="message" class="form-label fw-bold">Mensaje</label>
+      <textarea class="form-control form-control-lg" id="message" name="message" rows="5" placeholder="Escribe aquí..." required [disabled]="isSending || isSuccess"></textarea>
     </div>
-    <div>
-      <button type="submit" class="btn btn-custom-pink w-100">Enviar</button>
+
+    <div class="d-grid">
+      <button type="submit" class="btn btn-primary btn-lg fw-bold" [disabled]="isSending || isSuccess">
+        @if (isSending) {
+          <span>Enviando...</span>
+        } @else {
+          Enviar Mensaje
+        }
+      </button>
     </div>
-    </div>
+
   </div>
 </form>
