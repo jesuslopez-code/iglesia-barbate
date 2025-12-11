@@ -1,0 +1,36 @@
+name: Deploy a Hostinger 🚀
+
+on:
+  push:
+    branches:
+      - master  # ⚠️ CONFIRMA si tu rama principal se llama 'main' o 'master' (abajo a la izquierda en VS Code lo pone)
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: 🚚 Obtener código
+      uses: actions/checkout@v4
+
+    - name: 🟢 Instalar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: 📦 Instalar Dependencias
+      run: npm ci
+
+    - name: 🛠️ Construir Proyecto (Build)
+      run: npm run build
+
+    - name: 📂 Subir a Hostinger (FTP)
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        # ⚠️ IMPORTANTE: Ajusta esto según lo que viste en el Paso 1
+        local-dir: ./dist/iglesia-barbate/browser/
+        server-dir: ./public_html/
