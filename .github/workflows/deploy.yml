@@ -33,4 +33,4 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         # ⚠️ IMPORTANTE: Ajusta esto según lo que viste en el Paso 1
         local-dir: ./dist/iglesia-barbate/browser/
-        server-dir: ./public_html/
+        server-dir: ./
