@@ -1,17 +1,17 @@
 // Solo mantenemos la restricción de ancho
 .networks-widget {
   width: 100%;
-  max-width: 250px;
+  //max-width: 250px;
   // Font family ya lo maneja Bootstrap (o el body global)
 }
 
 // Mantenemos solo lo que Bootstrap NO hace: la sombra dura 3D
-.widget-title {
+/*.widget-title {
   border-color: #7f7f7f !important; // Forzamos tu color de borde específico
   letter-spacing: 1px;
   // EL TRUCO DE LA SOMBRA SÓLIDA ESTILO "RETRO 3D"
   box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
-}
+}*/
 
 // ¡Hemos borrado .widget-card y .social-list enteros!
 // Usamos las clases .card y .list-unstyled de Bootstrap en el HTML.

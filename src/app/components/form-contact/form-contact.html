@@ -1,7 +1,7 @@
 <form #contactForm (ngSubmit)="sendEmail($event)" class="mb-4">
 
   <div class="card p-4 shadow-sm">
-    <h3 class="card-title mb-4 text-center fw-bold text-primary">Contáctanos</h3>
+    <h3 class="card-title mb-4 text-center fw-bold text-primary">CONTÁCTANOS</h3>
 
     @if (isSending) {
       <div class="alert alert-info text-center">Enviando mensaje...</div>
@@ -10,7 +10,7 @@
       <div class="alert alert-danger text-center">Hubo un error. Revisa tu conexión.</div>
     }
     @if (isSuccess) {
-      <div class="alert alert-success text-center">¡Mensaje enviado con éxito!</div>
+      <div class="alert alert-success text-center">¡Mensaje enviado con éxito, pronto nos pondremos en contacto contigo, Dios te bendiga!</div>
     }
 
     <div class="mb-3">

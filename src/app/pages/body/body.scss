@@ -6,3 +6,15 @@ h1 {
   font-size:60px;
 }
 
+/* src/styles.scss */
+
+.networks-desktop-limit {
+  /* MÓVIL (Por defecto): */
+  /* Gracias a la clase w-100 de Bootstrap, aquí ocupará el 100% */
+  max-width: 450px;
+  /* ORDENADOR (Pantallas grandes): */
+  @media (min-width: 992px) {
+    /* Aquí es donde le decimos: "Tú sé más estrecho que el formulario" */
+    max-width: 290px; /* Ajusta este número a tu gusto (ej: 250px o 300px) */
+  }
+}

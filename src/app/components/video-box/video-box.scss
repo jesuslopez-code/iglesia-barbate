@@ -1,0 +1,14 @@
+/* video-box.component.scss */
+
+.video-card {
+  border-radius: 15px; /* Bordes redondeados */
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  background-color: #fff;
+
+  /* Efecto al pasar el ratón por encima */
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; /* Sombra más fuerte al flotar */
+  }
+}

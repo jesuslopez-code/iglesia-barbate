@@ -1,1 +1,31 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+
+  padding: 2rem;
+  background-color: #f8f9fa;
+  /* Patrón de ruido sutil */
+  background-image: url('/fondo.png');
+  background-repeat: no-repeat;
+  color: white;
+  background-size: cover;
+}
+
+main {
+  flex: 1; /* Esto es la clave: "Ocupa todo el espacio vacío disponible" */
+  display: flex;       /* Opcional: Para manejar mejor el contenido interno */
+  flex-direction: column;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Obliga a ocupar SIEMPRE el 100% de la altura de la pantalla */
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; /* Asegura que la altura base sea completa */
+  overflow-x: hidden; /* Evita el scroll horizontal si algo se sale un poco */
+}
