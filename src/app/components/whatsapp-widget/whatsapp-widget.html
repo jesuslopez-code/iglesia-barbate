@@ -1,0 +1,32 @@
+<div class="whatsapp-widget-container">
+
+  <div class="chat-box" *ngIf="isChatOpen">
+
+    <div class="chat-header">
+      <div class="header-info">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Logo" width="24">
+        <span>WhatsApp</span>
+      </div>
+      <button class="close-btn" (click)="toggleChat()">×</button>
+    </div>
+
+    <div class="chat-body">
+      <div class="message-bubble">
+        <span class="bubble-name">Iglesia El Camino</span>
+        <p>Hola 👋<br>¿En qué podemos ayudarte?</p>
+        <span class="bubble-time">Justo ahora</span>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <button class="open-chat-btn" (click)="openWhatsApp()">
+        Abrir chat <span class="send-icon">➤</span>
+      </button>
+    </div>
+  </div>
+
+  <button class="fab-button" (click)="toggleChat()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  </button>
+
+</div>
