@@ -1,16 +1,16 @@
 # Iglesia El Camino — Barbate
 
-Sitio web público de la Iglesia El Camino (Barbate, Cádiz). Proyecto real en producción, desarrollado de forma altruista para la comunidad.
+Sitio web de una iglesia evangélica en Barbate (Cádiz). Proyecto real en producción.
 
 ## El problema
 
-La congregación no tenía presencia web propia: la información de horarios, ubicación y actividades circulaba solo por redes sociales y WhatsApp, donde se pierde y no es consultable por alguien que llega de fuera. Necesitaban un sitio que funcionara como punto de entrada estable, que se viera bien en el móvil —por donde entra la mayoría del tráfico— y que permitiera contactar sin exponer números personales.
+La iglesia no tenía presencia web propia: la información de horarios, ubicación y actividades circulaba solo por redes sociales y WhatsApp, donde se pierde y no es consultable por alguien que llega de fuera. Necesitaban un sitio que funcionara como punto de entrada estable, que se viera bien en el móvil —por donde entra la mayoría del tráfico— y que permitiera contactar sin exponer números personales.
 
 ## Solución
 
 Aplicación Angular de una sola página con navegación por rutas, pensada para consumo mayoritariamente móvil:
 
-- **Carrusel** de imágenes de la comunidad en la portada
+- **Carrusel** de imágenes de la iglesia en la portada
 - **Sección "Conócenos"** con la información de la iglesia en ruta propia (`/know`)
 - **Formulario de contacto** que envía correo directamente desde el navegador vía EmailJS, sin necesidad de backend ni servidor de correo propio
 - **Widget de WhatsApp** flotante para contacto inmediato
@@ -35,7 +35,7 @@ Aplicación Angular de una sola página con navegación por rutas, pensada para 
 
 **Separación `pages/` y `components/`.** `pages/` contiene las piezas que componen la estructura de la página (navbar, header, body, footer, know); `components/` las reutilizables e independientes (carrusel, formulario, widget de WhatsApp, caja de vídeo, redes). Facilita saber dónde tocar sin abrir todo el árbol.
 
-**Despliegue por FTP.** Hostinger, el alojamiento que ya tenía la comunidad, no ofrece integración con Git. El workflow de GitHub Actions compila y sube `dist/` por FTP en cada push, de modo que actualizar el sitio no requiere que nadie toque un cliente FTP a mano. Las credenciales van en *secrets* del repositorio.
+**Despliegue por FTP.** Hostinger, el alojamiento que ya tenía la iglesia, no ofrece integración con Git. El workflow de GitHub Actions compila y sube `dist/` por FTP en cada push, de modo que actualizar el sitio no requiere que nadie toque un cliente FTP a mano. Las credenciales van en *secrets* del repositorio.
 
 ## Ejecutar en local
 
