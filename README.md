@@ -1,59 +1,67 @@
-# IglesiaBarbate
+# Iglesia El Camino — Barbate
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Sitio web público de la Iglesia El Camino (Barbate, Cádiz). Proyecto real en producción, desarrollado de forma altruista para la comunidad.
 
-## Development server
+## El problema
 
-To start a local development server, run:
+La congregación no tenía presencia web propia: la información de horarios, ubicación y actividades circulaba solo por redes sociales y WhatsApp, donde se pierde y no es consultable por alguien que llega de fuera. Necesitaban un sitio que funcionara como punto de entrada estable, que se viera bien en el móvil —por donde entra la mayoría del tráfico— y que permitiera contactar sin exponer números personales.
 
-```bash
-ng serve
-```
+## Solución
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Aplicación Angular de una sola página con navegación por rutas, pensada para consumo mayoritariamente móvil:
 
-## Code scaffolding
+- **Carrusel** de imágenes de la comunidad en la portada
+- **Sección "Conócenos"** con la información de la iglesia en ruta propia (`/know`)
+- **Formulario de contacto** que envía correo directamente desde el navegador vía EmailJS, sin necesidad de backend ni servidor de correo propio
+- **Widget de WhatsApp** flotante para contacto inmediato
+- **Enlaces a redes** (Facebook, Instagram, TikTok, YouTube) y reproductor de vídeo integrado
+- **Ubicación** enlazada a Google Maps
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Stack
 
-```bash
-ng generate component component-name
-```
+| Capa | Tecnología |
+|---|---|
+| Framework | Angular 21 (componentes standalone) |
+| Estilos | Bootstrap 5 + SCSS |
+| Iconografía | FontAwesome 7 |
+| Correo | EmailJS (`@emailjs/browser`) |
+| Despliegue | GitHub Actions → FTP a Hostinger |
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Decisiones técnicas
 
-```bash
-ng generate --help
-```
+**Sin backend.** El único requisito dinámico era el formulario de contacto. Montar un servidor solo para eso habría añadido un coste recurrente y un punto de fallo a un proyecto sin presupuesto ni mantenimiento previsto. EmailJS resuelve el envío desde el cliente, y el sitio queda como estático puro: barato de alojar y sin superficie de ataque de servidor.
 
-## Building
+**Componentes standalone en lugar de NgModules.** Es el enfoque por defecto desde Angular 17 y evita el boilerplate de módulos en un proyecto de esta escala. La configuración vive en un único `app.config.ts` con `provideRouter`.
 
-To build the project run:
+**Separación `pages/` y `components/`.** `pages/` contiene las piezas que componen la estructura de la página (navbar, header, body, footer, know); `components/` las reutilizables e independientes (carrusel, formulario, widget de WhatsApp, caja de vídeo, redes). Facilita saber dónde tocar sin abrir todo el árbol.
 
-```bash
-ng build
-```
+**Despliegue por FTP.** Hostinger, el alojamiento que ya tenía la comunidad, no ofrece integración con Git. El workflow de GitHub Actions compila y sube `dist/` por FTP en cada push, de modo que actualizar el sitio no requiere que nadie toque un cliente FTP a mano. Las credenciales van en *secrets* del repositorio.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Ejecutar en local
 
 ```bash
-ng e2e
+npm ci
+npm start          # http://localhost:4200
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Otros comandos:
 
-## Additional Resources
+```bash
+npm run build      # compila a dist/iglesia-barbate/browser/
+npm test           # tests unitarios con Karma
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Configuración
+
+Las claves de EmailJS (`serviceID`, `templateID`, `publicKey`) están en `src/app/components/form-contact/form-contact.ts`. Son identificadores de cliente: EmailJS los expone por diseño en el bundle del navegador, así que no son secretos. La protección contra abuso se configura en el panel de EmailJS restringiendo los orígenes permitidos al dominio de producción.
+
+El despliegue necesita tres *secrets* en el repositorio: `FTP_SERVER`, `FTP_USERNAME` y `FTP_PASSWORD`.
+
+## Estructura
+
+```
+src/app/
+├── app.ts · app.config.ts · app.routes.ts
+├── pages/          navbar · header · body · know · footer
+└── components/     carousel · form-contact · networks · video-box · whatsapp-widget
+```
