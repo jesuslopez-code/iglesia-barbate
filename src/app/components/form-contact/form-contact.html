@@ -1,17 +1,19 @@
 <form #contactForm (ngSubmit)="sendEmail($event)" class="mb-4">
 
-  <div class="card p-4 shadow-sm">
-    <h3 class="card-title mb-4 text-center fw-bold text-primary">CONTÁCTANOS</h3>
+  <div class="form-card">
+    <h3 class="form-titulo">Contáctanos</h3>
 
-    @if (isSending) {
-      <div class="alert alert-info text-center">Enviando mensaje...</div>
-    }
-    @if (hasError) {
-      <div class="alert alert-danger text-center">Hubo un error. Revisa tu conexión.</div>
-    }
-    @if (isSuccess) {
-      <div class="alert alert-success text-center">¡Mensaje enviado con éxito, pronto nos pondremos en contacto contigo, Dios te bendiga!</div>
-    }
+    <div aria-live="polite">
+      @if (isSending) {
+        <div class="alert alert-info text-center" role="status">Enviando mensaje...</div>
+      }
+      @if (hasError) {
+        <div class="alert alert-danger text-center" role="alert">Hubo un error. Revisa tu conexión.</div>
+      }
+      @if (isSuccess) {
+        <div class="alert alert-success text-center" role="status">¡Mensaje enviado con éxito, pronto nos pondremos en contacto contigo, Dios te bendiga!</div>
+      }
+    </div>
 
     <div class="mb-3">
       <label for="name" class="form-label fw-bold">Nombre</label>
@@ -29,7 +31,7 @@
     </div>
 
     <div class="d-grid">
-      <button type="submit" class="btn btn-primary btn-lg fw-bold" [disabled]="isSending || isSuccess">
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="isSending || isSuccess">
         @if (isSending) {
           <span>Enviando...</span>
         } @else {

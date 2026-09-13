@@ -1,24 +1,31 @@
-/* Definición de la animación "Aparecer hacia arriba" */
-@keyframes fadeInUp {
-  // Estado inicial (0%)
-  from {
-    opacity: 0;               // Totalmente transparente
-  }
-  // Estado final (100%)
-  to {
-    opacity: 1;               // Totalmente visible
-    transform: translateY(0); // En su posición original exacta
-  }
+// Proporción por defecto (fotos de cámara, casi todas 4:3). El contenedor que lo incruste
+// puede fijar otra vía --carousel-aspect (la banda de portada usa 21/8), sin tocar este fichero.
+:host {
+  display: block;
 }
 
-/* La clase que aplicamos al carrusel */
-.animate-entry {
-  // Nombre de la animación | Duración | Curva de velocidad | Estado final
-  animation: fadeInUp 1s ease-out forwards;
+.carousel {
+  aspect-ratio: var(--carousel-aspect, 4 / 3);
+  overflow: hidden;
+  border-radius: var(--ec-radius-md);
+}
 
-  // Opcional: Si quieres que tarde un poquito en empezar a moverse
-  // animation-delay: 0.2s;
+.carousel-inner,
+.carousel-item {
+  height: 100%;
+}
 
-  // 'forwards' es importante: asegura que el elemento se quede
-  // en el estado final (visible) cuando acabe la animación.
+.carousel-imagen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
 }

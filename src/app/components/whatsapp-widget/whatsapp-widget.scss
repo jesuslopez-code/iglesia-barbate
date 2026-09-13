@@ -5,6 +5,14 @@
   right: 20px;
   z-index: 1000;
   font-family: sans-serif;
+
+  /* Verde de WhatsApp: identidad de marca ajena, no del sistema «Faro», por
+     eso vive aquí con prefijo propio y no en los tokens --ec-* globales.
+     --wa-ink es blanco fijo porque el verde no cambia entre modos. */
+  --wa-green: #25D366;
+  --wa-green-dark: #095e54;
+  --wa-green-hover: #1ebe57;
+  --wa-ink: #ffffff;
 }
 
 /* --- Botón Flotante Redondo (FAB) --- */
@@ -12,9 +20,9 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #25D366;
+  background-color: var(--wa-green);
   border: none;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: var(--ec-shadow-md);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -38,17 +46,17 @@
   bottom: 80px; /* Encima del botón */
   right: 0;
   width: 300px;
-  background-color: #fff;
+  background-color: var(--ec-surface);
   border-radius: 10px;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+  box-shadow: var(--ec-shadow-md);
   overflow: hidden;
   animation: fadeIn 0.3s ease-in-out;
 }
 
 /* Cabecera */
 .chat-header {
-  background-color: #095e54; /* El verde oscuro de WhatsApp */
-  color: white;
+  background-color: var(--wa-green-dark);
+  color: var(--wa-ink);
   padding: 15px;
   display: flex;
   justify-content: space-between;
@@ -65,7 +73,7 @@
 .close-btn {
   background: none;
   border: none;
-  color: white;
+  color: var(--wa-ink);
   font-size: 24px;
   cursor: pointer;
 }
@@ -73,30 +81,30 @@
 /* Cuerpo */
 .chat-body {
   padding: 20px;
-  background-color: #e5ddd5; /* Fondo clásico de chat */
+  background-color: var(--ec-ground);
   background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); /* Opcional: patrón de fondo */
 }
 
 .message-bubble {
-  background-color: white;
+  background-color: var(--ec-surface);
   padding: 10px 15px;
   border-radius: 0 10px 10px 10px;
-  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  box-shadow: var(--ec-shadow-sm);
   position: relative;
   font-size: 14px;
-  color: #4a4a4a;
+  color: var(--ec-ink);
 }
 
 .bubble-name {
   font-size: 12px;
-  color: #999;
+  color: var(--ec-ink-soft);
   display: block;
   margin-bottom: 5px;
 }
 
 .bubble-time {
   font-size: 10px;
-  color: #999;
+  color: var(--ec-ink-soft);
   float: right;
   margin-top: 5px;
 }
@@ -108,8 +116,8 @@
 }
 
 .open-chat-btn {
-  background-color: #25D366;
-  color: white;
+  background-color: var(--wa-green);
+  color: var(--wa-ink);
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
@@ -124,7 +132,7 @@
 }
 
 .open-chat-btn:hover {
-  background-color: #1ebe57;
+  background-color: var(--wa-green-hover);
 }
 
 /* Animación de entrada */

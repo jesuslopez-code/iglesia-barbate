@@ -1,52 +1,114 @@
-// Solo mantenemos la restricción de ancho
 .networks-widget {
   width: 100%;
-  //max-width: 250px;
-  // Font family ya lo maneja Bootstrap (o el body global)
+
+  /* Colores de marca de cada red: identidad ajena, no del sistema «Faro»,
+     por eso no van a los tokens --ec-* globales sino aquí, con prefijo propio.
+     Viven solo en el icono (ver .social-icono): como texto, el negro de TikTok
+     se vuelve invisible sobre el fondo oscuro de la lateral/superficie. */
+  --net-facebook: #1877F2;
+  --net-youtube: #FF0000;
+  --net-tiktok: #000000;
+  --net-instagram: #E1306C;
 }
 
-// Mantenemos solo lo que Bootstrap NO hace: la sombra dura 3D
-/*.widget-title {
-  border-color: #7f7f7f !important; // Forzamos tu color de borde específico
-  letter-spacing: 1px;
-  // EL TRUCO DE LA SOMBRA SÓLIDA ESTILO "RETRO 3D"
-  box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.4);
-}*/
+.networks-rotulo {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ec-accent);
+}
 
-// ¡Hemos borrado .widget-card y .social-list enteros!
-// Usamos las clases .card y .list-unstyled de Bootstrap en el HTML.
+.networks-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--ec-rule);
+}
 
-// Estilos de interacción (Hover y colores)
 .social-link {
-  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--ec-space-sm);
+  padding: var(--ec-space-sm) 0;
+  border-bottom: 1px solid var(--ec-rule);
+  color: var(--ec-ink);
+  text-decoration: none;
+  transition: color 0.2s ease;
 
-  // Efecto Hover: cambia al color de la marca
-  &:hover {
-    // Transform opcional, si quieres que se mueva un poquito el icono
-    // transform: translateX(5px);
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
 
-    &.twitter { color: #1DA1F2 !important; }
-    &.facebook { color: #1877F2 !important; }
-    &.youtube { color: #FF0000 !important; }
-    &.tiktok { color: #000000 !important; }
-    &.spotify { color: #1DB954 !important; }
-    &.instagram { color: #E1306C !important; }
+  &.facebook:hover,
+  &.facebook:focus-visible { color: var(--net-facebook); }
+  &.youtube:hover,
+  &.youtube:focus-visible { color: var(--net-youtube); }
+  &.instagram:hover,
+  &.instagram:focus-visible { color: var(--net-instagram); }
 
-    .network-name {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0);
-    }
+  // TikTok es negro puro: sobre fondo oscuro se volvería invisible como color de texto,
+  // así que en el hover mantiene el latón en vez del color de marca.
+  &.tiktok:hover,
+  &.tiktok:focus-visible { color: var(--ec-accent); }
+
+  &:hover .social-flecha,
+  &:focus-visible .social-flecha {
+    transform: translate(2px, -2px);
   }
 }
 
-// La animación del texto (esto es 100% custom, se queda)
-.network-name {
-  opacity: 0;
-  visibility: hidden;
-  // El margen lo manejamos con la clase 'ms-3' en el HTML
+.social-icono {
+  flex: none;
+  width: 1.5rem;
+  font-size: var(--ec-text-xl);
+  text-align: center;
+  color: inherit;
+}
 
-  white-space: nowrap;
-  transform: translateX(-10px);
-  transition: all 0.3s ease-in-out;
+.social-link.facebook .social-icono { color: var(--net-facebook); }
+.social-link.youtube .social-icono { color: var(--net-youtube); }
+.social-link.tiktok .social-icono { color: var(--ec-ink); }
+.social-link.instagram .social-icono { color: var(--net-instagram); }
+
+.social-texto {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.social-nombre {
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-base);
+  font-weight: 700;
+  color: var(--ec-ink);
+}
+
+.social-detalle {
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  color: var(--ec-ink-soft);
+}
+
+.social-flecha {
+  flex: none;
+  font-size: var(--ec-text-xs);
+  color: var(--ec-ink-soft);
+  transition: transform 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-link,
+  .social-flecha {
+    transition: none;
+  }
+
+  .social-link:hover .social-flecha,
+  .social-link:focus-visible .social-flecha {
+    transform: none;
+  }
 }

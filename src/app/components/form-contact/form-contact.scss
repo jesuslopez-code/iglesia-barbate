@@ -1,11 +1,35 @@
-.btn-custom-pink {
-  background-color: #b83ee8;
-  border-color: #b83ee8;
-  color: white;
+.form-card {
+  padding: var(--ec-space-md);
+  border: 1px solid var(--ec-rule);
+  border-radius: var(--ec-radius-md);
+  background: var(--ec-surface);
+  box-shadow: var(--ec-shadow-sm);
+}
 
-  /* Opcional: Efecto al pasar el ratón (hover) */
-  &:hover {
-    background-color: #c7236f; /* Un tono más oscuro */
-    border-color: #bd2169;
+.form-titulo {
+  margin: 0 0 var(--ec-space-md);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-xl);
+  font-weight: 700;
+  text-align: center;
+  color: var(--ec-accent);
+}
+
+/* El botón de envío usa .btn-primary de Bootstrap; se sobrescribe aquí con el
+   sistema «Faro» en vez de dejar el azul por defecto de Bootstrap. */
+.btn-primary {
+  background-color: var(--ec-accent);
+  border-color: var(--ec-accent);
+  color: var(--ec-surface);
+  font-weight: 700;
+
+  &:hover:not(:disabled) {
+    background-color: var(--ec-accent-fill);
+    border-color: var(--ec-accent-fill);
+    color: var(--ec-sidebar);
+  }
+
+  &:disabled {
+    opacity: 0.6;
   }
 }

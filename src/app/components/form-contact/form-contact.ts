@@ -24,12 +24,6 @@ export class FormContact {
   public sendEmail(e: Event) {
     e.preventDefault();
 
-    // Si faltan las claves, avisamos por consola
-    if (this.serviceID.includes('PEGAR_AQUI')) {
-      alert('¡Faltan configurar las claves de EmailJS en el archivo .ts!');
-      return;
-    }
-
     this.hasError = false;
     this.isSuccess = false;
     this.isSending = true;
