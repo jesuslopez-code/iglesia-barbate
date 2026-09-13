@@ -1,3 +1,7 @@
+.lead {
+  color: var(--ec-ink-soft);
+}
+
 .network-css {
   /* ESTADO NORMAL */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Importante: Suaviza la animación */
@@ -7,6 +11,6 @@
   /* ESTADO AL PASAR EL RATÓN */
   &:hover {
     transform: translateY(-5px); /* Se mueve hacia arriba */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important; /* Sombra más intensa */
+    box-shadow: var(--ec-shadow-md); /* Sombra más intensa */
   }
 }

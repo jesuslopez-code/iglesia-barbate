@@ -1,0 +1,44 @@
+<div
+  class="video-carousel"
+  role="group"
+  [attr.aria-label]="etiqueta"
+  aria-roledescription="carrusel"
+  tabindex="0"
+  (keydown)="onKeydown($event)"
+  (pointerdown)="onPointerDown($event)"
+  (pointerup)="onPointerUp($event)"
+>
+  @if (actual) {
+    <app-video-card [pieza]="actual"></app-video-card>
+  }
+
+  @if (piezas.length > 1) {
+    <div class="video-carousel-controles">
+      <button type="button" class="video-carousel-flecha" (click)="anterior()" [attr.aria-label]="sustantivo + ' anterior'">
+        ‹
+      </button>
+      <span class="video-carousel-contador">{{ indice + 1 }} de {{ piezas.length }}</span>
+      <button type="button" class="video-carousel-flecha" (click)="siguiente()" [attr.aria-label]="sustantivo + ' siguiente'">
+        ›
+      </button>
+    </div>
+
+    <div class="video-carousel-puntos" role="tablist" [attr.aria-label]="'Ir a un ' + sustantivo + ' concreto'">
+      @for (pieza of piezas; track pieza.id; let i = $index) {
+        <button
+          type="button"
+          role="tab"
+          class="video-carousel-punto"
+          [class.is-activo]="i === indice"
+          [attr.aria-selected]="i === indice"
+          [attr.aria-label]="'Ir al ' + sustantivo + ' ' + (i + 1) + ' de ' + piezas.length"
+          (click)="irA(i)"
+        ></button>
+      }
+    </div>
+  }
+
+  @if (actual) {
+    <div class="visually-hidden" aria-live="polite">{{ actual.titulo }}</div>
+  }
+</div>

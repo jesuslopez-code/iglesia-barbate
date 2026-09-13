@@ -1,18 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
-import { VideoBox } from './video-box';
+import { Horarios } from './horarios';
 
-describe('VideoBox', () => {
-  let component: VideoBox;
-  let fixture: ComponentFixture<VideoBox>;
+describe('Horarios', () => {
+  let component: Horarios;
+  let fixture: ComponentFixture<Horarios>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VideoBox]
+      imports: [Horarios],
+      providers: [provideRouter([])],
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(VideoBox);
+    fixture = TestBed.createComponent(Horarios);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

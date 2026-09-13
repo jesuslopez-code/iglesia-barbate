@@ -3,22 +3,30 @@
   <div class="row mb-5">
     <div class="col-lg-8">
       <h1 class="fw-bold mb-3">Conócenos un poco más</h1>
-      <p class="lead text-white">
+      <p class="lead">
         En la Iglesia El Camino creemos en compartir el mensaje a través de todos los medios.
         Aquí tienes una selección.
       </p>
     </div>
   </div>
 
-  <h3 class="fw-bold mb-4 border-bottom pb-2 text-center">Nuestros Videos</h3>
+  <h3 class="fw-bold mb-4 border-bottom pb-2 text-center">Galería</h3>
 
-  <div class="row g-4"> <div class="col-12 col-md-6 col-lg-4">
-      <app-video-box videoId="hTvfKVTzu2w" title="El vive"></app-video-box>
+  <div class="row mb-5">
+    <div class="col-12">
+      <app-carousel></app-carousel>
     </div>
+  </div>
 
-    <div class="col-12 col-md-6 col-lg-4">
-      <app-video-box videoId="Y-Q7HxRv1_M" title="Danza en el desierto"></app-video-box>
-    </div>
+  <h3 class="fw-bold mb-4 border-bottom pb-2 text-center">Vídeos de actividades</h3>
+  <p class="text-center mb-4">Teatro, danza y otros momentos compartidos en la iglesia.</p>
+
+  <div class="row g-4">
+    @for (actividad of actividades; track actividad.id) {
+      <div class="col-12 col-md-6 col-lg-4">
+        <app-video-card [pieza]="actividad"></app-video-card>
+      </div>
+    }
   </div>
 
     <div class="row mb-5 mt-5 justify-content-center">

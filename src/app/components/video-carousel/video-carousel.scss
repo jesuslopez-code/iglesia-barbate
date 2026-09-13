@@ -1,0 +1,80 @@
+.video-carousel {
+  touch-action: pan-y;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+.video-carousel-controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ec-space-md);
+  margin-top: var(--ec-space-sm);
+  padding-top: var(--ec-space-sm);
+  border-top: 1px solid var(--ec-rule);
+}
+
+.video-carousel-flecha {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--ec-rule);
+  border-radius: 50%;
+  background: var(--ec-surface);
+  color: var(--ec-ink);
+  font-size: var(--ec-text-xl);
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--ec-accent-fill);
+    color: var(--ec-accent);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+.video-carousel-contador {
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  color: var(--ec-ink-soft);
+}
+
+.video-carousel-puntos {
+  display: flex;
+  justify-content: center;
+  gap: var(--ec-space-xs);
+  margin-top: var(--ec-space-sm);
+}
+
+.video-carousel-punto {
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ec-rule);
+  cursor: pointer;
+
+  &.is-activo {
+    background: var(--ec-accent-fill);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-carousel-flecha {
+    transition: none;
+  }
+}

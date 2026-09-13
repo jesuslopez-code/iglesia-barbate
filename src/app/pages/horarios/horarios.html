@@ -1,0 +1,24 @@
+<section class="page-intro">
+  <h1>Horarios y ubicación</h1>
+  <p>Cuándo y dónde nos reunimos.</p>
+</section>
+
+<section class="page-section" aria-labelledby="horario-cultos">
+  <h2 id="horario-cultos">Horario de cultos</h2>
+  <ul class="horarios-lista">
+    @for (reunion of reuniones; track reunion.id) {
+      <li><strong>{{ reunion.dia }}</strong> — {{ reunion.hora }}</li>
+    }
+  </ul>
+</section>
+
+<section class="page-section" aria-labelledby="como-llegar">
+  <h2 id="como-llegar">Cómo llegar</h2>
+  <address class="horarios-direccion">
+    {{ direccion }}
+    <a [href]="mapaEnlace" target="_blank" rel="noopener">Abrir en el mapa →</a>
+  </address>
+  <div class="mapa-embed">
+    <iframe [title]="mapaTitulo" loading="lazy" [src]="mapaUrl"></iframe>
+  </div>
+</section>

@@ -1,0 +1,60 @@
+.horarios-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-lg);
+  color: var(--ec-ink);
+
+  li + li {
+    margin-top: var(--ec-space-2xs);
+  }
+
+  strong {
+    color: var(--ec-accent);
+  }
+}
+
+.horarios-direccion {
+  display: block;
+  margin: 0 0 var(--ec-space-sm);
+  font-style: normal;
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-base);
+  color: var(--ec-ink);
+
+  a {
+    display: inline-block;
+    margin-left: var(--ec-space-xs);
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    font-weight: 700;
+    color: var(--ec-accent);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--ec-focus-ring);
+    }
+  }
+}
+
+.mapa-embed {
+  margin-top: var(--ec-space-sm);
+  aspect-ratio: 16 / 9;
+  max-width: 480px;
+  border: 1px solid var(--ec-rule);
+  border-radius: var(--ec-radius-md);
+  overflow: hidden;
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}

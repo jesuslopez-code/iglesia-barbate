@@ -1,0 +1,84 @@
+/* Voz propia de la sección de enseñanza, sin tipografías nuevas: columna única de ~65
+   caracteres, cuerpo mayor que el resto del sitio, interlineado suelto y reglas finas en vez de
+   tarjetas — CLAUDE.md. */
+// La voz de lectura (columna de ~65 caracteres) se aplica a los bloques de prosa, no al
+// archivo entero: la rejilla de fichas necesita más ancho para "crecer sola" — ver
+// .ensenanza__archivo más abajo.
+.ensenanza__lectura {
+  max-width: 38rem;
+  margin-inline: auto;
+}
+
+.ensenanza__intro {
+  margin-bottom: var(--ec-space-xl);
+
+  h1 {
+    margin: 0 0 var(--ec-space-sm);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-3xl);
+    line-height: 1.1;
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0;
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-lg);
+    color: var(--ec-ink-soft);
+  }
+}
+
+.ensenanza__cita {
+  margin: 0 0 var(--ec-space-xl);
+  padding-left: var(--ec-space-md);
+  border-left: 2px solid var(--ec-word);
+
+  p {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-xl);
+    line-height: 1.4;
+    font-style: italic;
+    color: var(--ec-ink);
+  }
+
+  cite {
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    font-style: normal;
+    color: var(--ec-word);
+  }
+}
+
+.ensenanza__lectura h2 {
+  margin: 0 0 var(--ec-space-sm);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-2xl);
+  color: var(--ec-ink);
+}
+
+// Aviso honesto mientras el archivo no tiene prédicas reales: mismo tratamiento que
+// .page-placeholder (--ec-accent, nunca --ec-word, que es solo para pasajes bíblicos).
+.ensenanza__aviso {
+  margin: 0;
+  padding: var(--ec-space-sm) var(--ec-space-md);
+  border-left: 2px solid var(--ec-accent-fill);
+  background: var(--ec-surface);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  color: var(--ec-accent);
+}
+
+// El archivo se ensancha respecto a la columna de lectura para que la rejilla de fichas
+// tenga sitio donde crecer sola (auto-fill), en vez de quedar apretada a 38rem.
+.ensenanza__archivo {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.ensenanza__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--ec-space-lg);
+  margin-top: var(--ec-space-lg);
+}

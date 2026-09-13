@@ -1,0 +1,74 @@
+<article class="video-card">
+  <div class="video-card-caratula">
+    @if (reproduciendo) {
+      <iframe
+        #reproductor
+        class="video-card-reproductor"
+        [src]="safeUrl"
+        [title]="'Reproductor de vídeo: ' + pieza.titulo"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+      ></iframe>
+    } @else if (pieza.youtubeId) {
+      <button
+        type="button"
+        class="video-card-play"
+        (click)="reproducir()"
+        [attr.aria-label]="'Reproducir vídeo: ' + pieza.titulo"
+      >
+        <img
+          class="video-card-imagen"
+          [src]="caratulaUrl"
+          [alt]="'Carátula del vídeo: ' + pieza.titulo"
+          width="480"
+          height="270"
+          loading="lazy"
+        />
+        @if (pieza.duracion) {
+          <span class="video-card-duracion">{{ pieza.duracion }}</span>
+        }
+        <span class="video-card-play-icono" aria-hidden="true">
+          <fa-icon [icon]="iconoPlay"></fa-icon>
+        </span>
+      </button>
+    } @else {
+      <div class="video-card-vacia" aria-hidden="true">
+        <fa-icon [icon]="iconoPlay"></fa-icon>
+      </div>
+    }
+  </div>
+
+  <div class="video-card-info">
+    <h3 class="video-card-titulo">{{ pieza.titulo }}</h3>
+
+    @if (pieza.fecha || pieza.predicador) {
+      <p class="video-card-meta">
+        @if (pieza.fecha) {
+          <span>{{ pieza.fecha }}</span>
+        }
+        @if (pieza.predicador) {
+          <span>{{ pieza.predicador }}</span>
+        }
+      </p>
+    }
+
+    @if (pieza.pasaje) {
+      <p class="video-card-pasaje">{{ pieza.pasaje }}</p>
+    }
+
+    @if (pieza.resumen) {
+      <p class="video-card-resumen">{{ pieza.resumen }}</p>
+    }
+
+    @if (pieza.aviso) {
+      <p class="video-card-aviso">{{ pieza.aviso }}</p>
+    }
+  </div>
+
+  @if (mostrarSpotify && pieza.spotifyUrl) {
+    <a class="video-card-spotify" [href]="pieza.spotifyUrl" target="_blank" rel="noopener">
+      <fa-icon [icon]="iconoSpotify" aria-hidden="true"></fa-icon>
+      Escuchar en Spotify
+    </a>
+  }
+</article>
