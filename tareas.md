@@ -21,26 +21,27 @@
   ilegible; el interruptor de tema recuerda la elección al recargar; la barra lateral funciona a
   360 px de ancho; ningún componente tiene ya un color literal en su SCSS; los titulares no
   desbordan en móvil.
-- **Dependencias:** ninguna. **Estado:** pendiente.
+- **Dependencias:** ninguna. **Estado:** hecho.
 - **Notas y riesgos:** el logo con fondo blanco es bloqueante para el modo oscuro. Si no hay versión
   transparente a tiempo, dejarlo anotado y seguir.
 
 Tareas:
 
-- [ ] Declarar los tokens `--ec-*` de la tabla de `CLAUDE.md` en `:root` y sus redefiniciones para
+- [x] Declarar los tokens `--ec-*` de la tabla de `CLAUDE.md` en `:root` y sus redefiniciones para
       modo oscuro — `cam-frontend-dev`
-- [ ] Cargar Cormorant Garamond, Source Serif 4 y Karla, y definir la escala tipográfica con
+- [x] Cargar Cormorant Garamond, Source Serif 4 y Karla, y definir la escala tipográfica con
       `clamp()` — `cam-frontend-dev`
-- [ ] Servicio de tema: `data-theme` en la raíz, valor inicial desde `prefers-color-scheme`,
+- [x] Servicio de tema: `data-theme` en la raíz, valor inicial desde `prefers-color-scheme`,
       preferencia guardada, e interruptor accesible — `cam-frontend-dev`
-- [ ] Componente de layout con barra lateral: fija en escritorio, panel deslizante en móvil, con el
+- [x] Componente de layout con barra lateral: fija en escritorio, panel deslizante en móvil, con el
       filo de latón en el elemento activo — `cam-frontend-dev`
-- [ ] Limpiar los estilos heredados: quitar `color: white` global, el `padding` muerto del `body`,
+- [x] Limpiar los estilos heredados: quitar `color: white` global, el `padding` muerto del `body`,
       los tamaños fijos de `header.scss` y `body.scss` — `cam-frontend-dev`
-- [ ] Quitar las importaciones muertas de `App` y `Footer` y el mecanismo duplicado de desplegable
+- [x] Quitar las importaciones muertas de `App` y `Footer` y el mecanismo duplicado de desplegable
       — `cam-frontend-dev`
-- [ ] Logo en SVG o PNG con transparencia, comprobado en los dos modos — `cam-frontend-dev`
-- [ ] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)
+- [x] Marca tipográfica (Cormorant Garamond + filo de latón) en lugar de imagen de logo, comprobada
+      en los dos modos — `cam-frontend-dev`
+- [x] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)
 
 ---
 
@@ -56,19 +57,21 @@ Tareas:
 - **Criterios de aceptación:** ningún enlace de la barra lateral lleva a una ruta inexistente; una
   URL inventada muestra la página 404; al navegar, la página empieza arriba; la agrupación de la
   lateral coincide con la de `CLAUDE.md`.
-- **Dependencias:** fase 0. **Estado:** pendiente.
+- **Dependencias:** fase 0. **Estado:** hecho.
 - **Notas y riesgos:** la navegación debe salir de la definición de rutas. Si aparece un segundo
   array de menú, está mal hecho.
+- **Decisión de Jesús:** «Jóvenes» y «Kids» tienen cada una su propia entrada en la lateral
+  (dentro de «Vida de iglesia»), no una entrada compartida con enlace cruzado.
 
 Tareas:
 
-- [ ] Declarar las rutas de los cuatro bloques con `loadComponent` y sus títulos —
+- [x] Declarar las rutas de los cuatro bloques con `loadComponent` y sus títulos —
       `cam-frontend-dev`
-- [ ] Generar la barra lateral desde la definición de rutas, con los cuatro grupos y «Servir» y
+- [x] Generar la barra lateral desde la definición de rutas, con los cuatro grupos y «Servir» y
       «Donar» separados abajo — `cam-frontend-dev`
-- [ ] Página 404 y restauración de scroll al navegar — `cam-frontend-dev`
-- [ ] Esqueleto de cada página con su titular y su estructura — `cam-frontend-dev`
-- [ ] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)
+- [x] Página 404 y restauración de scroll al navegar — `cam-frontend-dev`
+- [x] Esqueleto de cada página con su titular y su estructura — `cam-frontend-dev`
+- [x] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)
 
 ---
 
@@ -82,7 +85,8 @@ Tareas:
   galería, servir, donar y contacto. Horarios y prédicas en ficheros JSON de datos.
 - **Criterios de aceptación:** ninguna página queda con texto de relleno; la sección de enseñanza usa
   la columna única de lectura y el pasaje destacado; los horarios están como dato reutilizable, no
-  como frase suelta en un titular.
+  como frase suelta en un titular; la imagen de la portada va en banda con velo y ningún texto
+  depende del contraste de la foto.
 - **Dependencias:** fase 1, y que la iglesia facilite textos y fotos. **Estado:** pendiente.
 - **Notas y riesgos:** es la fase que depende de terceros y la que más probablemente se atasque. «Tu
   primera visita» es la página más leída en una web de iglesia: merece cuidado especial.
@@ -91,9 +95,26 @@ Tareas:
 
 - [ ] Recopilar con la iglesia los textos de creencias, quiénes somos y equipo pastoral — Jesús
 - [ ] Páginas de La iglesia: quiénes somos, creencias, equipo pastoral — `cam-frontend-dev`
-- [ ] Enseñanza como archivo de prédicas desde JSON, con la voz de lectura — `cam-frontend-dev`
+- [x] Enseñanza como archivo de prédicas desde fichero de datos, con la voz de lectura, carrusel
+      de portada y ficha con reproductor en facade — `cam-frontend-dev`. El archivo de
+      `/ensenanza` está montado pero vacío de contenido real: falta que la iglesia entregue
+      prédicas grabadas (fecha, pasaje, predicador, resumen). Los vídeos de otras actividades
+      de la iglesia (teatro, danza) ya tienen su propio sitio en `/conocenos` y ocupan de forma
+      temporal el bloque de la portada mientras no haya prédicas.
 - [ ] Ministerios y acción social — `cam-frontend-dev`
-- [ ] Tu primera visita, horarios y ubicación, galería — `cam-frontend-dev`
+- [x] Rehacer la portada según la maqueta: antetítulo, titular en Cormorant, banda de imagen con
+      velo y las tres tarjetas de entrada; el formulario de contacto se va a `/contacto` —
+      `cam-frontend-dev` (adelantada tras cerrar la fase 1)
+- [x] Bloque «Cuándo nos reunimos» en la portada (rejilla, encima de las tres entradas) y
+      `/horarios` consumiendo el mismo fichero de datos (`src/app/data/horarios.data.ts`); cierre
+      de portada con «Dónde estamos» (mapa + dirección + enlace a la app de mapas) —
+      `cam-frontend-dev`. **Pendiente de confirmar por la iglesia:** qué actividad concreta hay
+      cada día (culto, estudio bíblico...). El código solo tenía confirmado que hay reunión
+      jueves y domingos a las 19:00, sin distinguir cuál es cuál; no se ha inventado la
+      distinción. En cuanto la iglesia lo confirme, rellenar el campo `actividad` de cada
+      `Reunion` en `horarios.data.ts` (hoy `null`) y mostrarlo en las tarjetas y en la lista de
+      `/horarios`.
+- [ ] Tu primera visita, galería — `cam-frontend-dev`
 - [ ] Servir, donar y contacto, con el método de donación que se decida — `cam-frontend-dev`
 - [ ] Campo trampa en el formulario y restricción de orígenes en el panel de EmailJS — Jesús y
       `cam-frontend-dev`
@@ -144,10 +165,14 @@ Tareas:
 
 Tareas:
 
-- [ ] Convertir las fotos a WebP con varios tamaños y declarar dimensiones — `cam-frontend-dev`
+- [ ] Convertir las fotos a WebP con varios tamaños y declarar dimensiones — `cam-frontend-dev`.
+      La imagen de portada ya se sirve en JPEG a 1920 y 960 px (248 kB y 62 kB, frente a los 6 MB
+      del PNG): falta el WebP, que aquí no hay códec para generarlo.
 - [ ] Textos alternativos reales en todas las imágenes — `cam-frontend-dev`
 - [ ] Vídeos de YouTube cargados al pulsar y mapa con `title` y carga diferida —
       `cam-frontend-dev`
 - [ ] Foco de teclado visible y repaso de contraste en los dos modos — `cam-frontend-dev`
 - [ ] Medición final en móvil — `cam-frontend-dev`
+- [ ] Bajar el peso del bundle inicial: supera el presupuesto de 500 kB (revisar sobre todo la
+      importación de FontAwesome) — `cam-frontend-dev`
 - [ ] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)

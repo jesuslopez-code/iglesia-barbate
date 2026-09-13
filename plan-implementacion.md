@@ -46,8 +46,8 @@ voz de lectura específica para la sección de enseñanza. Tokens y reglas en `C
 
 | # | Fase | Objetivo | Estado |
 |---|------|----------|--------|
-| 0 | Sistema y esqueleto | Tokens en dos modos, tipografías, servicio de tema y layout con barra lateral funcionando | pendiente |
-| 1 | Navegación real | Todas las rutas navegables con páginas mínimas y ruta 404 | pendiente |
+| 0 | Sistema y esqueleto | Tokens en dos modos, tipografías, servicio de tema y layout con barra lateral funcionando | hecho |
+| 1 | Navegación real | Todas las rutas navegables con páginas mínimas y ruta 404 | hecho |
 | 2 | Contenido | Los apartados con sus textos, fotos y datos definitivos | pendiente |
 | 3 | Que os encuentren | Prerenderizado, metadatos por ruta, Open Graph, datos estructurados, `robots.txt` y `sitemap.xml` | pendiente |
 | 4 | Velocidad y accesibilidad | Imágenes optimizadas, carga diferida, foco de teclado y contraste verificados | pendiente |
@@ -64,6 +64,11 @@ Al terminar cada fase se **para** para que Jesús pruebe y valide antes de segui
   haría que pareciesen dos webs distintas.
 - **La navegación se genera de la definición de rutas.** Dos listas separadas ya se desincronizaron
   una vez.
+- **Ninguna foto va de fondo de página.** La imagen entra en banda, con un velo degradado que termina
+  en el color de papel del modo activo, de forma que el texto se apoye siempre en un tono conocido.
+  El fondo a sangre de `fondo.png` es justo lo que obligaba al `color: white` global que dejaba
+  ilegible cualquier sección clara, y en modo oscuro el titular casi blanco desaparecería sobre el
+  humo iluminado de la foto.
 - **Móvil primero.** Es por donde entra la mayoría del tráfico.
 
 ## Riesgos y decisiones abiertas

@@ -118,10 +118,132 @@ normal: el **código**, los **mensajes de commit**, los **avisos de seguridad** 
 normal y cuidado, sin abreviar.
 
 ## Correcciones registradas
-_(vacío)_
+- El formulario de contacto (`components/form-contact/form-contact.ts`) tenía un `alert()` para
+  avisar de claves de EmailJS sin configurar. Se sustituyó por `hasError = true` +
+  `console.error`, para no romper la regla de nada de `alert`/`confirm`/`prompt` — ni siquiera en
+  una rama de aviso a desarrolladores.
+
+- `alt` describiendo lo que la foto no muestra es peor que no tenerlo (engaña a quien usa lector de
+  pantalla). Antes de escribir un `alt`, mirar qué hay de verdad en la imagen, no inventar a partir
+  del nombre de fichero o del contexto de la sección. Caso real: `fondo.png` en la portada es una
+  foto de archivo de un culto multitudinario (público de espaldas, cruz iluminada, focos y humo
+  morado) — no es una foto real del templo de Barbate, y el `alt` no puede afirmar que lo es.
+- Toda ruta de imagen en `public/` se referencia en plantilla como absoluta desde la raíz (`/foto.jpg`,
+  no `foto.jpg`): una ruta relativa solo funciona si el componente se sirve siempre bajo `/` y se
+  rompe en cuanto se reutiliza bajo una ruta con más segmentos.
+- La banda de la portada era `fondo.png` (foto de archivo, un culto multitudinario que no es de
+  Barbate). Jesús canceló ese encargo a media tarea — ya no quería más fotos de archivo ahí, sino
+  las fotos reales de la iglesia (`public/photos-iglesia/`) con el carrusel que ya existía. Antes
+  de generar derivados pesados o tokens de imagen por tema para una foto "de portada", confirmar
+  que sigue siendo la foto definitiva: en este proyecto la dirección de una pieza visual concreta
+  puede cambiar de una respuesta a otra dentro de la misma tarea.
 
 ## Componentes UI
-_(vacío)_
+- **Navegación derivada de rutas** (`src/app/core/nav/nav.ts`): cada ruta que debe aparecer en la
+  lateral lleva `data: { nav: { grupo, etiqueta, orden, exact?, pie? } }`. `buildNavGroups(routes)`
+  agrupa y ordena para la lateral; `findNavLink(routes, 'servir' | 'donar')` saca los dos enlaces
+  sueltos del fondo; `buildFooterLinks(routes)` saca los enlaces del pie a partir de las rutas
+  marcadas con `pie: true`. Una ruta sin `data.nav` no aparece en ningún sitio — es la única
+  fuente, no se crea un segundo array de menú por ningún motivo.
+- **Patrón de esqueleto de página** (`src/styles.scss`): `.page-intro` (titular + párrafo lead),
+  `.page-section` (subtítulo + párrafo) y `.page-placeholder` (marcador de contenido pendiente,
+  con `--ec-accent`, nunca `--ec-word`) son utilidades globales para que las páginas de ruta sin
+  contenido definitivo no repitan el mismo bloque de CSS en cada componente. Las páginas que solo
+  usan estas clases no llevan `styleUrl` propio.
+- **Enseñanza** (`pages/ensenanza/`) es la única página con SCSS propio de lectura: columna
+  `max-width: 38rem` centrada, cuerpo en `--ec-font-body` a `--ec-text-lg`, reglas fina
+  (`border-top: 1px solid var(--ec-rule)`) en vez de tarjetas, y la cita destacada en
+  `--ec-word` (el único sitio del sitio, aparte del pie, donde puede aparecer ese token).
+
+- El atributo `sizes` de una `<img>` con `srcset` no acepta `var()`: el navegador no resuelve
+  tokens CSS ahí, hay que dar un valor fijo en píxeles/vw. Si el slot real depende de tokens de
+  layout (ancho de `.content`, `--ec-sidebar-width`, relleno), calcularlo a mano y dejar un
+  comentario que documente de qué tokens sale la cuenta, para poder recalcular si cambian.
+
+- **Carrusel** (`components/carousel/`): componente reutilizable con las fotos reales de la
+  iglesia (`public/photos-iglesia/`), usado en la banda de portada (`pages/body/`) y en la
+  galería (`pages/know/`, ruta `/conocenos`) — mismo componente, mismo contenido, sin
+  parametrizar por ahora. Cada slide lleva `src`/`srcset` reales (derivados `-960`/`-1920`
+  generados con System.Drawing, calidad 82, igual que los de la portada antigua) y `alt`
+  descriptivo en castellano escrito mirando la foto real, no el nombre de fichero. La primera
+  imagen no lleva `loading="lazy"` (es la que se ve sin scroll) y lleva `fetchpriority="high"`;
+  el resto sí lleva `lazy`. La proporción no la fija el contenedor que lo incruste sino la propia
+  variable `--carousel-aspect` en `carousel.scss` (por defecto `4/3`, las fotos de cámara);
+  `.hero-banda` la redefine a `21/8` para la banda ancha de portada. El `sizes` es una
+  aproximación común a los dos contextos donde vive
+  (`(min-width: 1200px) 1140px, 100vw`) — en el peor caso del móvil sigue eligiendo el derivado
+  de 960px, que es lo que importa para no descargar de más.
+
+- **Piezas de vídeo con carátula en facade** (`data/pieza-video.ts`, `components/video-card/`,
+  `components/video-carousel/`): patrón compartido por el archivo de prédicas (`data/predicas.data.ts`,
+  `/ensenanza`) y los vídeos de otras actividades de la iglesia — teatro, danza, eventos —
+  (`data/actividades.data.ts`, `/conocenos`). Las dos listas de datos comparten la interfaz
+  `PiezaVideo` (id, título, `youtubeId`, fecha, duración, resumen, `aviso`, `esEjemplo`); solo
+  las prédicas usan los campos opcionales `pasaje`/`predicador`/`spotifyUrl` — una actividad no
+  los lleva. `app-video-card` es la ficha (carátula `img.youtube.com/vi/<id>/hqdefault.jpg` en
+  botón, aspecto 16:9 fijo por CSS, iframe de YouTube entra solo al pulsar con `autoplay=1` y
+  foco al reproductor) y sirve para ambos tipos de contenido sin parametrizar más que
+  `mostrarSpotify` (solo lo activa `/ensenanza`). `app-video-carousel` es un carrusel propio,
+  ligero, sin Bootstrap: una ficha visible a la vez, sin autoplay, con flechas + teclado +
+  arrastre, contador «N de M», puntos y anuncio `aria-live`; el `@Input sustantivo` cambia la
+  palabra de las etiquetas de accesibilidad («prédica», «vídeo») según qué lista alimenta el
+  carrusel. **No reutiliza `app-carousel`**: ese componente está atado a fotos sueltas (slides
+  con solo `src`/`srcset`/`alt`), corre sobre el carrusel de Bootstrap con autoplay por defecto
+  y no tiene contador, puntos ni anuncio a lector de pantalla — construir todo eso encima
+  habría significado deshacer casi todo lo que trae, así que se le dejó intacto para
+  `/conocenos` (fotos) y la portada, y se hizo una pieza nueva para vídeos.
+- **Portada: qué lista alimenta el bloque de vídeo se decide en tres constantes de `body.ts`**
+  (`piezasDestacadas`, `piezasTitulo`/`piezasDescripcion`/`piezasEnlace`/`piezasEnlaceTexto`),
+  no en la plantilla. Hoy apuntan a `ACTIVIDADES_REALES` porque no hay prédicas grabadas
+  todavía; el día que las haya, cambiar esas constantes a `PREDICAS_REALES` (y el enlace a
+  `/ensenanza`) es todo lo que hace falta — la plantilla y el carrusel no se tocan.
+- **Corrección de Jesús, importante:** dos vídeos reales que llevaban tiempo en `/conocenos`
+  («El vive», «Danza en el desierto») no son prédicas — son actividades de la iglesia (teatro,
+  danza). El primer intento los metió en la lista de prédicas con fecha/pasaje/predicador a
+  `null` y un aviso de "no es una predicación"; Jesús pidió que en vez de maquillarlo con un
+  aviso, esos vídeos vivieran en su propia lista de datos (`actividades.data.ts`), sin campos
+  de prédica en absoluto. Cuando un contenido real no encaja en el tipo de dato que se le iba a
+  dar, la solución es separar el tipo, no añadir una excepción con aviso dentro del tipo que no
+  le corresponde.
+- **`/ensenanza` sin prédicas reales dice la verdad, no simula un archivo lleno**: hay un aviso
+  visible (`.ensenanza__aviso`, con `--ec-accent`) explicando que aún no hay prédicas
+  publicadas, y las fichas de ejemplo que le siguen están marcadas como tal (`esEjemplo: true`,
+  con `aviso` propio en la ficha) — nunca se presenta contenido de ejemplo o de otro tipo como
+  si fuera una prédica real.
 
 ## Casos especiales
-_(vacío)_
+- **Jóvenes y Kids** son dos entradas propias en «Vida de iglesia» (`/ministerios/jovenes` y
+  `/ministerios/kids`, cada una con su `data.nav`). La fase 1 empezó con una única entrada
+  compartida con enlace cruzado; Jesús decidió separarlas. Si una página de ministerio nueva
+  vuelve a agrupar dos audiencias, dale a cada una su propia entrada en la lateral desde el
+  principio, no un enlace cruzado a modo de sustituto.
+- El pie de página no muestra los 15 enlaces de la lateral: toma solo los marcados con
+  `pie: true` en `app.routes.ts` (Inicio, Horarios, Conócenos, Contacto). Si se añade una ruta que
+  también deba salir en el pie, se marca ahí — nunca escribiendo el enlace a mano en
+  `footer.html`.
+- **Corregido: un velo que arranca desde el primer píxel lava la foto entera, no la "funde".**
+  La nota anterior de este fichero decía lo contrario (degradado `--ec-veil` 0% → `--ec-ground`
+  100% para teñir toda la imagen) y era el fallo real que Jesús reportó tras verlo en el
+  navegador: sobre una foto clara, ese velo desde el 0% la convertía en una neblina sin
+  contraste. Patrón correcto: dejar limpio el tramo superior de la foto y concentrar el fundido
+  con `--ec-ground` solo en el tramo que toca el papel de la página —
+  `linear-gradient(to bottom, transparent 0%, transparent 45%, var(--ec-veil) 75%, var(--ec-ground) 100%)`.
+  En modo oscuro además hizo falta subir la opacidad de `--ec-veil` (0.6 → 0.78): al concentrar
+  el fundido en un tramo más corto, necesita más opacidad para notarse. Caso real: `.hero-velo`
+  en `pages/body/body.scss`, token en los tres bloques de `src/styles.scss`.
+- **Banda de imagen ancha: `aspect-ratio`, no `height` en `clamp()`/rem.** Una altura suelta se
+  descuadra entre anchos de viewport (queda más o menos alta según cuánto ancho tenga la banda,
+  no según su forma). Cuando la banda es una imagen suelta, `aspect-ratio` en el contenedor +
+  `width:100%; height:100%; object-fit:cover` en la imagen mantiene la proporción estable. Cuando
+  la banda es el carrusel (`app-carousel`), la proporción la fija el propio componente vía la
+  variable `--carousel-aspect` (ver «Componentes UI» — Carrusel), no el contenedor que lo
+  incruste. Además, una banda de portada no va a sangre: se le da un `max-width` igual al del
+  resto del contenido de la página (aquí 64rem, como `.entradas`) para que quede alineada con el
+  resto, no más ancha.
+- `font-variant: small-caps` en un antetítulo da un resultado descompensado (letras minúsculas
+  agrandadas en vez de mayúsculas reales) — para un antetítulo tipo etiqueta usar
+  `text-transform: uppercase` con `letter-spacing`, nunca small-caps.
+- Sin la extensión Claude in Chrome conectada, no hay forma de verificar visualmente en el
+  navegador: avisar y preguntar antes de dar por bueno un ajuste visual "a ciegas" (solo lectura
+  de CSS). Si Jesús insiste en seguir sin navegador, dejarlo explícito en el informe final que el
+  cambio no se verificó visualmente.
