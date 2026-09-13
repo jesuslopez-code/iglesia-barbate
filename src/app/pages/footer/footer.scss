@@ -1,0 +1,187 @@
+// El fondo fijo de la portada (.portada-fondo en body.scss) usa z-index: 0 en el :host de la
+// página para quedar por delante del fondo opaco de .shell (layout.scss), que es un hermano sin
+// position. El pie es OTRO hermano sin position al mismo nivel del árbol de apilamiento (la
+// raíz del documento, porque ni .shell ni .content abren contexto propio): sin su propia capa
+// se pintaba antes que ese z-index: 0 y quedaba tapado. position: relative + z-index: 1 le da
+// su propio nivel, por delante del fondo de la portada y muy por debajo de la lateral, el botón
+// de menú y el backdrop (1050-1200) y del widget de WhatsApp (1000), que no deben taparlo.
+.ec-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--ec-space-xl);
+  background: var(--ec-sidebar);
+  color: var(--ec-sidebar-ink);
+}
+
+// La superficie oscura ocupa todo el ancho; el contenido se limita a la misma caja que .content
+// (layout.scss) para que las columnas del pie queden alineadas con el resto de la página.
+.ec-footer__inner {
+  max-width: var(--ec-content-max);
+  margin-inline: auto;
+  padding: var(--ec-space-lg) var(--ec-space-md) var(--ec-space-md);
+}
+
+.ec-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ec-space-md);
+}
+
+.ec-footer__title {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ec-accent-fill);
+}
+
+/* La cita de Salmos 32:8 no usa --ec-word aquí: sobre el fondo oscuro de la lateral no
+   alcanza el contraste mínimo (~1.7:1). Se queda en el color de texto del pie. */
+.ec-footer__cita {
+  margin: 0;
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-sm);
+  line-height: 1.5;
+}
+
+.ec-footer__cita-ref {
+  display: block;
+  margin-top: var(--ec-space-2xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+}
+
+.ec-footer__enlaces,
+.ec-footer__datos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  line-height: 1.5;
+
+  li + li {
+    margin-top: var(--ec-space-2xs);
+  }
+
+  a {
+    color: var(--ec-sidebar-ink);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--ec-accent-fill);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--ec-focus-ring);
+    }
+  }
+
+  a.is-active {
+    color: var(--ec-accent-fill);
+  }
+}
+
+// Rejilla de dos columnas para que cada reunión ocupe una sola línea (día y hora) y las horas
+// queden alineadas entre sí. La hora es un dato más del pie, no un titular: mismo cuerpo que el
+// resto y el latón solo para distinguirla del día.
+.ec-footer__horario {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  column-gap: var(--ec-space-xs);
+  row-gap: var(--ec-space-2xs);
+  margin: 0;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  line-height: 1.5;
+
+  dt {
+    font-weight: 400;
+    opacity: 0.8;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--ec-accent-fill);
+  }
+}
+
+.ec-footer__direccion {
+  margin-bottom: var(--ec-space-xs);
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-sm);
+  font-style: normal;
+  line-height: 1.5;
+}
+
+// aspect-ratio en vez de altura fija: el iframe se adapta al ancho de la columna sin desbordar
+// en móvil y sin saltos de layout al cargar. El tope de altura evita que en pantallas anchas el
+// mapa estire la columna y desnivele el pie.
+.ec-footer__mapa {
+  aspect-ratio: 16 / 9;
+  max-height: 9rem;
+  border: 1px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-md);
+  overflow: hidden;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+.ec-footer__legal {
+  margin: var(--ec-space-md) 0 0;
+  padding-top: var(--ec-space-sm);
+  border-top: 1px solid color-mix(in srgb, var(--ec-sidebar-ink) 25%, transparent);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  text-align: center;
+}
+
+@media (min-width: 576px) {
+  .ec-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--ec-space-lg) var(--ec-space-lg);
+  }
+}
+
+@media (min-width: 768px) {
+  .ec-footer__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 992px) {
+  // La lateral es fija a partir de aquí: el pie la esquiva con un relleno propio para centrar su
+  // contenido sobre el mismo eje que .content, no sobre el de la ventana.
+  // Sin margen superior: la banda oscura de la lateral llega hasta el pie (layout.scss) y
+  // cualquier separación aquí dejaría asomar una franja de papel entre las dos superficies. El
+  // aire respecto al contenido lo pone el relleno inferior de .content.
+  .ec-footer {
+    margin-top: 0;
+    padding-inline-start: var(--ec-sidebar-width);
+  }
+
+  .ec-footer__inner {
+    padding: var(--ec-space-lg) var(--ec-space-lg) var(--ec-space-md);
+  }
+
+  // Los cinco apartados en una sola fila, cada uno con el ancho que pide su contenido: la cita y
+  // el mapa necesitan sitio, los enlaces y los horarios no. Contacto tiene columna propia para
+  // que ninguna quede mucho más larga que las demás.
+  .ec-footer__grid {
+    grid-template-columns:
+      minmax(0, 1.45fr) minmax(0, 0.95fr) minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.5fr);
+    gap: var(--ec-space-lg);
+  }
+}
