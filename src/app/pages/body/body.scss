@@ -1,20 +1,220 @@
-
-
-h1 {
-  margin-top: 5%;
-  width: 100%;
-  font-size:60px;
+// z-index: 0 abre un contexto de apilamiento propio para toda la portada: así el fondo fijo de
+// abajo (z-index: -1) queda detrás del resto del contenido de ESTA página sin colarse por debajo
+// del fondo de .shell (layout.scss), que es un hermano no posicionado fuera de este contexto.
+// Ese mismo z-index: 0 también pinta la portada por delante de CUALQUIER otro hermano no
+// posicionado del árbol (p. ej. el pie, footer.scss) aunque venga después en el DOM: por eso el
+// pie declara su propia capa (position: relative; z-index: 1) en vez de depender del orden del
+// documento. Si se añade otro hermano no posicionado a la derecha de .shell, revisar si también
+// necesita su propia capa.
+:host {
+  display: block;
+  position: relative;
+  z-index: 0;
 }
 
-/* src/styles.scss */
+// Fondo de página exclusivo de la portada: fondo.png (vía sus derivados -960/-1920, el PNG de
+// 6MB no se referencia en ningún sitio) con un velo UNIFORME (no degradado) encima. A diferencia
+// de --ec-veil (que solo funde el borde inferior de la banda), aquí el texto puede caer en
+// cualquier punto de la página, así que el velo tiene que garantizar contraste en todo el área,
+// no solo cerca del papel. Medido contra la foto real: en claro hace falta ~96% de opacidad de
+// --ec-ground para que --ec-ink-soft llegue a 4.5:1 en el peor píxel de la foto (una mancha de
+// foco muy oscura); en oscuro, ~85% de --ec-ground-dark.
+//
+// position: fixed (en vez del :host, que vive dentro de .content con max-width y margin-inline:
+// auto) para que la capa cubra TODA el área a la derecha de la lateral, no solo la columna
+// central de texto. En escritorio arranca en el borde de la lateral (--ec-sidebar-width, mismo
+// punto de corte de 992px que layout.scss usa para pasar la lateral a fija); en móvil, donde la
+// lateral es un panel deslizante que no ocupa espacio en el flujo, cubre de borde a borde.
+// pointer-events: none y aria-hidden porque es pura decoración, nunca debe interceptar clics,
+// foco ni lectores de pantalla.
+.portada-fondo {
+  position: fixed;
+  inset-block: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)), url('/fondo-960.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
 
-.networks-desktop-limit {
-  /* MÓVIL (Por defecto): */
-  /* Gracias a la clase w-100 de Bootstrap, aquí ocupará el 100% */
-  max-width: 450px;
-  /* ORDENADOR (Pantallas grandes): */
-  @media (min-width: 992px) {
-    /* Aquí es donde le decimos: "Tú sé más estrecho que el formulario" */
-    max-width: 290px; /* Ajusta este número a tu gusto (ej: 250px o 300px) */
+@media (min-width: 992px) {
+  .portada-fondo {
+    left: var(--ec-sidebar-width);
+    background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)), url('/fondo-1920.jpg');
+  }
+}
+
+.hero {
+  max-width: 42rem;
+  margin-bottom: var(--ec-space-lg);
+  padding-top: var(--ec-space-lg);
+}
+
+.hero-titulo {
+  margin: 0 0 var(--ec-space-sm);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-3xl);
+  line-height: 1.1;
+  color: var(--ec-ink);
+}
+
+// Frase de apoyo del nombre, no un segundo titular: mismo tratamiento que el párrafo lead de
+// .page-intro (styles.scss) para que la jerarquía coincida con el resto del sitio.
+.hero-subtitulo {
+  margin: 0;
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-lg);
+  color: var(--ec-ink-soft);
+}
+
+// Banda contenida en el ancho del contenido, nunca a sangre. aspect-ratio (no una altura suelta
+// en clamp()/rem) mantiene la proporción real de la foto estable entre anchos de viewport.
+// 21:8 es la proporción de banda acordada; la foto (4:3) se recorta con object-fit: cover.
+.hero-banda {
+  position: relative;
+  max-width: 64rem;
+  margin-bottom: var(--ec-space-2xl);
+  aspect-ratio: 21 / 8;
+  overflow: hidden;
+  border-radius: var(--ec-radius-md);
+}
+
+.hero-imagen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// El velo solo fundía la mitad del degradado y arrancaba desde el primer píxel: sobre una foto
+// clara eso la dejaba lavada entera. Ahora el tercio superior queda limpio y el fundido con
+// --ec-ground (mecanismo de --ec-veil) se concentra en el tercio inferior, donde la banda toca
+// el papel de la página.
+.hero-velo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 45%,
+    var(--ec-veil) 75%,
+    var(--ec-ground) 100%
+  );
+}
+
+// Carrusel a ancho de columna + columna de texto al lado; se apila en móvil. La columna de
+// texto no depende del carrusel para nada: el enlace de archivo queda siempre visible aunque
+// el carrusel esté vacío (piezasDestacadas.length === 0).
+.predicas-portada {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ec-space-lg);
+  max-width: 64rem;
+  margin-bottom: var(--ec-space-2xl);
+
+  @media (min-width: 768px) {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: start;
+  }
+}
+
+.predicas-portada-texto {
+  h2 {
+    margin: 0 0 var(--ec-space-xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-2xl);
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0 0 var(--ec-space-md);
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-base);
+    color: var(--ec-ink-soft);
+  }
+}
+
+.predicas-portada-enlace {
+  display: inline-block;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  color: var(--ec-accent);
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+.entradas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ec-space-md);
+  max-width: 64rem;
+  padding-bottom: var(--ec-space-2xl);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// Superficie propia (--ec-surface) para que las entradas se distingan del papel de la
+// página. Conserva el filo de latón a la izquierda como recurso que marca el apartado
+// activo en la barra lateral (.nav-group a.is-active en layout.scss): ata visualmente la
+// portada con la navegación.
+.entrada-tarjeta {
+  display: block;
+  padding: var(--ec-space-md);
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-rule);
+  border-left: 2px solid transparent;
+  border-radius: var(--ec-radius-md);
+  text-decoration: none;
+  transition: border-left-color 0.2s ease, transform 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-left-color: var(--ec-accent-fill);
+    transform: translateX(2px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+
+  h2 {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-xl);
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0;
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    color: var(--ec-ink-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entrada-tarjeta {
+    transition: none;
+
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
   }
 }

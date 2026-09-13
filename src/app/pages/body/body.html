@@ -1,33 +1,50 @@
-<section class="container py-3">
+<div class="portada-fondo" aria-hidden="true"></div>
 
-  <div class="row align-items-start">
-
-    <div class="col-lg-8 text-center text-lg-start mt-1">
-
-      <h1 class="fw-bold text-white mb-2">
-        Iglesia Evangélica El Camino<br>Bienvenido a tu iglesia en Barbate
-      </h1>
-
-      <h2 class="text-white fw-bold mb-4">
-        Todos los jueves y domingos a las 19:00
-      </h2>
-
-      <div class="mb-5 mb-lg-0">
-        <app-carousel></app-carousel>
-      </div>
-
-    </div>
-
-    <div class="col-lg-4 mt-3 mt-lg-5 d-flex flex-column align-items-center gap-4 ">
-
-      <app-networks class="d-block w-100 networks-desktop-limit" ></app-networks>
-
-      <app-form-contact class="w-100" style="max-width: 450px;"></app-form-contact>
-
-    </div>
-
-    <app-whatsapp-widget></app-whatsapp-widget>
-
-  </div>
-
+<section class="hero">
+  <h1 class="hero-titulo">Iglesia Evangélica El Camino</h1>
+  <p class="hero-subtitulo">Bienvenido a tu iglesia en Barbate</p>
 </section>
+
+<section class="hero-banda">
+  <img
+    class="hero-imagen"
+    src="/photos-iglesia/bautizo6-1920.jpg"
+    srcset="/photos-iglesia/bautizo6-960.jpg 960w, /photos-iglesia/bautizo6-1920.jpg 1920w"
+    sizes="(min-width: 1200px) 1140px, 100vw"
+    alt="El grupo de la iglesia de espaldas en la playa, cogidos de la mano y con los brazos levantados hacia el mar, en el momento del bautismo"
+    width="1920"
+    height="731"
+    fetchpriority="high"
+  />
+  <div class="hero-velo" aria-hidden="true"></div>
+</section>
+
+<section class="entradas">
+  <a class="entrada-tarjeta" routerLink="/creencias">
+    <h2>Creencias</h2>
+    <p>En qué nos apoyamos</p>
+  </a>
+
+  <a class="entrada-tarjeta" routerLink="/ensenanza">
+    <h2>Enseñanza</h2>
+    <p>Últimas prédicas</p>
+  </a>
+
+  <a class="entrada-tarjeta" routerLink="/servir">
+    <h2>Servir</h2>
+    <p>Dónde hace falta</p>
+  </a>
+</section>
+
+<section class="predicas-portada" aria-labelledby="predicas-portada-titulo">
+  <div class="predicas-portada-carrusel">
+    <app-video-carousel [piezas]="piezasDestacadas" [etiqueta]="piezasTitulo" sustantivo="vídeo"></app-video-carousel>
+  </div>
+  <div class="predicas-portada-texto">
+    <h2 id="predicas-portada-titulo">{{ piezasTitulo }}</h2>
+    <p>{{ piezasDescripcion }}</p>
+    <a class="predicas-portada-enlace" [routerLink]="piezasEnlace">{{ piezasEnlaceTexto }}</a>
+  </div>
+</section>
+
+<app-whatsapp-widget></app-whatsapp-widget>
