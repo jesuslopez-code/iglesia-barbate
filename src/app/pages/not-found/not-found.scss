@@ -1,0 +1,41 @@
+.not-found {
+  max-width: 32rem;
+  padding-block: var(--ec-space-2xl);
+  text-align: center;
+}
+
+.not-found__codigo {
+  margin: 0;
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-3xl);
+  color: var(--ec-accent);
+}
+
+.not-found h1 {
+  margin: var(--ec-space-xs) 0 var(--ec-space-sm);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-2xl);
+  color: var(--ec-ink);
+}
+
+.not-found p {
+  margin: 0 0 var(--ec-space-lg);
+  font-family: var(--ec-font-body);
+  color: var(--ec-ink-soft);
+}
+
+.not-found__enlace {
+  display: inline-block;
+  padding: var(--ec-space-xs) var(--ec-space-md);
+  border-radius: var(--ec-radius-sm);
+  background: var(--ec-accent-fill);
+  color: var(--ec-sidebar);
+  font-family: var(--ec-font-ui);
+  font-weight: 700;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}

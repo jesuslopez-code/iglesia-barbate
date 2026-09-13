@@ -1,16 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Navbar } from "./pages/navbar/navbar";
-import { Header } from "./pages/header/header";
-import { Body } from "./pages/body/body";
-import { Footer } from "./pages/footer/footer";
+import { Component } from '@angular/core';
+import { Layout } from './pages/layout/layout';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Header, Body, Footer],
+  imports: [Layout],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
-export class App {
-  protected readonly title = signal('iglesia-barbate');
-}
+export class App {}

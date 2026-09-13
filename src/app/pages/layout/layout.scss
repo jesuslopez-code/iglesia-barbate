@@ -1,0 +1,249 @@
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--ec-space-sm);
+  z-index: 1200;
+  padding: var(--ec-space-xs) var(--ec-space-sm);
+  background: var(--ec-surface);
+  color: var(--ec-ink);
+  border: 1px solid var(--ec-accent-fill);
+  border-radius: 2px;
+  font-family: var(--ec-font-ui);
+  text-decoration: none;
+  transition: top 0.15s ease;
+
+  &:focus-visible {
+    top: var(--ec-space-sm);
+    outline: none;
+  }
+}
+
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--ec-ground);
+}
+
+.nav-toggle {
+  position: fixed;
+  top: var(--ec-space-sm);
+  left: var(--ec-space-sm);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--ec-rule);
+  border-radius: 2px;
+  background: var(--ec-surface);
+  color: var(--ec-ink);
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: color-mix(in srgb, var(--ec-sidebar) 65%, transparent);
+}
+
+.sidebar {
+  position: fixed;
+  inset-block: 0;
+  left: 0;
+  z-index: 1090;
+  width: min(82vw, var(--ec-sidebar-width));
+  background: var(--ec-sidebar);
+  color: var(--ec-sidebar-ink);
+  border-right: var(--ec-sidebar-edge);
+  transform: translateX(-100%);
+  transition: transform 0.2s ease;
+
+  &--open {
+    transform: translateX(0);
+  }
+}
+
+// El desplazamiento vive en el interior y no en el <aside>: en escritorio el aside se estira
+// hasta el pie, y si fuese el que recorta el contenido se convertiría en contenedor de scroll y
+// anularía el sticky de este bloque. La barra fina con color propio evita que aparezca el
+// control del sistema, con sus flechas, dentro de la navegación.
+.sidebar__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--ec-space-lg) var(--ec-space-md) var(--ec-space-md);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ec-sidebar-ink) 35%, transparent) transparent;
+}
+
+.brand {
+  display: block;
+  margin-bottom: var(--ec-space-lg);
+  font-family: var(--ec-font-display);
+  font-weight: 700;
+  font-size: var(--ec-text-lg);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ec-sidebar-ink);
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+.sidebar__nav {
+  flex: 1;
+}
+
+.nav-group + .nav-group {
+  margin-top: var(--ec-space-md);
+}
+
+.nav-group__title {
+  margin: 0 0 var(--ec-space-2xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ec-sidebar-ink);
+  opacity: 0.6;
+}
+
+.nav-group ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-group li + li {
+  margin-top: 2px;
+}
+
+.nav-group a {
+  display: block;
+  padding: var(--ec-space-2xs) var(--ec-space-xs);
+  border-left: 2px solid transparent;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  color: var(--ec-sidebar-ink);
+  opacity: 0.75;
+  text-decoration: none;
+}
+
+.nav-group a:hover {
+  opacity: 1;
+}
+
+.nav-group a:focus-visible {
+  outline: none;
+  opacity: 1;
+  box-shadow: var(--ec-focus-ring);
+}
+
+.nav-group a.is-active {
+  opacity: 1;
+  border-left-color: var(--ec-accent-fill);
+  color: var(--ec-accent-fill);
+  font-weight: 700;
+}
+
+.sidebar__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ec-space-xs);
+  margin-top: auto;
+  padding-top: var(--ec-space-md);
+  border-top: 1px solid var(--ec-rule);
+}
+
+.servir-link {
+  display: block;
+  padding: var(--ec-space-2xs) var(--ec-space-xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  color: var(--ec-sidebar-ink);
+  opacity: 0.75;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+.donar-cta {
+  display: block;
+  padding: var(--ec-space-xs) var(--ec-space-sm);
+  border-radius: 2px;
+  background: var(--ec-accent-fill);
+  color: var(--ec-sidebar);
+  font-family: var(--ec-font-ui);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+app-theme-switch {
+  margin-top: var(--ec-space-xs);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: var(--ec-space-lg) var(--ec-space-md);
+}
+
+.content:focus-visible {
+  outline: none;
+}
+
+@media (min-width: 992px) {
+  .nav-toggle,
+  .backdrop {
+    display: none;
+  }
+
+  // La banda oscura deja de medir una pantalla: el <aside> es un item flex de .shell y al
+  // estirarse llega justo hasta donde empieza el pie, sin franja de papel intermedia. Lo que
+  // queda fijo a la vista al desplazar es su interior, no la superficie.
+  .sidebar {
+    position: relative;
+    inset-block: auto;
+    left: auto;
+    width: var(--ec-sidebar-width);
+    transform: none;
+  }
+
+  .sidebar__inner {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+
+  .content {
+    max-width: var(--ec-content-max);
+    margin-inline: auto;
+    padding: var(--ec-space-2xl) var(--ec-space-lg);
+  }
+}
