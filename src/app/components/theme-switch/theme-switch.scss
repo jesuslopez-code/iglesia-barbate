@@ -1,0 +1,42 @@
+.theme-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ec-space-xs);
+  padding: var(--ec-space-2xs) var(--ec-space-sm);
+  border: 1px solid var(--ec-rule);
+  border-radius: var(--ec-radius-md);
+  background: var(--ec-surface);
+  color: var(--ec-ink);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--ec-accent-fill);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+
+  fa-icon {
+    color: var(--ec-accent);
+  }
+}
+
+/* Montado en la barra lateral, la superficie clara del botón queda flotando sobre
+   fondo oscuro: aquí se integra con los tokens de la lateral en vez de con --ec-surface. */
+:host-context(.sidebar) .theme-switch {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--ec-sidebar-ink) 35%, transparent);
+  color: var(--ec-sidebar-ink);
+
+  &:hover {
+    border-color: var(--ec-accent-fill);
+  }
+
+  fa-icon {
+    color: var(--ec-accent-fill);
+  }
+}

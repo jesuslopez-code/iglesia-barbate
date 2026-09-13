@@ -1,31 +1,188 @@
-/* You can add global styles to this file, and also import other style files */
-body{
+﻿/* Tipografías: Cormorant Garamond (titulares y versículo), Source Serif 4 (cuerpo y enseñanza),
+   Karla (navegación, botones, formularios). Se cargan con <link> en src/index.html (preconnect +
+   stylesheet) en vez de @import: un @import aquí bloquea el render hasta descargar el CSS externo. */
 
-  padding: 2rem;
-  background-color: #f8f9fa;
-  /* Patrón de ruido sutil */
-  background-image: url('/fondo.png');
-  background-repeat: no-repeat;
-  color: white;
-  background-size: cover;
+:root {
+  color-scheme: light;
+
+  /* Color — modo claro */
+  --ec-ground: #F5F3EE;
+  --ec-surface: #FFFFFF;
+  --ec-sidebar: #0B2432;
+  --ec-sidebar-ink: #E7E2D6;
+  --ec-ink: #17222B;
+  --ec-ink-soft: #5A6A73;
+  --ec-rule: #DDD8CD;
+  --ec-accent: #A8822E;
+  --ec-accent-fill: #C8A44D;
+  --ec-sea: #3E7C78;
+  --ec-word: #7A2E2E;
+
+  /* Velo de la banda de portada: versión traslúcida del papel del modo activo, para fundir
+     solo el borde inferior de la foto con la página. El degradado (body.scss) deja el resto de
+     la imagen limpio: un velo que arranca desde el primer píxel lava la foto entera. */
+  --ec-veil: rgba(245, 243, 238, 0.55);
+
+  /* Fondo de página de la portada (fondo.png): a diferencia de --ec-veil, el texto puede caer en
+     cualquier punto de la página, no solo cerca del papel, así que este velo es UNIFORME (no
+     degradado) y mucho más opaco — medido contra la foto real para que --ec-ink-soft, el token
+     de texto más exigente, llegue a 4.5:1 incluso sobre el píxel más oscuro de la imagen. */
+  --ec-veil-page: rgba(245, 243, 238, 0.96);
+
+  /* Tipografía */
+  --ec-font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --ec-font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --ec-font-ui: 'Karla', 'Segoe UI', Arial, sans-serif;
+
+  /* Escala tipográfica fluida: nunca px fijos en titulares (rompía en móvil) */
+  --ec-text-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem);
+  --ec-text-sm: clamp(0.875rem, 0.84rem + 0.2vw, 0.9375rem);
+  --ec-text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  --ec-text-lg: clamp(1.125rem, 1.06rem + 0.35vw, 1.3125rem);
+  --ec-text-xl: clamp(1.375rem, 1.25rem + 0.7vw, 1.75rem);
+  --ec-text-2xl: clamp(1.75rem, 1.5rem + 1.3vw, 2.5rem);
+  --ec-text-3xl: clamp(2.25rem, 1.8rem + 2.2vw, 3.5rem);
+
+  /* Derivados de espaciado, radios, sombras y layout */
+  --ec-space-2xs: 0.25rem;
+  --ec-space-xs: 0.5rem;
+  --ec-space-sm: 0.75rem;
+  --ec-space-md: 1.25rem;
+  --ec-space-lg: 2rem;
+  --ec-space-xl: 3.25rem;
+  --ec-space-2xl: 5rem;
+
+  --ec-radius-sm: 4px;
+  --ec-radius-md: 10px;
+  --ec-radius-lg: 18px;
+
+  --ec-shadow-sm: 0 1px 3px rgba(11, 36, 50, 0.08);
+  --ec-shadow-md: 0 8px 24px rgba(11, 36, 50, 0.12);
+
+  --ec-sidebar-width: 260px;
+  /* Anchura máxima del contenido centrado. La comparten la columna principal y el pie: con un
+     número suelto en cada sitio, el pie se desalinearía en cuanto uno de los dos cambiara. */
+  --ec-content-max: 1100px;
+  --ec-focus-ring: 0 0 0 3px rgba(168, 130, 46, 0.45);
+
+  /* Filo de la lateral: mecanismo de contraste, no papel. En claro no hace falta (el bloque
+     oscuro ya contrasta con el papel hueso); en oscuro separa la lateral, algo más clara, del
+     fondo. Un token en vez de una regla condicional por modo, para no repetir el componente. */
+  --ec-sidebar-edge: none;
 }
 
-main {
-  flex: 1; /* Esto es la clave: "Ocupa todo el espacio vacío disponible" */
-  display: flex;       /* Opcional: Para manejar mejor el contenido interno */
-  flex-direction: column;
+/* Preferencia del sistema, solo mientras no haya elección explícita guardada */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --ec-ground: #0A1219;
+    --ec-surface: #101C24;
+    --ec-sidebar: #16242E;
+    --ec-sidebar-ink: #E7E2D6;
+    --ec-ink: #E6EDF3;
+    --ec-ink-soft: #97A8B2;
+    --ec-rule: #24333D;
+    --ec-accent: #D9B45F;
+    --ec-accent-fill: #C8A44D;
+    --ec-sea: #5FA9A4;
+    --ec-word: #D98C86;
+    --ec-veil: rgba(10, 18, 25, 0.78);
+    --ec-veil-page: rgba(10, 18, 25, 0.85);
+
+    --ec-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+    --ec-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+    --ec-sidebar-edge: 1px solid var(--ec-rule);
+  }
+}
+
+/* Elección explícita del interruptor: gana en los dos sentidos sobre el sistema */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ec-ground: #0A1219;
+  --ec-surface: #101C24;
+  --ec-sidebar: #16242E;
+  --ec-sidebar-ink: #E7E2D6;
+  --ec-ink: #E6EDF3;
+  --ec-ink-soft: #97A8B2;
+  --ec-rule: #24333D;
+  --ec-accent: #D9B45F;
+  --ec-accent-fill: #C8A44D;
+  --ec-sea: #5FA9A4;
+  --ec-word: #D98C86;
+  --ec-veil: rgba(10, 18, 25, 0.6);
+  --ec-veil-page: rgba(10, 18, 25, 0.85);
+
+  --ec-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+  --ec-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --ec-sidebar-edge: 1px solid var(--ec-rule);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ec-ground);
+  color: var(--ec-ink);
+  font-family: var(--ec-font-body);
+  overflow-x: hidden; /* Evita el scroll horizontal si algo se sale un poco */
 }
 
 app-root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Obliga a ocupar SIEMPRE el 100% de la altura de la pantalla */
+  display: block;
+  min-height: 100vh;
 }
 
-html, body {
+/* Patrón compartido por el esqueleto de las páginas de contenido (fase 1): titular real, párrafo
+   breve y secciones semánticas mientras cada apartado espera su tratamiento definitivo (fase 2).
+   Vive aquí porque lo usan páginas de rutas distintas; así no se repite en cada componente. */
+.page-intro {
+  max-width: 42rem;
+  margin-bottom: var(--ec-space-xl);
+
+  h1 {
+    margin: 0 0 var(--ec-space-sm);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-3xl);
+    line-height: 1.1;
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0;
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-lg);
+    color: var(--ec-ink-soft);
+  }
+}
+
+.page-section {
+  max-width: 46rem;
+  margin-bottom: var(--ec-space-xl);
+
+  h2 {
+    margin: 0 0 var(--ec-space-xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-2xl);
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0 0 var(--ec-space-sm);
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-base);
+    color: var(--ec-ink);
+  }
+}
+
+/* Marcador honesto de contenido pendiente: se distingue con el latón de texto, nunca con
+   --ec-word (reservado a referencias bíblicas). */
+.page-placeholder {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%; /* Asegura que la altura base sea completa */
-  overflow-x: hidden; /* Evita el scroll horizontal si algo se sale un poco */
+  padding: var(--ec-space-sm) var(--ec-space-md);
+  border-left: 2px solid var(--ec-accent);
+  background: var(--ec-surface);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  color: var(--ec-ink-soft);
 }

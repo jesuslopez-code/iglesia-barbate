@@ -67,6 +67,8 @@ La identidad está decidida y especificada. **No se improvisan colores ni tipogr
 | `--ec-accent-fill` | `#C8A44D` | `#C8A44D` | Latón para rellenos y filos |
 | `--ec-sea` | `#3E7C78` | `#5FA9A4` | Acento frío, uso puntual |
 | `--ec-word` | `#7A2E2E` | `#D98C86` | Solo referencias bíblicas |
+| `--ec-veil` | `rgba(245,243,238,.55)` | `rgba(10,18,25,.78)` (sistema) / `rgba(10,18,25,.6)` (elegido) | Degradado que funde el borde inferior de la banda de portada con el papel |
+| `--ec-veil-page` | `rgba(245,243,238,.96)` | `rgba(10,18,25,.85)` | Velo UNIFORME (no degradado) sobre `fondo.png` como fondo de página en la portada: opacidad calculada para que `--ec-ink-soft` llegue a 4.5:1 incluso sobre el píxel más oscuro de la foto, en cualquier punto de la página |
 
 ## Arquitectura de información
 
@@ -74,8 +76,8 @@ La barra lateral agrupa los apartados en cuatro bloques, con «Donar» y «Servi
 
 - **La iglesia** — Inicio (`/`) · Quiénes somos (`/quienes-somos`) · Nuestras creencias
   (`/creencias`) · Equipo pastoral (`/equipo`)
-- **Vida de iglesia** — Enseñanza (`/ensenanza`) · Ministerios (`/ministerios`) · Jóvenes y Kids
-  (`/ministerios/*`) · Acción social (`/accion-social`)
+- **Vida de iglesia** — Enseñanza (`/ensenanza`) · Ministerios (`/ministerios`) · Jóvenes
+  (`/ministerios/jovenes`) · Kids (`/ministerios/kids`) · Acción social (`/accion-social`)
 - **Conócenos** — Tu primera visita (`/primera-visita`) · Horarios y ubicación (`/horarios`) ·
   Galería y vídeos (`/conocenos`)
 - **Participar** — Servir (`/servir`) · Donar (`/donar`) · Contacto (`/contacto`)

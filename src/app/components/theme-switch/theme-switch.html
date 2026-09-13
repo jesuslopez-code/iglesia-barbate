@@ -1,0 +1,10 @@
+<button
+  type="button"
+  class="theme-switch"
+  (click)="alternar()"
+  [attr.aria-pressed]="theme.current() === 'dark'"
+  aria-label="Cambiar entre modo claro y modo oscuro"
+>
+  <fa-icon [icon]="theme.current() === 'dark' ? iconSun : iconMoon" aria-hidden="true"></fa-icon>
+  <span class="theme-switch__label">{{ theme.current() === 'dark' ? 'Modo oscuro' : 'Modo claro' }}</span>
+</button>
