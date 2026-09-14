@@ -49,8 +49,8 @@ voz de lectura específica para la sección de enseñanza. Tokens y reglas en `C
 | 0 | Sistema y esqueleto | Tokens en dos modos, tipografías, servicio de tema y layout con barra lateral funcionando | hecho |
 | 1 | Navegación real | Todas las rutas navegables con páginas mínimas y ruta 404 | hecho |
 | 2 | Contenido | Los apartados con sus textos, fotos y datos definitivos | pendiente |
-| 3 | Que os encuentren | Prerenderizado, metadatos por ruta, Open Graph, datos estructurados, `robots.txt` y `sitemap.xml` | en curso |
-| 4 | Velocidad y accesibilidad | Imágenes optimizadas, carga diferida, foco de teclado y contraste verificados | pendiente |
+| 3 | Que os encuentren | Prerenderizado, metadatos por ruta, Open Graph, datos estructurados, `robots.txt` y `sitemap.xml` | hecho, a validar en producción |
+| 4 | Velocidad y accesibilidad | Imágenes optimizadas, carga diferida, foco de teclado y contraste verificados | en curso |
 
 Al terminar cada fase se **para** para que Jesús pruebe y valide antes de seguir.
 

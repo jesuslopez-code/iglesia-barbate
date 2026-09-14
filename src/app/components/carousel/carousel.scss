@@ -11,8 +11,15 @@
 }
 
 .carousel-inner,
-.carousel-item {
+.carousel-item,
+.carousel-item picture {
   height: 100%;
+}
+
+// <picture> es inline por defecto: sin display: block se queda más bajo que su contenedor y
+// object-fit dejaría un hueco debajo de la imagen.
+.carousel-item picture {
+  display: block;
 }
 
 .carousel-imagen {

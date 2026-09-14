@@ -35,6 +35,10 @@
   z-index: -1;
   pointer-events: none;
   background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)), url('/fondo-960.jpg');
+  // image-set() con reserva: un navegador que no entienda esta declaración la descarta entera y
+  // se queda con el url() de arriba; el que sí la entiende (y por tanto entiende WebP) la usa.
+  background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)),
+    image-set(url('/fondo-960.webp') type('image/webp'), url('/fondo-960.jpg') type('image/jpeg'));
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -44,6 +48,11 @@
   .portada-fondo {
     left: var(--ec-sidebar-width);
     background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)), url('/fondo-1920.jpg');
+    background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)),
+      image-set(
+        url('/fondo-1920.webp') type('image/webp'),
+        url('/fondo-1920.jpg') type('image/jpeg')
+      );
   }
 }
 
@@ -80,6 +89,13 @@
   aspect-ratio: 21 / 8;
   overflow: hidden;
   border-radius: var(--ec-radius-md);
+}
+
+// <picture> es inline por defecto: sin display: block y una altura explícita se queda con
+// altura automática y el img al 100% (relativo a una altura auto) no llena la banda.
+.hero-banda picture {
+  display: block;
+  height: 100%;
 }
 
 .hero-imagen {

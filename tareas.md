@@ -160,19 +160,47 @@ Tareas:
 - **Criterios de aceptación:** no queda ningún `alt` de relleno; se puede recorrer toda la web con el
   tabulador viendo siempre dónde está el foco; el contraste pasa en los **dos** modos; la portada
   carga en un móvil con datos sin espera perceptible.
-- **Dependencias:** fase 2. **Estado:** pendiente.
+- **Dependencias:** fase 2. **Estado:** en curso.
 - **Notas y riesgos:** medir antes y después para saber si el trabajo sirvió de algo.
 
 Tareas:
 
-- [ ] Convertir las fotos a WebP con varios tamaños y declarar dimensiones — `cam-frontend-dev`.
-      La imagen de portada ya se sirve en JPEG a 1920 y 960 px (248 kB y 62 kB, frente a los 6 MB
-      del PNG): falta el WebP, que aquí no hay códec para generarlo.
-- [ ] Textos alternativos reales en todas las imágenes — `cam-frontend-dev`
-- [ ] Vídeos de YouTube cargados al pulsar y mapa con `title` y carga diferida —
-      `cam-frontend-dev`
-- [ ] Foco de teclado visible y repaso de contraste en los dos modos — `cam-frontend-dev`
-- [ ] Medición final en móvil — `cam-frontend-dev`
-- [ ] Bajar el peso del bundle inicial: supera el presupuesto de 500 kB (revisar sobre todo la
-      importación de FontAwesome) — `cam-frontend-dev`
+- [x] Convertir las fotos a WebP con varios tamaños y declarar dimensiones — `cam-frontend-dev`.
+      Sin códec WebP en el entorno (ni cwebp, ni ImageMagick, ni ffmpeg): se instaló `sharp` como
+      dependencia de desarrollo y `scripts/generar-webp.mjs` (`npm run imagenes:webp`) genera el
+      `.webp` de cada JPEG que se sirve de verdad (portada, carrusel, galería) a los mismos anchos
+      que ya existían. Servidos con `<picture><source type="image/webp">` + `<img>` de reserva en
+      el carrusel (`components/carousel/`) y la banda de portada (`pages/body/`); el fondo de
+      página de la portada (CSS, no `<img>`) usa `image-set()` con el `url()` JPEG como reserva
+      delante. `width`/`height` reales ya estaban declarados en esas imágenes; se completaron los
+      que faltaban en `whatsapp-widget` (ver tarea de alt de abajo).
+- [x] Textos alternativos reales en todas las imágenes — `cam-frontend-dev`. Auditados los `alt`
+      contra la foto real (no el nombre de fichero): los del carrusel ya eran correctos. Corregido
+      `whatsapp-widget.html`: los dos iconos de WhatsApp eran decorativos junto a texto/label
+      propios y llevaban `alt` redundante sin `width`/`height` — ahora `alt=""` con
+      `aria-label` en los botones que los contienen.
+- [x] Vídeos de YouTube cargados al pulsar y mapa con `title` y carga diferida —
+      `cam-frontend-dev`. Confirmado: `video-card` no crea el iframe hasta `reproducir()`; los dos
+      mapas (portada y `/horarios`) llevan `title` y `loading="lazy"`. Corregido un fallo real: el
+      carrusel de fotos (`app-carousel`, hoy solo en la galería de `/conocenos`) cargaba su primera
+      foto en eager + `fetchpriority="high"` como si fuera LCP de portada, herencia de cuando sí
+      vivía ahí — ya no la usa (la banda de portada es una `<img>` propia en `body.html`). Añadido
+      `@Input() prioritaria` (por defecto `false`): solo con ese flag a `true` la primera foto va
+      eager; la galería no lo pasa, así que ya es lazy como el resto.
+- [x] Foco de teclado visible y repaso de contraste en los dos modos — `cam-frontend-dev`. Añadido
+      `:focus-visible` con `--ec-focus-ring` donde faltaba: los tres botones del widget de
+      WhatsApp y los campos/botón del formulario de contacto (que traían el anillo azul por
+      defecto de Bootstrap). Auditoría de contraste con ratios WCAG reales en el informe de la
+      fase — un token (`--ec-accent` sobre fondo claro) queda por debajo de AA; es decisión de
+      Jesús, no se ha tocado.
+- [x] Medición final en móvil — `cam-frontend-dev`. Medido con `npx ng build` (bundle) y tamaños de
+      fichero servidos (JPEG y WebP nuevos); tabla completa en el informe de cierre de fase. No se
+      ha podido medir en un móvil físico con datos reales desde este entorno.
+- [x] Bajar el peso del bundle inicial: supera el presupuesto de 500 kB — `cam-frontend-dev`.
+      FontAwesome ya importaba iconos sueltos (no el paquete completo): no era la causa. La causa
+      real era Bootstrap: se servía `bootstrap.min.css` completo (232 kB) más `popper.min.js` sin
+      usar (ningún dropdown/tooltip/popover en el sitio). Sustituido por `src/styles-bootstrap.scss`
+      (Sass, solo los módulos que el sitio usa: rejilla, formularios, botones, alert, carrusel, y
+      un `$utilities` recortado a las claves de verdad usadas) y quitado `popper.min.js` +
+      `@popperjs/core` de `package.json`. De 657.74 kB a 482.93 kB — bajo el presupuesto de 500 kB.
 - [ ] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)

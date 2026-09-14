@@ -1,0 +1,53 @@
+// Bootstrap 5 vía Sass, con solo los módulos que el sitio usa realmente (CLAUDE.md: "Bootstrap 5
+// solo para rejilla y formularios"). El CSS compilado completo (bootstrap.min.css, 232 kB en
+// crudo) se sustituye por esta selección: rejilla, formularios, botones, el carrusel de fotos
+// (app-carousel usa el carrusel de Bootstrap) y las utilidades de espaciado/texto que ya estaban
+// en uso en las plantillas (.lead, .fw-bold, .text-center, .mb-*, .visually-hidden...). Quedan
+// fuera a propósito: dropdown, navbar, modal, tooltip, popover, offcanvas, accordion, card,
+// badge, tablas y el resto de componentes que el sitio no usa en ningún sitio. El aviso del
+// formulario de contacto (form-contact.html) sí usa el componente `alert` de Bootstrap.
+//
+// Antes de añadir una clase de Bootstrap nueva a una plantilla, comprobar que su módulo está
+// importado aquí (o el módulo de $utilities que la genera); si no lo está, añadirlo a propósito,
+// no reactivar el bundle completo.
+
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+@import 'bootstrap/scss/maps';
+@import 'bootstrap/scss/mixins';
+
+// Utilidades realmente usadas en las plantillas (ver componentes y páginas): texto, tipografía,
+// espaciado, display y anchura. El mapa por defecto de Bootstrap genera clases para TODAS las
+// propiedades en TODOS los breakpoints — reconstruirlo solo con las claves usadas es lo que más
+// pesa quitar de las utilidades. Añadir una clase `.d-*`/`.text-*`/`.m*-*` nueva a una plantilla
+// que no esté aquí no generará CSS: añadir la clave correspondiente a $claves-utilidades-usadas.
+@import 'bootstrap/scss/utilities';
+
+$bootstrap-utilities-completo: $utilities;
+$claves-utilidades-usadas: 'display', 'text-align', 'font-weight', 'margin', 'margin-x',
+  'margin-y', 'margin-top', 'margin-bottom', 'padding', 'padding-x', 'padding-y', 'padding-bottom',
+  'gap', 'width', 'justify-content', 'border', 'border-bottom';
+
+// Ninguna plantilla usa una variante con prefijo de breakpoint (`d-md-block`, `text-lg-center`...):
+// se desactiva `responsive` para no generar las cinco variantes por punto de corte de cada
+// utilidad, que es lo que más pesa de las utilidades una vez recortado el mapa de claves.
+$utilities: ();
+@each $clave in $claves-utilidades-usadas {
+  $entrada: map-get($bootstrap-utilities-completo, $clave);
+  $utilities: map-merge($utilities, (#{$clave}: map-merge($entrada, (responsive: false))));
+}
+
+@import 'bootstrap/scss/root';
+@import 'bootstrap/scss/reboot';
+@import 'bootstrap/scss/type';
+@import 'bootstrap/scss/containers';
+@import 'bootstrap/scss/grid';
+@import 'bootstrap/scss/forms';
+@import 'bootstrap/scss/buttons';
+@import 'bootstrap/scss/transitions';
+@import 'bootstrap/scss/carousel';
+@import 'bootstrap/scss/alert';
+@import 'bootstrap/scss/helpers';
+
+@import 'bootstrap/scss/utilities/api';

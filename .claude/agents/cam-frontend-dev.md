@@ -161,16 +161,20 @@ normal y cuidado, sin abreviar.
   comentario que documente de qué tokens sale la cuenta, para poder recalcular si cambian.
 
 - **Carrusel** (`components/carousel/`): componente reutilizable con las fotos reales de la
-  iglesia (`public/photos-iglesia/`), usado en la banda de portada (`pages/body/`) y en la
-  galería (`pages/know/`, ruta `/conocenos`) — mismo componente, mismo contenido, sin
-  parametrizar por ahora. Cada slide lleva `src`/`srcset` reales (derivados `-960`/`-1920`
-  generados con System.Drawing, calidad 82, igual que los de la portada antigua) y `alt`
+  iglesia (`public/photos-iglesia/`). **Desde que la portada se rehízo con una `<img>` propia en
+  `hero-banda` (`pages/body/`), `app-carousel` solo vive en la galería de `pages/know/`
+  (`/conocenos`)** — esta nota decía antes que se usaba en los dos sitios; si se vuelve a montar
+  en portada, revisar `@Input() prioritaria` (ver más abajo). Cada slide lleva `src`/`srcset`
+  reales (derivados `-960`/`-1920` generados con System.Drawing, calidad 82, igual que los de la
+  portada antigua) y `srcsetWebp` (mismo `srcset` en WebP, generado con `sharp` —
+  `scripts/generar-webp.mjs` — y servido vía `<picture><source type="image/webp">`) y `alt`
   descriptivo en castellano escrito mirando la foto real, no el nombre de fichero. La primera
-  imagen no lleva `loading="lazy"` (es la que se ve sin scroll) y lleva `fetchpriority="high"`;
-  el resto sí lleva `lazy`. La proporción no la fija el contenedor que lo incruste sino la propia
+  imagen solo carga eager + `fetchpriority="high"` si el componente recibe
+  `[prioritaria]="true"`; por defecto (y hoy siempre, porque solo vive en la galería) es `lazy`
+  como el resto. La proporción no la fija el contenedor que lo incruste sino la propia
   variable `--carousel-aspect` en `carousel.scss` (por defecto `4/3`, las fotos de cámara);
   `.hero-banda` la redefine a `21/8` para la banda ancha de portada. El `sizes` es una
-  aproximación común a los dos contextos donde vive
+  aproximación común a los dos contextos donde puede vivir
   (`(min-width: 1200px) 1140px, 100vw`) — en el peor caso del móvil sigue eligiendo el derivado
   de 960px, que es lo que importa para no descargar de más.
 
@@ -247,3 +251,41 @@ normal y cuidado, sin abreviar.
   navegador: avisar y preguntar antes de dar por bueno un ajuste visual "a ciegas" (solo lectura
   de CSS). Si Jesús insiste en seguir sin navegador, dejarlo explícito en el informe final que el
   cambio no se verificó visualmente.
+- **Bootstrap vía Sass recortado, no el CSS compilado (fase 4).** `bootstrap.min.css` completo
+  pesaba 232 kB en crudo y era la causa real de que el bundle inicial superara el presupuesto de
+  500 kB (FontAwesome ya importaba iconos sueltos, no era el problema). Se sustituyó por
+  `src/styles-bootstrap.scss`, que importa solo los módulos de Bootstrap que el sitio usa de
+  verdad (rejilla, formularios, botones, `alert`, el carrusel de `app-carousel`) y reconstruye
+  `$utilities` con solo las claves de las clases que aparecen en las plantillas (`text-center`,
+  `mb-*`, `fw-bold`, `d-*`...), con `responsive: false` en todas porque ninguna plantilla usa una
+  variante con prefijo de breakpoint. **Antes de añadir una clase de Bootstrap nueva a una
+  plantilla, comprobar que su módulo o su clave de `$utilities` está en ese fichero** — si no lo
+  está, no generará CSS y hay que añadirla a propósito, nunca volver a `bootstrap.min.css`
+  completo. Para confirmar que una clave está bien puesta: `npx ng build` y grepear la clase en el
+  CSS de `dist/` (`grep -o '\.mi-clase[^a-z0-9_-]' dist/.../styles-*.css`) — un recorte mal hecho
+  no avisa en el build, simplemente la clase no tiene estilo.
+- **`@popperjs/core` no hacía falta:** el sitio no usa dropdown, tooltip ni popover (los únicos
+  componentes de Bootstrap que dependen de Popper); solo el carrusel, que no lo necesita. Se quitó
+  `popper.min.js` de `angular.json` (scripts) y `@popperjs/core` de `package.json`. Si algún día
+  se añade un dropdown/tooltip/popover de Bootstrap, hay que devolver los dos.
+- **`<picture>` e `image-set()` son inline por naturaleza: si el contenedor esperaba que el `<img>`
+  llenara el 100% de una altura fija (`aspect-ratio` + `object-fit: cover`), hay que añadir
+  `display: block` (y a veces `height: 100%`) al propio `<picture>`,** si no la imagen se queda
+  con la altura automática de su contenido y dejaba un hueco. Pasó en `.carousel-item picture` y
+  `.hero-banda picture`. Para un fondo por CSS (`background-image`, no `<img>`), no hay
+  `<picture>`: se usa `image-set(url('x.webp') type('image/webp'), url('x.jpg') type('image/jpeg'))`
+  como una **segunda** declaración `background-image` después del `url()` JPEG normal — un
+  navegador que no entienda `image-set()` descarta esa declaración entera y se queda con la de
+  arriba; el que sí la entiende (y por tanto entiende WebP) la usa. Nunca la única declaración.
+- **Sin códec WebP en este entorno de desarrollo** (ni `cwebp`, ni ImageMagick, ni ffmpeg, ni
+  System.Drawing en Windows soporta WebP): se usa `sharp` como dependencia de desarrollo.
+  `scripts/generar-webp.mjs` (`npm run imagenes:webp`) genera el `.webp` de cada imagen que las
+  plantillas sirven de verdad — no de todo `public/`, para no arrastrar derivados de fotos que ya
+  están fuera de uso. Al añadir una foto nueva al carrusel o a una ficha, añadirla también a la
+  lista `ficherosAConvertir` del script y volver a ejecutarlo.
+- **`app-carousel` ya solo vive en la galería de `/conocenos`**, no en la portada (la nota antigua
+  de este fichero, en «Componentes UI» → Carrusel, decía lo contrario porque quedó desfasada tras
+  rehacer la portada con una `<img>` propia en `hero-banda`). El componente lleva
+  `@Input() prioritaria` (por defecto `false`) para decidir si su primera foto carga eager con
+  `fetchpriority="high"`: sin ese flag, siempre lazy. Si se vuelve a usar en la portada como LCP,
+  pasar `[prioritaria]="true"` desde ese sitio — no cambiar el valor por defecto del componente.

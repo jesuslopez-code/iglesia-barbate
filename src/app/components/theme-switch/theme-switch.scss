@@ -26,7 +26,9 @@
 }
 
 /* Montado en la barra lateral, la superficie clara del botón queda flotando sobre
-   fondo oscuro: aquí se integra con los tokens de la lateral en vez de con --ec-surface. */
+   fondo oscuro: aquí se integra con los tokens de la lateral en vez de con --ec-surface.
+   El fondo pasa a transparent, así que el anillo de foco se ve sobre la lateral, no sobre
+   --ec-surface: necesita la variante derivada de --ec-accent-fill. */
 :host-context(.sidebar) .theme-switch {
   background: transparent;
   border-color: color-mix(in srgb, var(--ec-sidebar-ink) 35%, transparent);
@@ -34,6 +36,10 @@
 
   &:hover {
     border-color: var(--ec-accent-fill);
+  }
+
+  &:focus-visible {
+    box-shadow: var(--ec-focus-ring-fill);
   }
 
   fa-icon {

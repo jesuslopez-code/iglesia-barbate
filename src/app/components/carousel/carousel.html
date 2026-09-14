@@ -2,17 +2,20 @@
   <div class="carousel-inner">
     @for (slide of slides; track slide.src; let esPrimera = $first) {
       <div class="carousel-item" [class.active]="esPrimera">
-        <img
-          class="carousel-imagen"
-          [src]="slide.src"
-          [attr.srcset]="slide.srcset"
-          [attr.sizes]="slide.srcset ? sizes : null"
-          [alt]="slide.alt"
-          [width]="slide.width"
-          [height]="slide.height"
-          [attr.loading]="esPrimera ? null : 'lazy'"
-          [attr.fetchpriority]="esPrimera ? 'high' : null"
-        />
+        <picture>
+          <source type="image/webp" [srcset]="slide.srcsetWebp" [attr.sizes]="slide.srcset ? sizes : null" />
+          <img
+            class="carousel-imagen"
+            [src]="slide.src"
+            [attr.srcset]="slide.srcset"
+            [attr.sizes]="slide.srcset ? sizes : null"
+            [alt]="slide.alt"
+            [width]="slide.width"
+            [height]="slide.height"
+            [attr.loading]="esPrimera && prioritaria ? null : 'lazy'"
+            [attr.fetchpriority]="esPrimera && prioritaria ? 'high' : null"
+          />
+        </picture>
       </div>
     }
   </div>

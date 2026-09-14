@@ -13,7 +13,9 @@
   --ec-ink: #17222B;
   --ec-ink-soft: #5A6A73;
   --ec-rule: #DDD8CD;
-  --ec-accent: #A8822E;
+  /* #A8822E no llegaba a 4.5:1 sobre --ec-ground ni --ec-surface (3.21:1 / 3.56:1); este tono
+     da 5.08:1 / 5.63:1. No devolverlo al anterior aunque parezca más bonito: fallaba contraste. */
+  --ec-accent: #806323;
   --ec-accent-fill: #C8A44D;
   --ec-sea: #3E7C78;
   --ec-word: #7A2E2E;
@@ -63,7 +65,20 @@
   /* Anchura máxima del contenido centrado. La comparten la columna principal y el pie: con un
      número suelto en cada sitio, el pie se desalinearía en cuanto uno de los dos cambiara. */
   --ec-content-max: 1100px;
-  --ec-focus-ring: 0 0 0 3px rgba(168, 130, 46, 0.45);
+  /* Derivado de --ec-accent con color-mix (no un literal) para que el anillo de foco no se
+     desincronice si el acento vuelve a cambiar; se propaga solo a los dos modos porque
+     --ec-accent se redefine en sus bloques y este token no se repite ahí. 75% de mezcla: el
+     mínimo que llega a 3:1 en el modo claro (el caso más ajustado, latón oscurecido sobre papel
+     hueso, 3,14:1) sin pasarse de necesario en el resto. Para foco sobre papel y sobre superficie
+     de tarjeta; dentro de la lateral usar --ec-focus-ring-fill. */
+  --ec-focus-ring: 0 0 0 3px color-mix(in srgb, var(--ec-accent) 75%, transparent);
+
+  /* Mismo mecanismo que --ec-focus-ring pero derivado de --ec-accent-fill: el latón oscurecido
+     de --ec-accent está pensado para leerse sobre papel claro y sobre el fondo oscuro de la
+     lateral pierde visibilidad (no llega a 3:1). Para foco sobre la barra lateral: marca,
+     navegación, enlace de servir, llamada de donar y el interruptor de tema cuando vive ahí.
+     --ec-accent-fill no se redefine por modo, así que 60% basta para 3:1 en los dos. */
+  --ec-focus-ring-fill: 0 0 0 3px color-mix(in srgb, var(--ec-accent-fill) 60%, transparent);
 
   /* Filo de la lateral: mecanismo de contraste, no papel. En claro no hace falta (el bloque
      oscuro ya contrasta con el papel hueso); en oscuro separa la lateral, algo más clara, del

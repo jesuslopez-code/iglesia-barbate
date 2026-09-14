@@ -32,4 +32,19 @@
   &:disabled {
     opacity: 0.6;
   }
+
+  // Bootstrap pone su propio anillo azul (--bs-btn-focus-box-shadow) en :focus: se sustituye
+  // por el anillo de foco del sistema «Faro» en :focus-visible, igual que el resto del sitio.
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+/* Mismo motivo que .btn-primary: los campos usan .form-control de Bootstrap, que trae su
+   propio anillo azul en :focus. */
+.form-control:focus-visible {
+  outline: none;
+  border-color: var(--ec-accent);
+  box-shadow: var(--ec-focus-ring);
 }

@@ -63,8 +63,10 @@ La identidad está decidida y especificada. **No se improvisan colores ni tipogr
 | `--ec-ink` | `#17222B` | `#E6EDF3` | Texto principal |
 | `--ec-ink-soft` | `#5A6A73` | `#97A8B2` | Texto secundario |
 | `--ec-rule` | `#DDD8CD` | `#24333D` | Líneas y bordes |
-| `--ec-accent` | `#A8822E` | `#D9B45F` | Latón para texto y enlaces |
+| `--ec-accent` | `#806323` | `#D9B45F` | Latón para texto y enlaces — el valor anterior en claro (`#A8822E`) no llegaba a 4.5:1 sobre `--ec-ground` ni `--ec-surface`; este da 5.08:1 / 5.63:1 |
 | `--ec-accent-fill` | `#C8A44D` | `#C8A44D` | Latón para rellenos y filos |
+| `--ec-focus-ring` | `color-mix(in srgb, var(--ec-accent) 75%, transparent)` | ídem | Anillo de foco sobre papel (`--ec-ground`) y sobre superficie de tarjeta (`--ec-surface`); 3,14:1 / 3,35:1 en claro, 5,78:1 / 5,46:1 en oscuro |
+| `--ec-focus-ring-fill` | `color-mix(in srgb, var(--ec-accent-fill) 60%, transparent)` | ídem | Anillo de foco **dentro de la barra lateral** (marca, navegación, servir, donar, interruptor de tema): `--ec-accent` está pensado para papel claro y ahí pierde visibilidad; 3,27:1 en claro, 3,29:1 en oscuro sobre `--ec-sidebar` |
 | `--ec-sea` | `#3E7C78` | `#5FA9A4` | Acento frío, uso puntual |
 | `--ec-word` | `#7A2E2E` | `#D98C86` | Solo referencias bíblicas |
 | `--ec-veil` | `rgba(245,243,238,.55)` | `rgba(10,18,25,.78)` (sistema) / `rgba(10,18,25,.6)` (elegido) | Degradado que funde el borde inferior de la banda de portada con el papel |

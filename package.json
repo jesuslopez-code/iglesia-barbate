@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "sitemap": "node scripts/generar-sitemap.mjs",
+    "imagenes:webp": "node scripts/generar-webp.mjs",
     "prebuild": "npm run sitemap",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -38,7 +39,6 @@
     "@fortawesome/free-brands-svg-icons": "^7.1.0",
     "@fortawesome/free-regular-svg-icons": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
-    "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -49,6 +49,7 @@
     "@angular/compiler-cli": "^21.0.0",
     "esbuild": "^0.26.0",
     "jsdom": "^27.1.0",
+    "sharp": "^0.35.4",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }

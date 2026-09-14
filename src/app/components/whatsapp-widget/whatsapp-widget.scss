@@ -34,6 +34,11 @@
   transform: scale(1.1);
 }
 
+.fab-button:focus-visible {
+  outline: none;
+  box-shadow: var(--ec-shadow-md), var(--ec-focus-ring);
+}
+
 .fab-button img {
   width: 35px;
   height: 35px;
@@ -76,6 +81,11 @@
   color: var(--wa-ink);
   font-size: 24px;
   cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
 }
 
 /* Cuerpo */
@@ -133,6 +143,11 @@
 
 .open-chat-btn:hover {
   background-color: var(--wa-green-hover);
+}
+
+.open-chat-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ec-focus-ring);
 }
 
 /* Animación de entrada */
