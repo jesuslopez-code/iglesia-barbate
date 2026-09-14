@@ -5,6 +5,11 @@ import { Routes } from '@angular/router';
  * `core/nav/nav.ts` para construir la barra lateral y el pie: una ruta sin `nav` no aparece en
  * ningún sitio. No añadir un array de menú aparte.
  *
+ * `data.seo` es lo que lee `core/seo/seo.ts` para la descripción y el Open Graph de cada ruta
+ * (el título ya lo resuelve Angular Router solo con `title`, arriba). Una ruta sin `data.seo`
+ * sirve una descripción vacía y avisa por consola: no añadir metadatos sueltos en cada
+ * componente de página.
+ *
  * «Jóvenes» y «Kids» tienen cada una su propia entrada en «Vida de iglesia»: decisión de Jesús,
  * no una entrada compartida con enlace cruzado.
  */
@@ -13,74 +18,153 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./pages/body/body').then((m) => m.Body),
     title: 'Iglesia El Camino — Inicio',
-    data: { nav: { grupo: 'la-iglesia', etiqueta: 'Inicio', orden: 1, exact: true, pie: true } },
+    data: {
+      nav: { grupo: 'la-iglesia', etiqueta: 'Inicio', orden: 1, exact: true, pie: true },
+      seo: {
+        descripcion:
+          'Iglesia Evangélica El Camino, en Barbate (Cádiz): una comunidad cristiana que se ' +
+          'reúne los jueves y domingos, con enseñanza bíblica y vida de iglesia abierta a quien ' +
+          'quiera visitarnos.',
+      },
+    },
   },
   {
     path: 'quienes-somos',
     loadComponent: () => import('./pages/quienes-somos/quienes-somos').then((m) => m.QuienesSomos),
     title: 'Quiénes somos — Iglesia El Camino',
-    data: { nav: { grupo: 'la-iglesia', etiqueta: 'Quiénes somos', orden: 2 } },
+    data: {
+      nav: { grupo: 'la-iglesia', etiqueta: 'Quiénes somos', orden: 2 },
+      seo: {
+        descripcion:
+          'La historia de la Iglesia El Camino en Barbate, cómo empezamos y qué nos mueve como ' +
+          'comunidad.',
+      },
+    },
   },
   {
     path: 'creencias',
     loadComponent: () => import('./pages/creencias/creencias').then((m) => m.Creencias),
     title: 'Nuestras creencias — Iglesia El Camino',
-    data: { nav: { grupo: 'la-iglesia', etiqueta: 'Nuestras creencias', orden: 3 } },
+    data: {
+      nav: { grupo: 'la-iglesia', etiqueta: 'Nuestras creencias', orden: 3 },
+      seo: {
+        descripcion:
+          'En qué cree la Iglesia El Camino y en qué se basa nuestra fe como comunidad ' +
+          'cristiana en Barbate.',
+      },
+    },
   },
   {
     path: 'equipo',
     loadComponent: () => import('./pages/equipo/equipo').then((m) => m.Equipo),
     title: 'Equipo pastoral — Iglesia El Camino',
-    data: { nav: { grupo: 'la-iglesia', etiqueta: 'Equipo pastoral', orden: 4 } },
+    data: {
+      nav: { grupo: 'la-iglesia', etiqueta: 'Equipo pastoral', orden: 4 },
+      seo: {
+        descripcion: 'Las personas que acompañan y cuidan a la comunidad de la Iglesia El Camino.',
+      },
+    },
   },
   {
     path: 'ensenanza',
     loadComponent: () => import('./pages/ensenanza/ensenanza').then((m) => m.Ensenanza),
     title: 'Enseñanza — Iglesia El Camino',
-    data: { nav: { grupo: 'vida-de-iglesia', etiqueta: 'Enseñanza', orden: 1 } },
+    data: {
+      nav: { grupo: 'vida-de-iglesia', etiqueta: 'Enseñanza', orden: 1 },
+      seo: {
+        descripcion:
+          'Archivo de prédicas de la Iglesia El Camino, con su fecha y su pasaje, pensado para ' +
+          'leerse con calma.',
+      },
+    },
   },
   {
     path: 'ministerios',
     loadComponent: () => import('./pages/ministerios/ministerios').then((m) => m.Ministerios),
     title: 'Ministerios — Iglesia El Camino',
-    data: { nav: { grupo: 'vida-de-iglesia', etiqueta: 'Ministerios', orden: 2 } },
+    data: {
+      nav: { grupo: 'vida-de-iglesia', etiqueta: 'Ministerios', orden: 2 },
+      seo: {
+        descripcion:
+          'Los equipos y espacios a través de los que sirve la Iglesia El Camino, entre ellos ' +
+          'Jóvenes y Kids.',
+      },
+    },
   },
   {
     path: 'ministerios/jovenes',
     loadComponent: () =>
       import('./pages/ministerios/jovenes/jovenes').then((m) => m.MinisterioJovenes),
     title: 'Jóvenes — Iglesia El Camino',
-    data: { nav: { grupo: 'vida-de-iglesia', etiqueta: 'Jóvenes', orden: 3 } },
+    data: {
+      nav: { grupo: 'vida-de-iglesia', etiqueta: 'Jóvenes', orden: 3 },
+      seo: {
+        descripcion:
+          'El espacio de la Iglesia El Camino pensado para adolescentes y jóvenes de la ' +
+          'comunidad.',
+      },
+    },
   },
   {
     path: 'ministerios/kids',
     loadComponent: () => import('./pages/ministerios/kids/kids').then((m) => m.MinisterioKids),
     title: 'Kids — Iglesia El Camino',
-    data: { nav: { grupo: 'vida-de-iglesia', etiqueta: 'Kids', orden: 4 } },
+    data: {
+      nav: { grupo: 'vida-de-iglesia', etiqueta: 'Kids', orden: 4 },
+      seo: {
+        descripcion: 'El espacio de la Iglesia El Camino pensado para los más pequeños de la casa.',
+      },
+    },
   },
   {
     path: 'accion-social',
     loadComponent: () => import('./pages/accion-social/accion-social').then((m) => m.AccionSocial),
     title: 'Acción social — Iglesia El Camino',
-    data: { nav: { grupo: 'vida-de-iglesia', etiqueta: 'Acción social', orden: 5 } },
+    data: {
+      nav: { grupo: 'vida-de-iglesia', etiqueta: 'Acción social', orden: 5 },
+      seo: {
+        descripcion:
+          'Cómo sirve la Iglesia El Camino a la comunidad de Barbate más allá de sus puertas.',
+      },
+    },
   },
   {
     path: 'primera-visita',
     loadComponent: () => import('./pages/primera-visita/primera-visita').then((m) => m.PrimeraVisita),
     title: 'Tu primera visita — Iglesia El Camino',
-    data: { nav: { grupo: 'conocenos', etiqueta: 'Tu primera visita', orden: 1 } },
+    data: {
+      nav: { grupo: 'conocenos', etiqueta: 'Tu primera visita', orden: 1 },
+      seo: {
+        descripcion:
+          'Todo lo que necesitas saber antes de venir a conocer la Iglesia El Camino por ' +
+          'primera vez: cuándo venir y qué esperar.',
+      },
+    },
   },
   {
     path: 'horarios',
     loadComponent: () => import('./pages/horarios/horarios').then((m) => m.Horarios),
     title: 'Horarios y ubicación — Iglesia El Camino',
-    data: { nav: { grupo: 'conocenos', etiqueta: 'Horarios y ubicación', orden: 2, pie: true } },
+    data: {
+      nav: { grupo: 'conocenos', etiqueta: 'Horarios y ubicación', orden: 2, pie: true },
+      seo: {
+        descripcion:
+          'Horario de cultos y ubicación de la Iglesia El Camino en Barbate (Cádiz), con mapa y ' +
+          'cómo llegar.',
+      },
+    },
   },
   {
     path: 'conocenos',
     loadComponent: () => import('./pages/know/know').then((m) => m.Know),
     title: 'Galería y vídeos — Iglesia El Camino',
-    data: { nav: { grupo: 'conocenos', etiqueta: 'Galería y vídeos', orden: 3, pie: true } },
+    data: {
+      nav: { grupo: 'conocenos', etiqueta: 'Galería y vídeos', orden: 3, pie: true },
+      seo: {
+        descripcion:
+          'Galería de fotos y una selección de vídeos de la Iglesia El Camino en Barbate.',
+      },
+    },
   },
   {
     // Ruta antigua ya compartida en redes: se conserva como redirección, no se borra.
@@ -91,23 +175,43 @@ export const routes: Routes = [
     path: 'servir',
     loadComponent: () => import('./pages/servir/servir').then((m) => m.Servir),
     title: 'Servir — Iglesia El Camino',
-    data: { nav: { grupo: 'servir', etiqueta: 'Servir', orden: 1 } },
+    data: {
+      nav: { grupo: 'servir', etiqueta: 'Servir', orden: 1 },
+      seo: {
+        descripcion: 'Formas de poner tus dones al servicio de la comunidad en la Iglesia El Camino.',
+      },
+    },
   },
   {
     path: 'donar',
     loadComponent: () => import('./pages/donar/donar').then((m) => m.Donar),
     title: 'Donar — Iglesia El Camino',
-    data: { nav: { grupo: 'donar', etiqueta: 'Donar', orden: 1 } },
+    data: {
+      nav: { grupo: 'donar', etiqueta: 'Donar', orden: 1 },
+      seo: {
+        descripcion: 'Cómo sostener económicamente el trabajo de la Iglesia El Camino en Barbate.',
+      },
+    },
   },
   {
     path: 'contacto',
     loadComponent: () => import('./pages/contacto/contacto').then((m) => m.Contacto),
     title: 'Contacto — Iglesia El Camino',
-    data: { nav: { grupo: 'participar', etiqueta: 'Contacto', orden: 1, pie: true } },
+    data: {
+      nav: { grupo: 'participar', etiqueta: 'Contacto', orden: 1, pie: true },
+      seo: {
+        descripcion:
+          'Escríbenos o encuéntranos: teléfono, correo, redes y formulario de contacto de la ' +
+          'Iglesia El Camino en Barbate.',
+      },
+    },
   },
   {
     path: '**',
     loadComponent: () => import('./pages/not-found/not-found').then((m) => m.NotFound),
     title: 'Página no encontrada — Iglesia El Camino',
+    data: {
+      seo: { descripcion: 'La página que buscas no existe en el sitio de la Iglesia El Camino.' },
+    },
   },
 ];

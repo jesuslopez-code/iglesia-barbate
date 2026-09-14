@@ -3,11 +3,13 @@ import {
   Component,
   ElementRef,
   HostListener,
+  PLATFORM_ID,
   ViewChild,
   computed,
   inject,
   signal,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
@@ -32,6 +34,7 @@ const DESKTOP_BREAKPOINT = '(min-width: 992px)';
 })
 export class Layout {
   private readonly router = inject(Router);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   protected readonly navGroups: NavGroup[] = buildNavGroups(routes);
   protected readonly servirLink = findNavLink(routes, 'servir');
@@ -40,7 +43,11 @@ export class Layout {
   protected readonly iconBars = faBars;
   protected readonly iconClose = faXmark;
 
-  private readonly isDesktop = signal(window.matchMedia(DESKTOP_BREAKPOINT).matches);
+  // En el servidor (prerenderizado) no hay `window`: se asume móvil, que es lo que se prerenderiza
+  // igualmente sin JS. En el navegador se corrige al vuelo con el listener de resize de abajo.
+  private readonly isDesktop = signal(
+    this.isBrowser ? window.matchMedia(DESKTOP_BREAKPOINT).matches : false,
+  );
   // En escritorio la lateral es fija y siempre visible: nunca debe quedar inerte, esté "abierta"
   // o no la marca navOpen (que en escritorio no se usa porque el botón de alternar está oculto).
   protected readonly sidebarInert = computed(() => !this.isDesktop() && !this.navOpen());

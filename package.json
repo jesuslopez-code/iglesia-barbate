@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "sitemap": "node scripts/generar-sitemap.mjs",
+    "prebuild": "npm run sitemap",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -28,7 +30,9 @@
     "@angular/core": "^21.0.0",
     "@angular/forms": "^21.0.0",
     "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-server": "^21.0.1",
     "@angular/router": "^21.0.0",
+    "@angular/ssr": "^21.0.1",
     "@emailjs/browser": "^4.4.1",
     "@fortawesome/angular-fontawesome": "^4.0.0",
     "@fortawesome/free-brands-svg-icons": "^7.1.0",
@@ -43,6 +47,7 @@
     "@angular/build": "^21.0.0",
     "@angular/cli": "^21.0.0",
     "@angular/compiler-cli": "^21.0.0",
+    "esbuild": "^0.26.0",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"

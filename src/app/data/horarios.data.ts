@@ -18,6 +18,16 @@ export const REUNIONES: readonly Reunion[] = [
  *  en dos sitios. */
 export const DIRECCION_TEXTO = 'Calle Doctor Patricio Castro, 34, 11160 Barbate (Cádiz)';
 
+/** Los mismos datos de `DIRECCION_TEXTO`, desglosados para los datos estructurados (JSON-LD) de
+ *  tipo `Church`: se guardan aquí, junto al texto, para no tener dos fuentes de la dirección. */
+export const DIRECCION_ESTRUCTURADA = {
+  calle: 'Calle Doctor Patricio Castro, 34',
+  codigoPostal: '11160',
+  localidad: 'Barbate',
+  provincia: 'Cádiz',
+  pais: 'ES',
+} as const;
+
 /** Teléfono y correo, compartidos por la portada y `/contacto` para no repetirlos a mano en dos
  *  sitios. El texto es para mostrar; `tel:`/`mailto:` para el `href`. */
 export const TELEFONO_TEXTO = '+34 622 53 22 40';

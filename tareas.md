@@ -133,19 +133,19 @@ Tareas:
 - **Criterios de aceptación:** el HTML servido de cada ruta contiene su contenido real, no un
   `app-root` vacío; al pegar un enlace en WhatsApp aparece título, descripción e imagen;
   `robots.txt` y `sitemap.xml` responden 200; el despliegue por FTP sigue funcionando igual.
-- **Dependencias:** fase 2. **Estado:** pendiente.
+- **Dependencias:** fase 2. **Estado:** en curso.
 - **Notas y riesgos:** el prerenderizado no debe romper el workflow de GitHub Actions; comprobar que
   la carpeta que sube el FTP sigue siendo la correcta.
 
 Tareas:
 
-- [ ] Activar el prerenderizado de Angular y ajustar el workflow de despliegue —
+- [x] Activar el prerenderizado de Angular y ajustar el workflow de despliegue —
       `cam-frontend-dev`
-- [ ] Título, descripción y Open Graph por ruta — `cam-frontend-dev`
-- [ ] Datos estructurados `Church` con dirección, teléfono y horarios — `cam-frontend-dev`
-- [ ] `robots.txt` y `sitemap.xml` — `cam-frontend-dev`
+- [x] Título, descripción y Open Graph por ruta — `cam-frontend-dev`
+- [x] Datos estructurados `Church` con dirección, teléfono y horarios — `cam-frontend-dev`
+- [x] `robots.txt` y `sitemap.xml` — `cam-frontend-dev`
 - [ ] Comprobar el resultado con la web ya desplegada — Jesús
-- [ ] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)
+- [x] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)
 
 ---
 
