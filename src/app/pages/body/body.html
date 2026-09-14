@@ -47,4 +47,42 @@
   </div>
 </section>
 
+<section class="cuando-donde" aria-labelledby="cuando-donde-titulo">
+  <h2 id="cuando-donde-titulo" class="cuando-donde-titulo">Cuándo y dónde</h2>
+
+  <div class="cuando-donde-grid">
+    <div class="cuando-donde-datos">
+      <div class="cuando-donde-horario">
+        @for (reunion of reuniones; track reunion.id) {
+          <div class="cuando-donde-celda cuando-donde-reunion">
+            <span class="cuando-donde-dia">{{ reunion.dia }}</span>
+            <span class="cuando-donde-hora">{{ reunion.hora }}</span>
+          </div>
+        }
+      </div>
+
+      <address class="cuando-donde-celda cuando-donde-direccion">{{ direccion }}</address>
+
+      <div class="cuando-donde-celda cuando-donde-contacto">
+        <a [href]="telefonoHref">{{ telefonoTexto }}</a>
+        <a [href]="correoHref">{{ correoTexto }}</a>
+      </div>
+    </div>
+
+    <div class="cuando-donde-mapa">
+      <iframe
+        class="cuando-donde-mapa-iframe"
+        [src]="mapaUrl"
+        [title]="mapaTitulo"
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+
+  <p class="cuando-donde-enlaces">
+    <a routerLink="/horarios">Horarios y ubicación →</a>
+    <a [href]="mapaEnlace" target="_blank" rel="noopener">Abrir en la aplicación de mapas →</a>
+  </p>
+</section>
+
 <app-whatsapp-widget></app-whatsapp-widget>

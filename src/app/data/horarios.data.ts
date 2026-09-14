@@ -17,3 +17,10 @@ export const REUNIONES: readonly Reunion[] = [
 /** Dirección en texto plano, compartida por la portada y `/horarios` para no repetirla a mano
  *  en dos sitios. */
 export const DIRECCION_TEXTO = 'Calle Doctor Patricio Castro, 34, 11160 Barbate (Cádiz)';
+
+/** Teléfono y correo, compartidos por la portada y `/contacto` para no repetirlos a mano en dos
+ *  sitios. El texto es para mostrar; `tel:`/`mailto:` para el `href`. */
+export const TELEFONO_TEXTO = '+34 622 53 22 40';
+export const TELEFONO_HREF = 'tel:+34622532240';
+export const CORREO_TEXTO = 'info@icelcamino.com';
+export const CORREO_HREF = 'mailto:info@icelcamino.com';

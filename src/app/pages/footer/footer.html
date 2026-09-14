@@ -1,62 +1,9 @@
 <footer class="ec-footer">
   <div class="ec-footer__inner">
-    <div class="ec-footer__grid">
-
-      <div class="ec-footer__col">
-        <h2 class="ec-footer__title">Iglesia El Camino</h2>
-        <p class="ec-footer__cita">
-          «Te haré entender, y te enseñaré el camino en que debes andar; sobre ti fijaré mis ojos».
-          <span class="ec-footer__cita-ref">Salmos 32:8</span>
-        </p>
-      </div>
-
-      <nav class="ec-footer__col" aria-labelledby="pie-enlaces-titulo">
-        <h2 id="pie-enlaces-titulo" class="ec-footer__title">Enlaces</h2>
-        <ul class="ec-footer__enlaces">
-          @for (enlace of enlaces; track enlace.path) {
-            <li>
-              <a
-                [routerLink]="enlace.path"
-                routerLinkActive="is-active"
-                [routerLinkActiveOptions]="{ exact: enlace.exact ?? false }"
-                [ariaCurrentWhenActive]="'page'"
-                >{{ enlace.label }}</a
-              >
-            </li>
-          }
-        </ul>
-      </nav>
-
-      <section class="ec-footer__col" aria-labelledby="pie-horario-titulo">
-        <h2 id="pie-horario-titulo" class="ec-footer__title">Cuándo nos reunimos</h2>
-        <dl class="ec-footer__horario">
-          @for (reunion of reuniones; track reunion.id) {
-            <dt>{{ reunion.dia }}</dt>
-            <dd>{{ reunion.hora }}</dd>
-          }
-        </dl>
-      </section>
-
-      <section class="ec-footer__col" aria-labelledby="pie-contacto-titulo">
-        <h2 id="pie-contacto-titulo" class="ec-footer__title">Contacto</h2>
-        <ul class="ec-footer__datos">
-          <li><a href="mailto:info@icelcamino.com">info@icelcamino.com</a></li>
-          <li><a href="tel:+34622532240">+34 622 53 22 40</a></li>
-        </ul>
-      </section>
-
-      <section class="ec-footer__col" aria-labelledby="pie-ubicacion-titulo">
-        <h2 id="pie-ubicacion-titulo" class="ec-footer__title">¿Dónde estamos?</h2>
-        <address class="ec-footer__direccion">{{ direccion }}</address>
-        <div class="ec-footer__mapa">
-          <iframe [title]="mapaTitulo" loading="lazy" [src]="mapaUrl"></iframe>
-        </div>
-      </section>
-
-    </div>
-
-    <p class="ec-footer__legal">
-      &copy; 2025 Iglesia Evangélica El Camino. Todos los derechos reservados.
+    <p class="ec-footer__cita">
+      «Te haré entender, y te enseñaré el camino en que debes andar; sobre ti fijaré mis ojos»
+      <span class="ec-footer__cita-ref">Salmos 32:8</span>
     </p>
+    <p class="ec-footer__legal">&copy; 2026 Iglesia Evangélica El Camino</p>
   </div>
 </footer>

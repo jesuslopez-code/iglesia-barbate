@@ -105,6 +105,145 @@
   );
 }
 
+// Bloque "Cuándo y dónde": los datos prácticos y el mapa, movidos aquí desde el pie (que ahora
+// es mínimo). Móvil primero: una columna, datos antes que mapa (el orden ya viene así en el
+// HTML). A partir de 768px, dos columnas de la misma altura.
+.cuando-donde {
+  max-width: 64rem;
+  margin-bottom: var(--ec-space-2xl);
+}
+
+.cuando-donde-titulo {
+  margin: 0 0 var(--ec-space-md);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-2xl);
+  color: var(--ec-ink);
+}
+
+.cuando-donde-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ec-space-md);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+}
+
+.cuando-donde-datos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ec-space-sm);
+}
+
+// Mismo criterio que .entrada-tarjeta: superficie propia, filo fino y filo de latón a la
+// izquierda que marca "esto es un dato consultable", igual que en el resto del sitio.
+.cuando-donde-celda {
+  padding: var(--ec-space-sm) var(--ec-space-md);
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-rule);
+  border-left: 2px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-md);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  color: var(--ec-ink);
+}
+
+.cuando-donde-horario {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ec-space-sm);
+}
+
+.cuando-donde-reunion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ec-space-2xs);
+}
+
+.cuando-donde-dia {
+  font-weight: 700;
+}
+
+.cuando-donde-hora {
+  color: var(--ec-accent);
+}
+
+.cuando-donde-direccion {
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.cuando-donde-contacto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ec-space-2xs);
+
+  a {
+    color: var(--ec-accent);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--ec-focus-ring);
+    }
+  }
+}
+
+// aspect-ratio en móvil, donde el mapa es una columna suelta que necesita definir su propia
+// altura; en el grid de dos columnas (768px) se sustituye por height: 100% para ocupar todo el
+// alto de la fila, que marca la columna de datos. El iframe hereda esa caja fija, así que no
+// hay salto de maquetación cuando `loading="lazy"` lo descarga al llegar al viewport.
+.cuando-donde-mapa {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--ec-radius-md);
+  border: 1px solid var(--ec-rule);
+
+  @media (min-width: 768px) {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+}
+
+.cuando-donde-mapa-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.cuando-donde-enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ec-space-sm) var(--ec-space-lg);
+  margin: var(--ec-space-md) 0 0;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+
+  a {
+    color: var(--ec-accent);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--ec-focus-ring);
+    }
+  }
+}
+
 // Carrusel a ancho de columna + columna de texto al lado; se apila en móvil. La columna de
 // texto no depende del carrusel para nada: el enlace de archivo queda siempre visible aunque
 // el carrusel esté vacío (piezasDestacadas.length === 0).

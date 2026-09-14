@@ -5,8 +5,8 @@
 
 <section class="page-section contacto-datos" aria-labelledby="datos-de-contacto">
   <h2 id="datos-de-contacto">Datos de contacto</h2>
-  <p>Teléfono: +34 622 53 22 40</p>
-  <p>Correo: info@icelcamino.com</p>
+  <p>Teléfono: <a [href]="telefonoHref">{{ telefonoTexto }}</a></p>
+  <p>Correo: <a [href]="correoHref">{{ correoTexto }}</a></p>
   <app-networks class="d-block"></app-networks>
 </section>
 
