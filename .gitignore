@@ -41,3 +41,8 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Skills de terceros instaladas en local: no forman parte del sitio de la iglesia
+.claude/skills/
+.agents/
+skills-lock.json
