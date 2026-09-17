@@ -55,15 +55,29 @@
 }
 
 .video-carousel-punto {
-  width: 0.5rem;
-  height: 0.5rem;
+  // El punto visible sigue midiendo 0.5rem (ver ::before): esto es solo el área pulsable,
+  // ampliada al mínimo de 24×24px de WCAG 2.5.8 sin agrandar lo que se ve.
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--ec-rule);
+  background: transparent;
   cursor: pointer;
+  position: relative;
 
-  &.is-activo {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--ec-rule);
+  }
+
+  &.is-activo::before {
     background: var(--ec-accent-fill);
   }
 

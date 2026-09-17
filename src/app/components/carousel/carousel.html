@@ -1,4 +1,6 @@
-<div id="carruselIglesia" class="carousel slide" data-bs-ride="carousel">
+<!-- Sin data-bs-ride: la rotación automática de Bootstrap no se puede parar en pantalla táctil
+     (solo pausa con el ratón encima). Se navega con las flechas, igual que el carrusel de vídeos. -->
+<div id="carruselIglesia" class="carousel slide">
   <div class="carousel-inner">
     @for (slide of slides; track slide.src; let esPrimera = $first) {
       <div class="carousel-item" [class.active]="esPrimera">

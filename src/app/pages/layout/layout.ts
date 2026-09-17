@@ -51,6 +51,11 @@ export class Layout {
   // En escritorio la lateral es fija y siempre visible: nunca debe quedar inerte, esté "abierta"
   // o no la marca navOpen (que en escritorio no se usa porque el botón de alternar está oculto).
   protected readonly sidebarInert = computed(() => !this.isDesktop() && !this.navOpen());
+  // El panel móvil abierto tapa el contenido con el `.backdrop`, pero eso solo lo oculta
+  // visualmente: sin `inert` el foco de teclado (Tab al final de la lateral, o Mayúsculas+Tab
+  // desde ella) cae en enlaces que el usuario no ve. En escritorio la lateral es fija y el
+  // contenido siempre debe ser alcanzable, así que nunca se marca inerte ahí.
+  protected readonly contentInert = computed(() => !this.isDesktop() && this.navOpen());
 
   @ViewChild('navToggle') private readonly navToggle?: ElementRef<HTMLButtonElement>;
   @ViewChild('sidebarNav') private readonly sidebarNav?: ElementRef<HTMLElement>;

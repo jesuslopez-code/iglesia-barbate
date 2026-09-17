@@ -23,15 +23,14 @@
       </button>
     </div>
 
-    <div class="video-carousel-puntos" role="tablist" [attr.aria-label]="'Ir a un ' + sustantivo + ' concreto'">
+    <div class="video-carousel-puntos" role="group" [attr.aria-label]="'Ir a un ' + sustantivo + ' concreto'">
       @for (pieza of piezas; track pieza.id; let i = $index) {
         <button
           type="button"
-          role="tab"
           class="video-carousel-punto"
           [class.is-activo]="i === indice"
-          [attr.aria-selected]="i === indice"
-          [attr.aria-label]="'Ir al ' + sustantivo + ' ' + (i + 1) + ' de ' + piezas.length"
+          [attr.aria-current]="i === indice ? 'true' : null"
+          [attr.aria-label]="'Ir al ' + sustantivo + ' ' + (i + 1) + ': ' + pieza.titulo"
           (click)="irA(i)"
         ></button>
       }
