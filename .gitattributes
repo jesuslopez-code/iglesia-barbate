@@ -1,0 +1,3 @@
+# Las definiciones de agentes se guardan siempre con LF: con core.autocrlf activo, git las
+# convertiría a CRLF en cada checkout.
+.claude/agents/*.md text eol=lf

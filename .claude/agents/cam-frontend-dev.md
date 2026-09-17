@@ -1,6 +1,6 @@
 ---
 name: cam-frontend-dev
-description: Use para crear o modificar cualquier parte del sitio de la Iglesia El Camino — componentes Angular, plantillas, SCSS y tokens, rutas, layout con barra lateral, formularios, accesibilidad, rendimiento y metadatos de cada página. Es el agente de toda la capa de producto: el proyecto no tiene backend.
+description: "Use para crear o modificar cualquier parte del sitio de la Iglesia El Camino — componentes Angular, plantillas, SCSS y tokens, rutas, layout con barra lateral, formularios, accesibilidad, rendimiento y metadatos de cada página. Es el agente de toda la capa de producto: el proyecto no tiene backend."
 model: sonnet
 ---
 
