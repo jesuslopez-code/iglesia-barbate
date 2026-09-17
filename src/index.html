@@ -2,6 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <!-- Sin esta etiqueta el móvil maqueta con un viewport virtual de 980 px y encoge la página: no se
+       activa ninguna media query y el sitio se ve como un escritorio en miniatura. Sin
+       `user-scalable=no` ni `maximum-scale`, que impedirían ampliar con los dedos (WCAG 1.4.4). -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Iglesia Evangélica El Camino</title>
   <link rel="icon" type="image/x-icon" href="logo.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
