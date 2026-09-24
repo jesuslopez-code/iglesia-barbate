@@ -82,3 +82,12 @@
   gap: var(--ec-space-lg);
   margin-top: var(--ec-space-lg);
 }
+
+// Con una sola prédica, auto-fill la estira a los 64rem del archivo y queda una ficha
+// gigante y descolgada. Se le pone el mismo ancho de columna que tendría en la rejilla y se
+// centra, para que una única pieza se vea como una portada digna, no como un hueco a medio
+// llenar.
+.ensenanza__grid--unica {
+  grid-template-columns: minmax(16rem, 24rem);
+  justify-content: center;
+}

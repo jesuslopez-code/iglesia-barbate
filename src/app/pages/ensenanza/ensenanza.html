@@ -18,13 +18,12 @@
     <div class="ensenanza__lectura">
       <h2 id="archivo-de-predicas">Archivo de prédicas</h2>
       <p class="ensenanza__aviso">
-        Todavía no hay prédicas publicadas: en cuanto la iglesia grabe y entregue las primeras,
-        aparecerán aquí con su fecha, su pasaje y quién predicó. Las fichas de abajo son solo un
-        ejemplo para probar cómo quedará el archivo.
+        Empezamos a publicar aquí las prédicas de la iglesia. De momento hay una: iremos
+        añadiendo más según se vayan grabando.
       </p>
     </div>
 
-    <div class="ensenanza__grid">
+    <div class="ensenanza__grid" [class.ensenanza__grid--unica]="predicas.length === 1">
       @for (predica of predicas; track predica.id) {
         <app-video-card [pieza]="predica" [mostrarSpotify]="true"></app-video-card>
       }
