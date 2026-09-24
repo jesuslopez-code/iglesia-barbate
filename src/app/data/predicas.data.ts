@@ -10,9 +10,8 @@ export const PREDICAS: readonly PiezaVideo[] = [
     youtubeId: 'JGxcLFu9t0g',
     fecha: '7 de septiembre de 2026',
     duracion: '42:51',
-    // Pendiente: lo facilita la iglesia. No se inventa — es el único texto que Google puede
-    // leer del vídeo, y la ficha ya se comporta bien sin él (ver video-card.html).
-    resumen: null,
+    resumen:
+      'Predicación basada en la profecía de Zacarías 6:12, que nos recuerda que Dios rompe esquemas y tradiciones para traer esperanza en medio del desánimo y los escombros de la vida. A través del significado profundo del Renuevo y del sacrificio de Jesucristo, este mensaje revela cómo la presencia divina es la única capaz de hacer brotar vida, restauración y fruto donde solo había sequedad y muerte.',
     aviso: null,
     esEjemplo: false,
     pasaje: 'Zacarías 6:12-13',
