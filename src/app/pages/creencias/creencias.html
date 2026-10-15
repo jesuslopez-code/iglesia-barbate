@@ -5,8 +5,33 @@
 
 <section class="page-section" aria-labelledby="declaracion-de-fe">
   <h2 id="declaracion-de-fe">Declaración de fe</h2>
-  <p class="page-placeholder">
-    Contenido pendiente: la declaración de fe se publicará cuando la iglesia facilite el texto
-    definitivo (fase 2). No se anticipan aquí afirmaciones doctrinales sin confirmar.
+  <p>
+    En la Iglesia Evangélica El Camino basamos toda nuestra fe, enseñanza y estilo de vida en
+    la Palabra de Dios. Nos identificamos como una comunidad cristiana evangélica integrada en
+    una fraternidad de iglesias de la provincia de Cádiz y adherida a la Federación de
+    Entidades Religiosas Evangélicas de España (FEREDE).
   </p>
+  <p>Nuestras convicciones fundamentales se resumen en estos 5 puntos. Toca cada tarjeta para leer la explicación:</p>
 </section>
+
+<div class="creencias-rejilla">
+  @for (creencia of creencias; track creencia.titulo; let i = $index) {
+    <button
+      type="button"
+      class="creencia-tarjeta"
+      [class.is-volteada]="estaVolteada(i)"
+      [attr.aria-pressed]="estaVolteada(i)"
+      (click)="alternar(i)"
+    >
+      <span class="creencia-tarjeta-interior">
+        <span class="creencia-cara creencia-cara--frontal">
+          <fa-icon [icon]="creencia.icono" class="creencia-icono" aria-hidden="true"></fa-icon>
+          <span class="creencia-titulo">{{ creencia.titulo }}</span>
+        </span>
+        <span class="creencia-cara creencia-cara--trasera">
+          <span class="creencia-texto">{{ creencia.texto }}</span>
+        </span>
+      </span>
+    </button>
+  }
+</div>

@@ -1,0 +1,74 @@
+// Resumen práctico (hora, dirección, duración): tres celdas con el mismo criterio visual que
+// .cuando-donde-celda en body.scss — superficie propia y filo de latón a la izquierda, para que
+// se lean como datos consultables, no como un párrafo más.
+.resumen-visita {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ec-space-sm);
+  margin: var(--ec-space-md) 0;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.resumen-visita-dato {
+  padding: var(--ec-space-sm) var(--ec-space-md);
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-rule);
+  border-left: 2px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-md);
+
+  dt {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ec-accent);
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-base);
+    color: var(--ec-ink);
+  }
+}
+
+// Pregunta en Cormorant, respuesta en el cuerpo normal, con una regla fina entre cada par —
+// sustituye el dl plano por defecto de .page-section sin salir de su columna (46rem).
+.preguntas-frecuentes {
+  dl {
+    margin: 0;
+  }
+}
+
+.pregunta-frecuente {
+  padding-top: var(--ec-space-md);
+  border-top: 1px solid var(--ec-rule);
+
+  &:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  dt {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-xl);
+    color: var(--ec-ink);
+  }
+
+  dd {
+    margin: 0 0 var(--ec-space-md);
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-base);
+    color: var(--ec-ink);
+  }
+
+  &:last-child dd {
+    margin-bottom: 0;
+  }
+}

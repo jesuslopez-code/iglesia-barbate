@@ -9,6 +9,7 @@
   --net-youtube: #FF0000;
   --net-tiktok: #000000;
   --net-instagram: #E1306C;
+  --net-spotify: #1DB954;
 }
 
 .networks-rotulo {
@@ -49,6 +50,8 @@
   &.youtube:focus-visible { color: var(--net-youtube); }
   &.instagram:hover,
   &.instagram:focus-visible { color: var(--net-instagram); }
+  &.spotify:hover,
+  &.spotify:focus-visible { color: var(--net-spotify); }
 
   // TikTok es negro puro: sobre fondo oscuro se volvería invisible como color de texto,
   // así que en el hover mantiene el latón en vez del color de marca.
@@ -73,6 +76,7 @@
 .social-link.youtube .social-icono { color: var(--net-youtube); }
 .social-link.tiktok .social-icono { color: var(--ec-ink); }
 .social-link.instagram .social-icono { color: var(--net-instagram); }
+.social-link.spotify .social-icono { color: var(--net-spotify); }
 
 .social-texto {
   display: flex;

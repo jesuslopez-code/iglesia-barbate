@@ -1,18 +1,34 @@
-/** Reunión semanal, con la actividad que se hace ese día cuando se conoce. La iglesia solo ha
- *  confirmado el día y la hora (jueves y domingos, 19:00); qué se hace cada día en concreto
- *  (culto, estudio bíblico...) queda pendiente de confirmar — ver `tareas.md`, fase 2. Por eso
- *  `actividad` es `null` en vez de un valor inventado. */
+/** Reunión semanal: día y actividad que se hace ese día. La hora depende de la temporada (ver
+ *  `TEMPORADAS` y `horaActual`), así que no se guarda aquí — mezclar un dato fijo (día,
+ *  actividad) con uno variable (hora) en la misma fila invitaría a que alguien lo lea como fijo. */
 export interface Reunion {
   readonly id: string;
   readonly dia: string;
-  readonly hora: string;
-  readonly actividad: string | null;
+  readonly actividad: string;
 }
 
 export const REUNIONES: readonly Reunion[] = [
-  { id: 'jueves', dia: 'Jueves', hora: '19:00', actividad: null },
-  { id: 'domingo', dia: 'Domingos', hora: '19:00', actividad: null },
+  { id: 'jueves', dia: 'Jueves', actividad: 'Oración e intercesión' },
+  { id: 'domingo', dia: 'Domingos', actividad: 'Culto principal y El Camino Kids' },
 ];
+
+/** Las reuniones se adelantan una hora en verano. Única fuente de las horas por temporada: todo
+ *  el sitio (`/horarios`, la portada, el JSON-LD) lee de aquí, nunca escribe "19:00"/"20:00" a
+ *  mano. */
+export const TEMPORADAS = {
+  invierno: { nombre: 'Invierno', meses: 'octubre a abril', hora: '19:00' },
+  verano: { nombre: 'Verano', meses: 'mayo a septiembre', hora: '20:00' },
+} as const;
+
+/** Hora de las reuniones según la fecha dada (por defecto, ahora). Pensada para resúmenes que se
+ *  recalculan en el navegador tras la hidratación (p. ej. la portada); una referencia exhaustiva
+ *  y siempre correcta sin JS, como `/horarios`, debe mostrar las dos temporadas explícitamente
+ *  en vez de depender de esta función. */
+export function horaActual(fecha: Date = new Date()): string {
+  const mes = fecha.getMonth() + 1;
+  const esVerano = mes >= 5 && mes <= 9;
+  return esVerano ? TEMPORADAS.verano.hora : TEMPORADAS.invierno.hora;
+}
 
 /** Dirección en texto plano, compartida por la portada y `/horarios` para no repetirla a mano
  *  en dos sitios. */
@@ -34,3 +50,5 @@ export const TELEFONO_TEXTO = '+34 622 53 22 40';
 export const TELEFONO_HREF = 'tel:+34622532240';
 export const CORREO_TEXTO = 'info@icelcamino.com';
 export const CORREO_HREF = 'mailto:info@icelcamino.com';
+/** Mismo número que `TELEFONO_HREF`, en el formato internacional sin `+` que piden los enlaces de WhatsApp. */
+export const WHATSAPP_NUMERO = '34622532240';

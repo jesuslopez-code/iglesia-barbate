@@ -39,3 +39,20 @@
     box-shadow: var(--ec-focus-ring);
   }
 }
+
+.not-found__logo {
+  display: inline-block;
+  margin-bottom: var(--ec-space-md);
+  border-radius: var(--ec-radius-sm);
+
+  img {
+    display: block;
+    width: 160px;
+    height: 160px;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}

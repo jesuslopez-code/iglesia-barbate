@@ -25,7 +25,16 @@
     [attr.inert]="sidebarInert() ? '' : null"
   >
     <div class="sidebar__inner">
-      <a routerLink="/" class="brand">El Camino</a>
+      <a routerLink="/" class="brand" aria-label="Iglesia El Camino, Barbate. Ir al inicio">
+        <picture class="brand__logo">
+          <source type="image/webp" srcset="/logo/logo-88.webp" />
+          <img src="/logo/logo-88.png" alt="" width="44" height="44" />
+        </picture>
+        <span class="brand__texto">
+          <span class="brand__nombre">El Camino</span>
+          <span class="brand__lugar">Barbate</span>
+        </span>
+      </a>
 
       <nav class="sidebar__nav" aria-label="Navegación principal">
         @for (grupo of navGroups; track grupo.title) {

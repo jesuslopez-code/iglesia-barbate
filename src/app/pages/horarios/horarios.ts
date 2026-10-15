@@ -5,7 +5,7 @@ import {
   MAPA_UBICACION_TITULO,
   MAPA_UBICACION_URL,
 } from '../../core/location/map';
-import { DIRECCION_TEXTO, REUNIONES } from '../../data/horarios.data';
+import { DIRECCION_TEXTO, REUNIONES, TEMPORADAS } from '../../data/horarios.data';
 
 @Component({
   selector: 'app-horarios',
@@ -24,5 +24,6 @@ export class Horarios {
   protected readonly mapaTitulo = MAPA_UBICACION_TITULO;
   protected readonly mapaEnlace = MAPA_UBICACION_ENLACE;
   protected readonly reuniones = REUNIONES;
+  protected readonly temporadas = TEMPORADAS;
   protected readonly direccion = DIRECCION_TEXTO;
 }

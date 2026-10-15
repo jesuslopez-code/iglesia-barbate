@@ -12,12 +12,11 @@ export interface RouteSeo {
 /** Sitio en producción, para construir URLs absolutas (canónica y Open Graph). */
 const SITIO_URL = 'https://icelcamino.com';
 
-/** Foto real ya optimizada de `public/`, usada como imagen Open Graph por defecto en todas las
- *  rutas: es la misma que la portada usa como cabecera, con sus dimensiones reales declaradas. */
+/** Composición estática generada por `scripts/generar-og.mjs` (logo + nombre sobre papel hueso). */
 const IMAGEN_OG_DEFECTO = {
-  url: `${SITIO_URL}/photos-iglesia/bautizo6-1920.jpg`,
-  ancho: 1920,
-  alto: 731,
+  url: `${SITIO_URL}/og-default.png`,
+  ancho: 1200,
+  alto: 630,
 };
 
 function leerSeo(ruta: ActivatedRoute): RouteSeo | undefined {

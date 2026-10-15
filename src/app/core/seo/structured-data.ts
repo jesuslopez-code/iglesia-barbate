@@ -5,6 +5,7 @@ import {
   DIRECCION_ESTRUCTURADA,
   REUNIONES,
   TELEFONO_TEXTO,
+  TEMPORADAS,
 } from '../../data/horarios.data';
 
 const SITIO_URL = 'https://icelcamino.com';
@@ -46,6 +47,7 @@ export class StructuredData {
       '@type': 'Church',
       name: 'Iglesia El Camino',
       url: SITIO_URL,
+      logo: `${SITIO_URL}/logo/logo-512.png`,
       telephone: TELEFONO_TEXTO,
       email: CORREO_TEXTO,
       address: {
@@ -56,12 +58,18 @@ export class StructuredData {
         addressRegion: DIRECCION_ESTRUCTURADA.provincia,
         addressCountry: DIRECCION_ESTRUCTURADA.pais,
       },
-      openingHoursSpecification: REUNIONES.filter((reunion) => DIA_SCHEMA[reunion.dia]).map(
-        (reunion) => ({
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: DIA_SCHEMA[reunion.dia],
-          opens: reunion.hora,
-        }),
+      // La hora cambia según la temporada: en vez de modelar fechas de vigencia (`validFrom`/
+      // `validThrough`), que complicaría el esquema sin aportar nada que no aporten ya estas
+      // cuatro combinaciones, se da una entrada por cada día×temporada (jueves/domingo ×
+      // invierno/verano). Un lector de JSON-LD que no entienda la simplificación igual ve el
+      // horario correcto para una de las dos épocas del año.
+      openingHoursSpecification: REUNIONES.filter((reunion) => DIA_SCHEMA[reunion.dia]).flatMap(
+        (reunion) =>
+          Object.values(TEMPORADAS).map((temporada) => ({
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: DIA_SCHEMA[reunion.dia],
+            opens: temporada.hora,
+          })),
       ),
     };
 

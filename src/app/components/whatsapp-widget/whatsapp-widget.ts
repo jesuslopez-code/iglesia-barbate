@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { WHATSAPP_NUMERO } from '../../data/horarios.data';
 @Component({
   selector: 'app-whatsapp-widget',
   imports: [CommonModule],
@@ -10,7 +11,7 @@ export class WhatsappWidget {
 
   isChatOpen: boolean = false;
 
-  phoneNumber: string = '34622532240'; // EJEMPLO: Pon aquí el número real
+  phoneNumber: string = WHATSAPP_NUMERO;
 
   // Mensaje predeterminado
   message: string = 'Hola, quisiera más información sobre los horarios de la iglesia y como puedo ponerme en contact con vosotros';

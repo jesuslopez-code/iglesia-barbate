@@ -5,9 +5,20 @@
 
 <section class="page-section" aria-labelledby="horario-cultos">
   <h2 id="horario-cultos">Horario de cultos</h2>
+  <p>Las reuniones se adelantan una hora en verano. Estos son los dos horarios, siempre vigentes
+    según la época del año:</p>
+
+  <h3>Horario de invierno ({{ temporadas.invierno.meses }})</h3>
   <ul class="horarios-lista">
     @for (reunion of reuniones; track reunion.id) {
-      <li><strong>{{ reunion.dia }}</strong> — {{ reunion.hora }}</li>
+      <li><strong>{{ reunion.dia }}</strong> ({{ reunion.actividad }}) — {{ temporadas.invierno.hora }}</li>
+    }
+  </ul>
+
+  <h3>Horario de verano ({{ temporadas.verano.meses }})</h3>
+  <ul class="horarios-lista">
+    @for (reunion of reuniones; track reunion.id) {
+      <li><strong>{{ reunion.dia }}</strong> ({{ reunion.actividad }}) — {{ temporadas.verano.hora }}</li>
     }
   </ul>
 </section>

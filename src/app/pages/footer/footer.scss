@@ -58,9 +58,21 @@
 }
 
 .ec-footer__legal {
+  display: flex;
+  align-items: center;
+  gap: var(--ec-space-xs);
   margin: 0;
   font-family: var(--ec-font-ui);
   font-size: var(--ec-text-xs);
   color: var(--ec-sidebar-ink);
+}
+
+.ec-footer__texto-legal {
   opacity: 0.75;
+}
+
+.ec-footer__logo {
+  flex: none;
+  width: 32px;
+  height: 32px;
 }

@@ -75,10 +75,26 @@ Al terminar cada fase se **para** para que Jesús pruebe y valide antes de segui
 
 - **Logo.** `logo.jpg` tiene fondo blanco y en modo oscuro se verá como un recuadro pegado. Hace
   falta una versión en SVG o PNG con transparencia. Sin eso, la fase 0 queda a medias.
-- **Contenido.** Las fases 0, 1, 3 y 4 son técnicas y las puede hacer el equipo. La fase 2 depende de
-  que la iglesia facilite textos (creencias, quiénes somos, equipo pastoral) y fotos en condiciones.
-  Es el cuello de botella más probable del proyecto.
-- **Donaciones.** Falta decidir el método: Bizum, transferencia o pasarela externa. Sin backend, la
-  pasarela tendría que ser un servicio de terceros.
+- **Contenido.** Las fases 0, 1, 3 y 4 son técnicas y las puede hacer el equipo. La fase 2 dependía
+  de que la iglesia facilitase los textos: el 3 de octubre de 2026 entregó la propuesta completa
+  (`D:\Iglesia Barbate\Propuesta Web - Iglesia Evangelica El Camino Barbate.docx`, fuera del
+  repositorio) con texto definitivo para los once apartados. El cuello de botella pasa a ser las
+  **fotos**: la propuesta pide congregación reunida, una foto histórica de los inicios, retrato del
+  pastor e imágenes de Kids, Jóvenes y El Refugio, y no adjunta ninguna.
+- **Donaciones.** Decidido: Bizum, transferencia bancaria y efectivo en los cultos. Se descarta la
+  pasarela externa. Faltan el número o código de Bizum, el IBAN y el titular, y que la iglesia
+  decida si emite certificados de donación.
 - **Fotografía.** La dirección elegida tolera fotos discretas, pero la portada y la galería ganarían
-  mucho con una sesión decente. Decidir si se hace antes de la fase 2.
+  mucho con una sesión decente. Decidir si se hace antes de cerrar la fase 2.
+- **Redes sociales.** La propuesta cita Facebook (con directo del culto dominical), YouTube,
+  Instagram, TikTok y Spotify, pero sin enlaces. Sin las URL no se pueden poner los iconos ni el
+  enlace a Spotify de cada prédica.
+- **Avisos de Jóvenes.** La propuesta dice que las reuniones de Gedeones «se anuncian en esta web»,
+  pero el plan no tiene sección de avisos. Decidir si se añade un bloque de avisos en datos o si se
+  cambia la frase para remitir a redes.
+- **Archivo de prédicas.** La propuesta pide buscador y filtros por serie, predicador y fecha. Con dos
+  prédicas no aportan: se añade ya el campo `serie` al modelo y los filtros se construyen cuando el
+  archivo pase de unas diez.
+- **Acción social.** El Refugio (ACAF, en colaboración con Tharsis Betel) es un proyecto en
+  recaudación de fondos con contenido propio. Pide más espacio que un párrafo y una llamada a
+  colaborar enlazada con Donar.

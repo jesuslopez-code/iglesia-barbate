@@ -1,0 +1,70 @@
+// Índice de anclas: lista horizontal en Karla (navegación), separada por un punto, para que no
+// compita visualmente con la prosa de Source Serif del resto de la página.
+.ministerios-indice {
+  margin: var(--ec-space-md) 0 0;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ec-space-2xs) var(--ec-space-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    font-weight: 700;
+    color: var(--ec-accent);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--ec-focus-ring);
+    }
+  }
+}
+
+// Regla fina de separación entre ministerios, mismo criterio que /ensenanza. Cada ministerio es
+// su propia .page-section, así que la regla va en el borde superior y el margen superior
+// habitual de .page-section queda sustituido por el espaciado propio de esta clase.
+.ministerio {
+  padding-top: var(--ec-space-lg);
+  border-top: 1px solid var(--ec-rule);
+
+  h3 {
+    margin-top: 0;
+  }
+}
+
+// Dato destacado (horario de oración), no un párrafo suelto más: mismo criterio visual que
+// .cuando-donde-celda en body.scss.
+.ministerio-dato {
+  display: inline-block;
+  padding: var(--ec-space-sm) var(--ec-space-md);
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-rule);
+  border-left: 2px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-md);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  color: var(--ec-ink);
+}
+
+.ministerios-entradas {
+  max-width: 46rem;
+  margin-top: var(--ec-space-xl);
+}
+
+.ministerios-entradas-titulo {
+  margin: 0 0 var(--ec-space-md);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-2xl);
+  color: var(--ec-ink);
+}

@@ -5,8 +5,51 @@
 
 <section class="page-section" aria-labelledby="proyectos-sociales">
   <h2 id="proyectos-sociales">Proyectos en marcha</h2>
-  <p class="page-placeholder">
-    Contenido pendiente: aquí se describirán los proyectos de acción social activos en cuanto se
-    reciba la información (fase 2).
+  <p>
+    En la Iglesia El Camino entendemos que la fe se demuestra con hechos. Por ello, canalizamos
+    nuestro compromiso social a través de nuestra asociación ACAF y el desarrollo del proyecto
+    Centro Social El Refugio, promovido en colaboración entre Tharsis Betel y la Iglesia El
+    Camino de Barbate.
   </p>
+</section>
+
+<section class="refugio" aria-labelledby="refugio-titulo">
+  <div class="refugio-cabecera">
+    <h2 id="refugio-titulo">Proyecto «Centro Social El Refugio»</h2>
+    <span class="refugio-etiqueta">En construcción y recaudación de fondos</span>
+  </div>
+  <p>
+    El Refugio está en fase de desarrollo y recaudación de fondos. Es un masterplan social y
+    complejo turístico ecológico sostenible diseñado para brindar acogida, restauración y
+    segundas oportunidades a personas en situación de vulnerabilidad.
+  </p>
+
+  <div class="refugio-areas">
+    @for (area of areasRefugio; track area.titulo) {
+      <div class="refugio-area">
+        <h3>{{ area.titulo }}</h3>
+        <p>{{ area.texto }}</p>
+      </div>
+    }
+  </div>
+
+  @if (elRefugioUrl) {
+    <p class="refugio-enlace-propio">
+      <a [href]="elRefugioUrl" target="_blank" rel="noopener">Ver la web de El Refugio →</a>
+    </p>
+  }
+</section>
+
+<section class="page-section" aria-labelledby="como-colaborar">
+  <h2 id="como-colaborar">¿Cómo colaborar?</h2>
+  <p>
+    Actualmente nos encontramos en la fase de construcción y recaudación de fondos. Si deseas
+    sumarte como voluntario, realizar una donación o conocer más sobre cómo apoyar esta visión
+    en Barbate, ponte en contacto con nosotros o haz tu aportación.
+  </p>
+
+  <div class="colaborar-botones">
+    <a class="colaborar-boton colaborar-boton--relleno" routerLink="/donar">Haz tu aportación</a>
+    <a class="colaborar-boton colaborar-boton--borde" routerLink="/contacto">Ponte en contacto</a>
+  </div>
 </section>

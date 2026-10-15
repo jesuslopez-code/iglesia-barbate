@@ -311,65 +311,9 @@
   }
 }
 
+// .entradas y .entrada-tarjeta son ahora utilidades globales (styles.scss): se reutilizan en
+// /ministerios para las entradas a Jóvenes y Kids. Aquí solo queda el espaciado propio de la
+// portada.
 .entradas {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--ec-space-md);
-  max-width: 64rem;
   padding-bottom: var(--ec-space-2xl);
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-// Superficie propia (--ec-surface) para que las entradas se distingan del papel de la
-// página. Conserva el filo de latón a la izquierda como recurso que marca el apartado
-// activo en la barra lateral (.nav-group a.is-active en layout.scss): ata visualmente la
-// portada con la navegación.
-.entrada-tarjeta {
-  display: block;
-  padding: var(--ec-space-md);
-  background: var(--ec-surface);
-  border: 1px solid var(--ec-rule);
-  border-left: 2px solid transparent;
-  border-radius: var(--ec-radius-md);
-  text-decoration: none;
-  transition: border-left-color 0.2s ease, transform 0.2s ease;
-
-  &:hover,
-  &:focus-visible {
-    border-left-color: var(--ec-accent-fill);
-    transform: translateX(2px);
-  }
-
-  &:focus-visible {
-    outline: none;
-    box-shadow: var(--ec-focus-ring);
-  }
-
-  h2 {
-    margin: 0 0 var(--ec-space-2xs);
-    font-family: var(--ec-font-display);
-    font-size: var(--ec-text-xl);
-    color: var(--ec-ink);
-  }
-
-  p {
-    margin: 0;
-    font-family: var(--ec-font-ui);
-    font-size: var(--ec-text-sm);
-    color: var(--ec-ink-soft);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .entrada-tarjeta {
-    transition: none;
-
-    &:hover,
-    &:focus-visible {
-      transform: none;
-    }
-  }
 }

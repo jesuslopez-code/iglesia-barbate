@@ -45,7 +45,7 @@
 
 <section class="predicas-portada" aria-labelledby="predicas-portada-titulo">
   <div class="predicas-portada-carrusel">
-    <app-video-carousel [piezas]="piezasDestacadas" [etiqueta]="piezasTitulo" sustantivo="vídeo"></app-video-carousel>
+    <app-video-carousel [piezas]="piezasDestacadas" [etiqueta]="piezasTitulo" sustantivo="prédica"></app-video-carousel>
   </div>
   <div class="predicas-portada-texto">
     <h2 id="predicas-portada-titulo">{{ piezasTitulo }}</h2>
@@ -63,7 +63,7 @@
         @for (reunion of reuniones; track reunion.id) {
           <div class="cuando-donde-celda cuando-donde-reunion">
             <span class="cuando-donde-dia">{{ reunion.dia }}</span>
-            <span class="cuando-donde-hora">{{ reunion.hora }}</span>
+            <span class="cuando-donde-hora">{{ horaActual }}</span>
           </div>
         }
       </div>

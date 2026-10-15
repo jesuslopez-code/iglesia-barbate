@@ -1,0 +1,130 @@
+// Rejilla de 5 tarjetas con icono que se dan la vuelta para mostrar la explicación. auto-fit con
+// minmax, igual que .entradas en body.scss, para que quepan 2-3 por fila en escritorio y 1 en
+// móvil sin media queries por breakpoint fijo.
+.creencias-rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--ec-space-md);
+  align-items: stretch;
+  max-width: 64rem;
+}
+
+// El botón no lleva contenido en flujo (las dos caras son absolutas dentro de .creencia-tarjeta-
+// interior), así que su altura real la fija min-height: generosa para que la explicación más
+// larga (Jesucristo / La vida cristiana y la comunidad) no se corte a 360px de ancho.
+.creencia-tarjeta {
+  display: block;
+  width: 100%;
+  min-height: 15rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--ec-radius-md);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+.creencia-tarjeta-interior {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  perspective: 1200px;
+}
+
+// Ambas caras viven siempre en el DOM (nunca display: none ni aria-hidden condicional): la
+// rotación es puramente visual, para que un lector de pantalla llegue al texto de las dos.
+.creencia-cara {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--ec-space-md);
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-rule);
+  border-left: 2px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-md);
+  backface-visibility: hidden;
+  transition: transform 0.5s ease;
+  transform: rotateY(0deg);
+}
+
+.creencia-cara--trasera {
+  transform: rotateY(180deg);
+  justify-content: center;
+}
+
+.creencia-tarjeta.is-volteada .creencia-cara--frontal {
+  transform: rotateY(-180deg);
+}
+
+.creencia-tarjeta.is-volteada .creencia-cara--trasera {
+  transform: rotateY(0deg);
+}
+
+// En dispositivos con ratón real, el hover también voltea la tarjeta; en táctil/teclado manda
+// el estado de clic (is-volteada), que ya cubre la regla anterior.
+@media (hover: hover) {
+  .creencia-tarjeta:not(.is-volteada):hover .creencia-cara--frontal {
+    transform: rotateY(-180deg);
+  }
+
+  .creencia-tarjeta:not(.is-volteada):hover .creencia-cara--trasera {
+    transform: rotateY(0deg);
+  }
+}
+
+.creencia-icono {
+  margin-bottom: var(--ec-space-sm);
+  font-size: var(--ec-text-2xl);
+  color: var(--ec-accent-fill);
+}
+
+.creencia-titulo {
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-xl);
+  color: var(--ec-ink);
+}
+
+.creencia-texto {
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-base);
+  line-height: 1.5;
+  color: var(--ec-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creencia-cara {
+    transition: opacity 0.2s ease;
+    transform: none !important;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .creencia-cara--frontal {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .creencia-tarjeta.is-volteada .creencia-cara--frontal {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .creencia-tarjeta.is-volteada .creencia-cara--trasera {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // Sin hover-volteo en reduced motion: el cambio de cara solo responde al estado de clic.
+}

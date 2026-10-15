@@ -3,8 +3,7 @@ import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { WhatsappWidget } from '../../components/whatsapp-widget/whatsapp-widget';
 import { VideoCarousel } from '../../components/video-carousel/video-carousel';
-import { ACTIVIDADES_REALES } from '../../data/actividades.data';
-// import { PREDICAS_REALES } from '../../data/predicas.data'; // cuando haya prédicas reales
+import { PREDICAS_REALES } from '../../data/predicas.data';
 import {
   CORREO_HREF,
   CORREO_TEXTO,
@@ -12,6 +11,7 @@ import {
   REUNIONES,
   TELEFONO_HREF,
   TELEFONO_TEXTO,
+  horaActual,
 } from '../../data/horarios.data';
 import {
   MAPA_UBICACION_ENLACE,
@@ -31,6 +31,11 @@ export class Body {
   // Horarios, dirección, teléfono y correo salen del mismo fichero de datos que `/horarios` y
   // `/contacto`: este bloque los reúne, no los reescribe.
   protected readonly reuniones = REUNIONES;
+  // Resumen rápido, no la referencia exhaustiva (esa es `/horarios`, enlazada aquí mismo): se
+  // recalcula con la fecha real en cuanto el navegador hidrata el componente, así que solo el
+  // HTML servido antes de ejecutar JS puede mostrar la hora de la temporada en que se hizo el
+  // build. Para una fuente siempre correcta incluso sin JS, ver `/horarios`.
+  protected readonly horaActual = horaActual();
   protected readonly direccion = DIRECCION_TEXTO;
   protected readonly telefonoTexto = TELEFONO_TEXTO;
   protected readonly telefonoHref = TELEFONO_HREF;
@@ -45,15 +50,12 @@ export class Body {
   protected readonly mapaUrl: SafeResourceUrl =
     this.sanitizer.bypassSecurityTrustResourceUrl(MAPA_UBICACION_URL);
 
-  // Todavía no hay prédicas grabadas: el bloque "Últimas prédicas" de la portada muestra de
-  // momento los vídeos de actividades de la iglesia, con su propio rótulo y enlazando a la
-  // galería. El día que haya prédicas reales, cambiar estas cuatro constantes (piezas,
-  // titulo, descripcion, enlace/enlaceTexto por las de predicas.data.ts) es lo único que
-  // hace falta: la plantilla y el carrusel no cambian.
-  protected readonly piezasDestacadas = ACTIVIDADES_REALES;
-  protected readonly piezasTitulo = 'Últimas actividades';
-  protected readonly piezasDescripcion =
-    'Teatro, danza y otros momentos compartidos en la iglesia, en vídeo.';
-  protected readonly piezasEnlace = '/conocenos';
-  protected readonly piezasEnlaceTexto = 'Ver más vídeos →';
+  // Bloque "Últimas prédicas" de la portada: carrusel de vídeo que enlaza al archivo completo
+  // en /ensenanza. La plantilla y app-video-carousel no cambian si el contenido cambia; solo
+  // estas constantes.
+  protected readonly piezasDestacadas = PREDICAS_REALES;
+  protected readonly piezasTitulo = 'Últimas prédicas';
+  protected readonly piezasDescripcion = 'Escucha las últimas prédicas de la iglesia.';
+  protected readonly piezasEnlace = '/ensenanza';
+  protected readonly piezasEnlaceTexto = 'Ver todas las prédicas →';
 }

@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faFacebookF, faYoutube, faTiktok, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import {
+  faFacebookF,
+  faYoutube,
+  faTiktok,
+  faInstagram,
+  faSpotify,
+} from '@fortawesome/free-brands-svg-icons';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
 interface RedSocial {
@@ -48,6 +54,13 @@ export class Networks {
       href: 'https://www.instagram.com/iglesiaelcamino__/?igsh=MTFjYjZzY2dyY25iNw%3D%3D&utm_source=qr',
       icono: faInstagram,
       clase: 'instagram',
+    },
+    {
+      nombre: 'Spotify',
+      detalle: 'Podcast con las prédicas de la iglesia',
+      href: 'https://open.spotify.com/show/2Pp0CTBYLUaxGjniSFKFEW',
+      icono: faSpotify,
+      clase: 'spotify',
     },
   ];
 }

@@ -49,8 +49,9 @@ export const routes: Routes = [
       nav: { grupo: 'la-iglesia', etiqueta: 'Nuestras creencias', orden: 3 },
       seo: {
         descripcion:
-          'En qué cree la Iglesia El Camino y en qué se basa nuestra fe como comunidad ' +
-          'cristiana en Barbate.',
+          'Declaración de fe de la Iglesia El Camino, adherida a la Federación de Entidades ' +
+          'Religiosas Evangélicas de España (FEREDE): la Biblia, Dios, Jesucristo, la ' +
+          'salvación y la vida cristiana.',
       },
     },
   },
@@ -124,7 +125,8 @@ export const routes: Routes = [
       nav: { grupo: 'vida-de-iglesia', etiqueta: 'Acción social', orden: 5 },
       seo: {
         descripcion:
-          'Cómo sirve la Iglesia El Camino a la comunidad de Barbate más allá de sus puertas.',
+          'La asociación ACAF y el proyecto Centro Social El Refugio: cómo sirve la Iglesia El ' +
+          'Camino a la comunidad de Barbate más allá de sus puertas.',
       },
     },
   },

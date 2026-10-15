@@ -1,0 +1,158 @@
+// Bloque destacado de El Refugio: superficie propia y filo de latón, mismo criterio visual que
+// .cuando-donde-celda/.entrada-tarjeta, para separarlo del resto de prosa de la página.
+.refugio {
+  max-width: 64rem;
+  margin-bottom: var(--ec-space-xl);
+  padding: var(--ec-space-lg);
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-rule);
+  border-left: 3px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-md);
+
+  p {
+    margin: 0 0 var(--ec-space-md);
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-base);
+    color: var(--ec-ink);
+  }
+}
+
+.refugio-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--ec-space-sm);
+  margin-bottom: var(--ec-space-md);
+
+  h2 {
+    margin: 0;
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-2xl);
+    color: var(--ec-ink);
+  }
+}
+
+// Etiqueta de estado, con el latón como único color (nunca --ec-word, que es solo para
+// referencias bíblicas).
+.refugio-etiqueta {
+  padding: var(--ec-space-2xs) var(--ec-space-sm);
+  background: color-mix(in srgb, var(--ec-accent-fill) 18%, var(--ec-surface));
+  border: 1px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-sm);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ec-accent);
+  white-space: nowrap;
+}
+
+.refugio-areas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ec-space-md);
+  margin-top: var(--ec-space-lg);
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.refugio-area {
+  padding: var(--ec-space-md);
+  background: var(--ec-ground);
+  border: 1px solid var(--ec-rule);
+  border-radius: var(--ec-radius-md);
+
+  h3 {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-lg);
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0;
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-sm);
+    color: var(--ec-ink-soft);
+  }
+}
+
+.refugio-enlace-propio {
+  margin: var(--ec-space-md) 0 0;
+
+  a {
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    font-weight: 700;
+    color: var(--ec-accent);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--ec-focus-ring);
+    }
+  }
+}
+
+// Llamada a colaborar como botones visuales, no enlaces de texto sueltos en la frase.
+.colaborar-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ec-space-sm);
+  margin-top: var(--ec-space-md);
+}
+
+.colaborar-boton {
+  display: inline-block;
+  padding: var(--ec-space-sm) var(--ec-space-lg);
+  border-radius: var(--ec-radius-md);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+// Mismo criterio que .btn-primary del formulario de contacto: --ec-accent de base (ya pensado
+// para dar contraste como texto, aquí como fondo con texto claro) y --ec-accent-fill al pasar
+// el ratón, con texto oscuro de la lateral.
+.colaborar-boton--relleno {
+  background: var(--ec-accent);
+  color: var(--ec-surface);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--ec-accent-fill);
+    color: var(--ec-sidebar);
+  }
+}
+
+.colaborar-boton--borde {
+  background: transparent;
+  border: 1px solid var(--ec-accent-fill);
+  color: var(--ec-accent);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--ec-surface);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .colaborar-boton {
+    transition: none;
+  }
+}

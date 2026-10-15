@@ -5,6 +5,22 @@ import { PiezaVideo } from './pieza-video';
  */
 export const PREDICAS: readonly PiezaVideo[] = [
   {
+    id: 'FOvhXSzbjn0',
+    titulo: 'Zoe: ¿Vives o existes?',
+    youtubeId: 'FOvhXSzbjn0',
+    fecha: '13 de septiembre de 2026',
+    duracion: '37:39',
+    resumen:
+      'Una confrontante enseñanza sobre la diferencia entre la mera existencia biológica (Bíos) y la verdadera vida divina en abundancia (Zoe) que solo podemos experimentar al reconectarnos con Jesucristo.',
+    aviso: null,
+    esEjemplo: false,
+    // La descripción del vídeo no cita un pasaje bíblico: no se deduce uno.
+    pasaje: null,
+    predicador: 'Francisco Manuel López',
+    // Todavía no está subida a Spotify: sin enlace no hay línea de Spotify en la ficha.
+    spotifyUrl: null,
+  },
+  {
     id: 'JGxcLFu9t0g',
     titulo: 'El renuevo',
     youtubeId: 'JGxcLFu9t0g',

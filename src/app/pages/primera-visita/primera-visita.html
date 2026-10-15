@@ -6,24 +6,75 @@
 <section class="page-section" aria-labelledby="cuando-venir">
   <h2 id="cuando-venir">Cuándo venir</h2>
   <p>
-    Nos reunimos todos los jueves y domingos a las 19:00, en Calle Dr. Patricio Castro, 34,
-    11160 Barbate (Cádiz).
+    Nos reunimos todos los jueves y domingos. El culto principal, donde tienen lugar las
+    visitas, es el domingo:
   </p>
-  <p><a routerLink="/horarios">Ver horarios y ubicación completos</a></p>
+
+  <dl class="resumen-visita">
+    <div class="resumen-visita-dato">
+      <dt>Hora</dt>
+      <dd>{{ domingo.dia }}, {{ horaActual }} h</dd>
+    </div>
+    <div class="resumen-visita-dato">
+      <dt>Dirección</dt>
+      <dd>{{ direccion }}</dd>
+    </div>
+    <div class="resumen-visita-dato">
+      <dt>Duración</dt>
+      <dd>{{ duracion }}</dd>
+    </div>
+  </dl>
+
+  <p><a routerLink="/horarios">Ver horarios y ubicación completos →</a></p>
 </section>
 
 <section class="page-section" aria-labelledby="que-esperar">
   <h2 id="que-esperar">Qué esperar</h2>
-  <p class="page-placeholder">
-    Contenido pendiente: aquí se explicará cómo es un culto, cuánto dura y qué encontrarás al
-    llegar, en cuanto la iglesia facilite el texto (fase 2).
+  <p>
+    ¿Qué me voy a encontrar? Comenzamos con música y alabanza, pasamos a un tiempo de oración
+    y escuchamos un mensaje bíblico práctico para la vida diaria.
   </p>
 </section>
 
-<section class="page-section" aria-labelledby="preguntas-frecuentes">
+<section class="page-section preguntas-frecuentes" aria-labelledby="preguntas-frecuentes">
   <h2 id="preguntas-frecuentes">Preguntas frecuentes</h2>
-  <p class="page-placeholder">
-    Contenido pendiente: preguntas habituales de quien visita por primera vez (aparcamiento, niños,
-    vestimenta...), a completar en la fase 2.
-  </p>
+  <dl>
+    <div class="pregunta-frecuente">
+      <dt>¿Cómo vestir?</dt>
+      <dd>Ven como te sientas más cómodo. No hay código de vestimenta.</dd>
+    </div>
+
+    <div class="pregunta-frecuente">
+      <dt>¿Tengo que presentarme o participar?</dt>
+      <dd>
+        Para nada. Puedes sentarte tranquilamente a observar. Nadie te señalará ni te pedirá
+        que te levantes a hablar. Al entrar, nuestro equipo de bienvenida te saludará
+        amablemente y te ayudará a encontrar sitio si lo necesitas.
+      </dd>
+    </div>
+
+    <div class="pregunta-frecuente">
+      <dt>¿Y con los niños?</dt>
+      <dd>
+        Los niños pueden estar contigo en el culto o pasar a su clase infantil cuando comience
+        el tiempo dedicado a ellos en El Camino Kids.
+      </dd>
+    </div>
+
+    <div class="pregunta-frecuente">
+      <dt>Aparcamiento y hora</dt>
+      <dd>
+        Te recomendamos llegar unos 10 minutos antes. Hay zonas de aparcamiento en las calles
+        cercanas.
+      </dd>
+    </div>
+
+    <div class="pregunta-frecuente">
+      <dt>Al finalizar</dt>
+      <dd>
+        Al terminar la reunión nos gusta compartir un café o una conversación informal, así
+        que estás cordialmente invitado a quedarte y conocernos sin ningún compromiso.
+      </dd>
+    </div>
+  </dl>
 </section>

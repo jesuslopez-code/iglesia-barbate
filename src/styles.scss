@@ -182,11 +182,69 @@ app-root {
     color: var(--ec-ink);
   }
 
+  h3 {
+    margin: var(--ec-space-lg) 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-xl);
+    color: var(--ec-ink);
+  }
+
   p {
     margin: 0 0 var(--ec-space-sm);
     font-family: var(--ec-font-body);
     font-size: var(--ec-text-base);
     color: var(--ec-ink);
+  }
+
+  ul {
+    margin: 0 0 var(--ec-space-sm);
+    padding-left: var(--ec-space-md);
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-base);
+    color: var(--ec-ink);
+
+    li + li {
+      margin-top: var(--ec-space-2xs);
+    }
+  }
+
+  dl {
+    margin: 0 0 var(--ec-space-sm);
+  }
+
+  dt {
+    margin: var(--ec-space-sm) 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    font-weight: 700;
+    color: var(--ec-accent);
+  }
+
+  dd {
+    margin: 0;
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-base);
+    color: var(--ec-ink);
+  }
+
+  /* Cita bíblica dentro de un bloque de página corriente: el texto de la cita es --ec-ink, como
+     cualquier párrafo; --ec-word se reserva, igual que en enseñanza, a la referencia (cite). */
+  blockquote {
+    margin: 0 0 var(--ec-space-sm);
+    padding-left: var(--ec-space-md);
+    border-left: 2px solid var(--ec-word);
+
+    p {
+      margin: 0 0 var(--ec-space-2xs);
+      font-style: italic;
+    }
+
+    cite {
+      font-family: var(--ec-font-ui);
+      font-size: var(--ec-text-sm);
+      font-style: normal;
+      color: var(--ec-word);
+    }
   }
 }
 
@@ -200,4 +258,76 @@ app-root {
   font-family: var(--ec-font-ui);
   font-size: var(--ec-text-sm);
   color: var(--ec-ink-soft);
+}
+
+/* Rejilla de tarjetas de entrada: nació en la portada (body.scss) y pasó a utilidad global al
+   reutilizarse en /ministerios para las entradas a Jóvenes y Kids. Superficie propia
+   (--ec-surface) para distinguirse del papel de la página; el filo de latón a la izquierda ata
+   visualmente la tarjeta con el apartado activo en la barra lateral (.nav-group a.is-active en
+   layout.scss). */
+.entradas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ec-space-md);
+  max-width: 64rem;
+}
+
+.entrada-tarjeta {
+  display: block;
+  padding: var(--ec-space-md);
+  background: var(--ec-surface);
+  border: 1px solid var(--ec-rule);
+  border-left: 2px solid transparent;
+  border-radius: var(--ec-radius-md);
+  text-decoration: none;
+  transition: border-left-color 0.2s ease, transform 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-left-color: var(--ec-accent-fill);
+    transform: translateX(2px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+
+  h2,
+  h3 {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-xl);
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0;
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    color: var(--ec-ink-soft);
+  }
+}
+
+@media (min-width: 768px) {
+  .entradas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  // En /ministerios la rejilla solo tiene 2 entradas (Jóvenes y Kids): 3 columnas la dejarían
+  // descompensada, así que se limita a 2.
+  .ministerios-entradas .entradas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entrada-tarjeta {
+    transition: none;
+
+    &:hover,
+    &:focus-visible {
+      transform: none;
+    }
+  }
 }
