@@ -29,8 +29,8 @@ export class Networks {
   redes: RedSocial[] = [
     {
       nombre: 'Facebook',
-      detalle: 'Fotos, vídeos y avisos de la iglesia',
-      href: 'https://www.facebook.com/profile.php?id=61550744498180&sk=photos&locale=es_ES',
+      detalle: 'Culto en directo cada domingo, fotos y avisos',
+      href: 'https://www.facebook.com/profile.php?id=61594975856668',
       icono: faFacebookF,
       clase: 'facebook',
     },

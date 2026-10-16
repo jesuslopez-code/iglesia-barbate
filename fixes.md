@@ -46,6 +46,20 @@
 
 ---
 
+## FIX-003 — La web enlaza al perfil personal de Facebook en lugar de la página profesional
+
+- **Estado:** ✅ ARREGLADA (revisada por cam-reviewer; pendiente de probar en producción)
+- **Dónde:** `src/app/components/networks/networks.ts` (enlace de Facebook en las redes).
+- **Problema:** el enlace llevaba al perfil personal antiguo (`id=61550744498180`); la iglesia ya
+  tiene página profesional de Facebook.
+- **Causa:** enlace anterior a la creación de la página.
+- **Solución:** `href` cambiado a `https://www.facebook.com/profile.php?id=61594975856668` y
+  `detalle` a «Culto en directo cada domingo, fotos y avisos». Agente: cam-frontend-dev.
+- **Verificación:** build OK; tests 26/26; grep del ID antiguo en `src/` sin resultados.
+- **Detectado:** 16 oct 2026.
+
+---
+
 Formato de cada entrada:
 
 ## FIX-001 — Título breve del problema
