@@ -60,6 +60,22 @@
 
 ---
 
+## FIX-004 — El enlace de TikTok lleva a la cuenta de jóvenes, no a la de la iglesia
+
+- **Estado:** ✅ ARREGLADA (revisada por cam-reviewer; pendiente de probar en producción)
+- **Dónde:** `src/app/components/networks/networks.ts` (enlaces de TikTok e Instagram).
+- **Problema:** el enlace de TikTok apuntaba a `@jovenes_el_camino` (cuenta de jóvenes) y su
+  `detalle` hablaba de la juventud. El de Instagram arrastraba parámetros de seguimiento del QR
+  (`?igsh=...&utm_source=qr`).
+- **Causa:** enlaces copiados tal cual de otros orígenes (cuenta de jóvenes, enlace de QR).
+- **Solución:** TikTok → `https://www.tiktok.com/@iglesiaelcamino__` con `detalle` «Vídeos cortos
+  de la iglesia»; Instagram → `https://www.instagram.com/iglesiaelcamino__/` limpio. Agente:
+  cam-frontend-dev.
+- **Verificación:** build OK, tests 26/26; la página servida en local (/conocenos) enlaza a tiktok.com/@iglesiaelcamino__ e instagram.com/iglesiaelcamino__/.
+- **Detectado:** 16 oct 2026, por Jesús al probar en local.
+
+---
+
 Formato de cada entrada:
 
 ## FIX-001 — Título breve del problema

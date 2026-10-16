@@ -43,15 +43,15 @@ export class Networks {
     },
     {
       nombre: 'TikTok',
-      detalle: '@jovenes_el_camino — contenido de la juventud',
-      href: 'https://www.tiktok.com/@jovenes_el_camino',
+      detalle: 'Vídeos cortos de la iglesia',
+      href: 'https://www.tiktok.com/@iglesiaelcamino__',
       icono: faTiktok,
       clase: 'tiktok',
     },
     {
       nombre: 'Instagram',
       detalle: '@iglesiaelcamino__',
-      href: 'https://www.instagram.com/iglesiaelcamino__/?igsh=MTFjYjZzY2dyY25iNw%3D%3D&utm_source=qr',
+      href: 'https://www.instagram.com/iglesiaelcamino__/',
       icono: faInstagram,
       clase: 'instagram',
     },
