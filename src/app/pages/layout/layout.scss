@@ -18,6 +18,11 @@
   }
 }
 
+// Medida compartida: el botón fijo y el hueco que .content reserva para él deben cambiar juntos.
+:host {
+  --nav-toggle-size: 44px;
+}
+
 .shell {
   display: flex;
   min-height: 100vh;
@@ -32,8 +37,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: var(--nav-toggle-size);
+  height: var(--nav-toggle-size);
   border: 1px solid var(--ec-rule);
   border-radius: 2px;
   background: var(--ec-surface);
@@ -243,7 +248,9 @@ app-theme-switch {
 .content {
   flex: 1;
   min-width: 0;
-  padding: var(--ec-space-lg) var(--ec-space-md);
+  // El botón fijo del menú (--nav-toggle-size, a --ec-space-sm del borde) ocupa la esquina en móvil: sin este
+  // hueco arriba tapa el inicio del <h1>. En escritorio el botón no existe y el padding se redefine.
+  padding: calc(var(--nav-toggle-size) + 2 * var(--ec-space-sm) + var(--ec-space-xs)) var(--ec-space-md) var(--ec-space-lg);
 }
 
 .content:focus-visible {
