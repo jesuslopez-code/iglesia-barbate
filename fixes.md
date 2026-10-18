@@ -76,6 +76,18 @@
 
 ---
 
+## FIX-005 — En el índice de /ministerios el primer enlace queda más alto que los demás
+
+- **Estado:** ✅ ARREGLADA (revisada por cam-reviewer; pendiente de probar en producción)
+- **Dónde:** `src/app/pages/ministerios/ministerios.scss` (`.ministerios-indice`).
+- **Problema:** en la fila de enlaces de anclas, «Alabanza y adoración» aparece unos píxeles por encima del resto, en ambos modos.
+- **Causa:** la regla global `.page-section ul li + li { margin-top }` de `src/styles.scss` da margen superior a todos los `li` salvo el primero; dentro del `flex-wrap` del índice eso empuja hacia abajo a los demás.
+- **Solución:** `li { margin: 0 }` dentro de `.ministerios-indice`, por encima del `li + li` global. Agente: cam-frontend-dev.
+- **Verificación:** `npm run build` con exit 0; la comprobación visual en local sigue pendiente, por Jesús.
+- **Detectado:** 18 oct 2026, por Jesús.
+
+---
+
 Formato de cada entrada:
 
 ## FIX-001 — Título breve del problema

@@ -12,6 +12,12 @@
     list-style: none;
   }
 
+  // El `li + li` global de .page-section ul da margin-top a todos menos al primero; en una fila
+  // flex eso desplaza los demás hacia abajo y el primero parece más alto.
+  li {
+    margin: 0;
+  }
+
   a {
     font-family: var(--ec-font-ui);
     font-size: var(--ec-text-sm);
