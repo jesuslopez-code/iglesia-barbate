@@ -5,6 +5,21 @@ import { PiezaVideo } from './pieza-video';
  */
 export const PREDICAS: readonly PiezaVideo[] = [
   {
+    id: 'r-gC0bbtf4M',
+    titulo: 'La Guía del Espíritu Santo: de la gracia al poder sobre el pecado',
+    youtubeId: 'r-gC0bbtf4M',
+    fecha: '20 de septiembre de 2026',
+    duracion: '53:18',
+    resumen:
+      '¿Quién lleva el volante de tu vida? Igual que no oyes el GPS con la música a todo volumen, no puedes oír al Espíritu Santo si no apagas las otras voces, empezando por la de tu propio corazón. Un mensaje sobre cómo dejar de vivir solo en la gracia y empezar a vivir en el poder de Dios sobre el pecado.',
+    aviso: null,
+    esEjemplo: false,
+    pasaje: 'Jeremías 17:9',
+    predicador: 'Francisco Manuel López',
+    // Todavía no está subida a Spotify: sin enlace no hay línea de Spotify en la ficha.
+    spotifyUrl: null,
+  },
+  {
     id: 'FOvhXSzbjn0',
     titulo: 'Zoe: ¿Vives o existes?',
     youtubeId: 'FOvhXSzbjn0',
