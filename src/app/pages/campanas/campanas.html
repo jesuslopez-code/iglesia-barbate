@@ -1,0 +1,82 @@
+<section class="campanas">
+  <header class="campanas__intro">
+    <h1>Campañas</h1>
+    <p>
+      Momentos del año en los que la iglesia propone algo especial. Aquí encontrarás los textos, y
+      el material para descargar y compartir.
+    </p>
+  </header>
+
+  @if (destacada(); as campana) {
+    <section class="campanas__destacada" aria-labelledby="campana-destacada-etiqueta">
+      <h2 id="campana-destacada-etiqueta" class="campanas__etiqueta">En curso ahora</h2>
+      <article class="ficha ficha--destacada">
+        <picture>
+          <source
+            type="image/webp"
+            [attr.srcset]="portada(campana.imagen).webp800 + ' 800w, ' + portada(campana.imagen).webp + ' 1600w'"
+            sizes="(min-width: 992px) 720px, 100vw"
+          />
+          <img
+            class="ficha__imagen"
+            [src]="portada(campana.imagen).jpg800"
+            [attr.srcset]="portada(campana.imagen).jpg800 + ' 800w, ' + campana.imagen + ' 1600w'"
+            sizes="(min-width: 992px) 720px, 100vw"
+            [alt]="campana.imagenAlt"
+            [attr.width]="campana.imagenAncho"
+            [attr.height]="campana.imagenAlto"
+          />
+        </picture>
+        <div class="ficha__cuerpo">
+          <p class="ficha__ocasion">{{ campana.ocasion }}</p>
+          <h3 class="ficha__titulo">{{ campana.titulo }}</h3>
+          <p class="ficha__texto">{{ campana.lema }}</p>
+          <a class="ficha__enlace" [routerLink]="['/campanas', campana.slug]">
+            Ver la campaña<span class="visually-hidden">: {{ campana.titulo }}</span> →
+          </a>
+        </div>
+      </article>
+    </section>
+  }
+
+  @if (archivo().length > 0) {
+    <section class="campanas__archivo" aria-labelledby="campanas-archivo-titulo">
+      <h2 id="campanas-archivo-titulo" class="campanas__etiqueta">
+        {{ destacada() ? 'Campañas anteriores' : 'Todas las campañas' }}
+      </h2>
+      <ul class="campanas__lista">
+        @for (campana of archivo(); track campana.slug) {
+          <li>
+            <article class="ficha">
+              <picture>
+                <source
+                  type="image/webp"
+                  [attr.srcset]="portada(campana.imagen).webp800"
+                  sizes="(min-width: 768px) 340px, 100vw"
+                />
+                <img
+                  class="ficha__imagen"
+                  [src]="portada(campana.imagen).jpg800"
+                  [alt]="campana.imagenAlt"
+                  width="800"
+                  height="450"
+                  loading="lazy"
+                />
+              </picture>
+              <div class="ficha__cuerpo">
+                <p class="ficha__ocasion">{{ campana.ocasion }}</p>
+                <h3 class="ficha__titulo">{{ campana.titulo }}</h3>
+                <p class="ficha__texto">
+                  Del {{ fecha(campana.inicio) }} al {{ fecha(campana.fin) }}
+                </p>
+                <a class="ficha__enlace" [routerLink]="['/campanas', campana.slug]">
+                  Ver la campaña<span class="visually-hidden">: {{ campana.titulo }}</span> →
+                </a>
+              </div>
+            </article>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</section>

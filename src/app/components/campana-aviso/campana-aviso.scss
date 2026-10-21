@@ -1,0 +1,204 @@
+// Alto reservado = alto de la tarjeta por tramo (móvil: imagen 11rem + texto; escritorio: fijo),
+// para que al aparecer tras la hidratación no se mueva nada. El margen inferior va en el host y
+// no en la tarjeta: con min-height en el host, un margen interior sumaría al hueco reservado.
+:host {
+  display: block;
+  max-width: 64rem;
+  --aviso-alto: 33rem;
+  --aviso-alto-imagen: 11rem;
+}
+
+:host(.reservado) {
+  min-height: var(--aviso-alto);
+}
+
+:host(.con-aviso) {
+  margin-bottom: var(--ec-space-lg);
+}
+
+// Los tramos son de maquetación: solo cambian variables de tamaño.
+@media (min-width: 768px) {
+  :host {
+    --aviso-alto: 25rem;
+  }
+}
+
+@media (min-width: 900px) {
+  :host {
+    --aviso-alto: 23rem;
+  }
+}
+
+.campana-aviso {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--aviso-alto);
+  overflow: hidden;
+  border-radius: var(--ec-radius-lg);
+  background: var(--ec-sidebar);
+  color: var(--ec-sidebar-ink);
+
+  // Móvil: el velo funde la parte baja de la foto con el panel de texto. Escritorio: cubre el
+  // lado del texto (ver media query).
+  --velo-direccion: to bottom;
+  --velo-inicio: color-mix(in srgb, var(--ec-sidebar) 15%, transparent);
+  --velo-fin: var(--ec-sidebar);
+}
+
+.campana-aviso__imagen {
+  display: block;
+  flex: none;
+  height: var(--aviso-alto-imagen);
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.campana-aviso__velo,
+.campana-aviso__amanecer {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--aviso-alto-imagen);
+  pointer-events: none;
+}
+
+.campana-aviso__velo {
+  background: linear-gradient(
+    var(--velo-direccion),
+    var(--velo-inicio) 0%,
+    var(--velo-inicio) var(--velo-tramo, 35%),
+    var(--velo-fin) 100%
+  );
+}
+
+.campana-aviso__amanecer {
+  background: radial-gradient(
+    circle at var(--sol-x, 80%) var(--sol-y, 35%),
+    color-mix(in srgb, var(--ec-accent-fill) 45%, transparent) 0%,
+    color-mix(in srgb, var(--ec-accent-fill) 18%, transparent) 22%,
+    transparent 55%
+  );
+  transform-origin: var(--sol-x, 80%) var(--sol-y, 35%);
+}
+
+// Los @keyframes son globales (styles.scss). La imagen no se anima, así que el LCP no cambia.
+.campana-aviso__amanecer {
+  animation: var(--aviso-animacion, none);
+}
+
+// Solo se define la variable aquí: las reglas de componente no van dentro de la media query.
+@media (prefers-reduced-motion: no-preference) {
+  :host {
+    --aviso-animacion: ec-amanecer-sol 2.2s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+  }
+}
+
+.campana-aviso__texto {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--ec-space-sm) var(--ec-space-md) var(--ec-space-md);
+}
+
+.campana-aviso__ocasion {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ec-accent-fill);
+}
+
+.campana-aviso__titulo {
+  max-width: 30rem;
+  margin: 0 0 var(--ec-space-sm);
+  font-family: var(--ec-font-display);
+  font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3rem);
+  line-height: 1.05;
+}
+
+.campana-aviso__lema {
+  max-width: 28rem;
+  margin: 0 0 var(--ec-space-sm);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-lg);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+.campana-aviso__evento {
+  margin: 0 0 var(--ec-space-md);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-base);
+  font-weight: 700;
+}
+
+.campana-aviso__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ec-space-sm) var(--ec-space-md);
+  margin-top: auto;
+}
+
+.campana-aviso__boton {
+  display: inline-block;
+  padding: var(--ec-space-xs) var(--ec-space-md);
+  border: 2px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-sm);
+  background: var(--ec-accent-fill);
+  font-family: var(--ec-font-ui);
+  font-weight: 700;
+  color: var(--ec-sidebar);
+  text-decoration: none;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.campana-aviso__enlace {
+  padding-block: var(--ec-space-xs);
+  font-family: var(--ec-font-ui);
+  font-weight: 700;
+  color: var(--ec-accent-fill);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.campana-aviso__boton:focus-visible,
+.campana-aviso__enlace:focus-visible {
+  outline: none;
+  box-shadow: var(--ec-focus-ring-fill);
+}
+
+@media (min-width: 768px) {
+  .campana-aviso {
+    --velo-direccion: to right;
+    --velo-tramo: 60%;
+    --velo-inicio: color-mix(in srgb, var(--ec-sidebar) 94%, transparent);
+    --velo-fin: color-mix(in srgb, var(--ec-sidebar) 10%, transparent);
+  }
+
+  .campana-aviso__imagen,
+  .campana-aviso__velo,
+  .campana-aviso__amanecer {
+    position: absolute;
+    inset: 0;
+    height: auto;
+  }
+
+  .campana-aviso__texto {
+    justify-content: center;
+    width: 60%;
+    padding: var(--ec-space-lg);
+  }
+}

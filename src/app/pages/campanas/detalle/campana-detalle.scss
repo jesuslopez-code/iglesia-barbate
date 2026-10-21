@@ -1,0 +1,314 @@
+.campana {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.campana__hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 24rem;
+  overflow: hidden;
+  border-radius: var(--ec-radius-lg);
+  background: var(--ec-sidebar);
+
+  picture {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+}
+
+.campana__imagen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Velo oscuro derivado de --ec-sidebar (el tono oscuro del sistema) y no de un color suelto: el
+// texto del hero es siempre claro (--ec-sidebar-ink), en los dos modos, así que el velo es
+// oscuro en los dos. Más opaco abajo, donde está el texto.
+.campana__velo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--ec-sidebar) 35%, transparent) 0%,
+    color-mix(in srgb, var(--ec-sidebar) 92%, transparent) 100%
+  );
+}
+
+.campana__hero-texto {
+  position: relative;
+  padding: var(--ec-space-lg) var(--ec-space-md);
+  color: var(--ec-sidebar-ink);
+}
+
+.campana__ocasion {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ec-accent-fill);
+}
+
+.campana__titulo {
+  margin: 0 0 var(--ec-space-sm);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-3xl);
+  line-height: 1.05;
+}
+
+.campana__lema {
+  max-width: 38rem;
+  margin: 0;
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-xl);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+// Voz de lectura de /ensenanza: columna única, cuerpo mayor, interlineado suelto, reglas finas.
+.campana__lectura {
+  max-width: 38rem;
+  margin: var(--ec-space-xl) auto 0;
+}
+
+.campana__cita {
+  margin: 0 0 var(--ec-space-xl);
+  padding-left: var(--ec-space-md);
+  border-left: 2px solid var(--ec-word);
+
+  p {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-xl);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ec-ink);
+  }
+
+  cite {
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    font-style: normal;
+    color: var(--ec-word);
+  }
+}
+
+.campana__seccion {
+  margin-bottom: var(--ec-space-lg);
+  padding-top: var(--ec-space-lg);
+  border-top: 1px solid var(--ec-rule);
+
+  h2 {
+    margin: 0 0 var(--ec-space-sm);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-2xl);
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0 0 var(--ec-space-md);
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-lg);
+    line-height: 1.7;
+    color: var(--ec-ink);
+  }
+}
+
+.campana__puntos {
+  margin: 0 0 var(--ec-space-lg);
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: var(--ec-space-md) 0;
+    border-top: 1px solid var(--ec-rule);
+  }
+
+  p {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-lg);
+    line-height: 1.7;
+    color: var(--ec-ink);
+  }
+
+  cite {
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    font-style: normal;
+    color: var(--ec-word);
+  }
+}
+
+.campana__descargas,
+.campana__evento,
+.campana__compartir {
+  max-width: 38rem;
+  margin: var(--ec-space-xl) auto 0;
+  padding-top: var(--ec-space-lg);
+  border-top: 1px solid var(--ec-rule);
+
+  h2 {
+    margin: 0 0 var(--ec-space-md);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-2xl);
+    color: var(--ec-ink);
+  }
+}
+
+.campana__descargas-lista {
+  display: grid;
+  gap: var(--ec-space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.descarga {
+  padding: var(--ec-space-md);
+  border: 1px solid var(--ec-rule);
+  border-radius: var(--ec-radius-md);
+  background: var(--ec-surface);
+}
+
+.descarga__titulo {
+  margin: 0 0 var(--ec-space-2xs);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-xl);
+  color: var(--ec-ink);
+}
+
+.descarga__texto {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-base);
+  color: var(--ec-ink-soft);
+}
+
+.descarga__meta {
+  margin: 0 0 var(--ec-space-sm);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  color: var(--ec-ink-soft);
+}
+
+.campana__evento-etiqueta {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ec-accent);
+}
+
+.campana__evento-dato {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-lg);
+  font-style: normal;
+  color: var(--ec-ink);
+}
+
+.campana__evento .boton {
+  margin-top: var(--ec-space-sm);
+}
+
+.campana__aviso {
+  min-height: 1.5em;
+  margin: var(--ec-space-sm) 0 0;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  color: var(--ec-accent);
+}
+
+.boton {
+  display: inline-block;
+  padding: var(--ec-space-xs) var(--ec-space-md);
+  border: 2px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-sm);
+  font-family: var(--ec-font-ui);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+// Texto oscuro sobre el latón de relleno: --ec-accent-fill es el token pensado para rellenos.
+.boton--principal {
+  background: var(--ec-accent-fill);
+  color: var(--ec-sidebar);
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.boton--secundario {
+  background: transparent;
+  border-color: var(--ec-accent);
+  color: var(--ec-accent);
+
+  &:hover {
+    background: var(--ec-surface);
+  }
+}
+
+@media (min-width: 768px) {
+  .campana__hero {
+    min-height: 28rem;
+  }
+
+  .campana__hero-texto {
+    padding: var(--ec-space-xl);
+  }
+}
+
+// El estado estático (sin animación) es el final: el resplandor y el texto solo «llegan» a él desde opacity 0.
+// La imagen no se anima, así que el LCP no cambia.
+.campana__amanecer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--sol-x, 80%) var(--sol-y, 35%),
+    color-mix(in srgb, var(--ec-accent-fill) 55%, transparent) 0%,
+    color-mix(in srgb, var(--ec-accent-fill) 22%, transparent) 22%,
+    transparent 55%
+  );
+  transform-origin: var(--sol-x, 80%) var(--sol-y, 35%);
+  animation: var(--amanecer-animacion, none);
+}
+
+.campana__ocasion {
+  animation: var(--amanecer-texto-ocasion, none);
+}
+
+.campana__titulo {
+  animation: var(--amanecer-texto-titulo, none);
+}
+
+.campana__lema {
+  animation: var(--amanecer-texto-lema, none);
+}
+
+// Los @keyframes son globales (styles.scss). Solo se define la variable aquí: las reglas de
+// componente no van dentro de la media query.
+@media (prefers-reduced-motion: no-preference) {
+  :host {
+    --amanecer-animacion: ec-amanecer-sol 2.2s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+    --amanecer-texto-ocasion: ec-amanecer-texto 0.9s ease-out 0.3s backwards;
+    --amanecer-texto-titulo: ec-amanecer-texto 0.9s ease-out 0.55s backwards;
+    --amanecer-texto-lema: ec-amanecer-texto 0.9s ease-out 0.8s backwards;
+  }
+}

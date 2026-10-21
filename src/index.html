@@ -5,6 +5,9 @@
   <!-- Sin esta etiqueta el móvil maqueta con un viewport virtual de 980 px y encoge la página: no se
        activa ninguna media query y el sitio se ve como un escritorio en miniatura. Sin
        `user-scalable=no` ni `maximum-scale`, que impedirían ampliar con los dedos (WCAG 1.4.4). -->
+  <!-- Las páginas prerenderizadas se sirven en /<ruta>/ (con barra final): sin <base> las rutas
+       relativas de los scripts y estilos se resolverían contra esa carpeta y darían 404. -->
+  <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Iglesia Evangélica El Camino</title>
   <link rel="icon" type="image/png" sizes="32x32" href="/logo/favicon-32.png">

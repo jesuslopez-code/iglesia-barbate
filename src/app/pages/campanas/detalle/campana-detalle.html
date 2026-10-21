@@ -1,0 +1,115 @@
+@let c = campana();
+
+<article class="campana">
+  <header class="campana__hero" [style.--sol-x]="sol().x + '%'" [style.--sol-y]="sol().y + '%'">
+    <picture>
+      <source
+        type="image/webp"
+        [attr.srcset]="portada().webp800 + ' 800w, ' + portada().webp + ' 1600w'"
+        sizes="(min-width: 1200px) 1100px, 100vw"
+      />
+      <img
+        class="campana__imagen"
+        [src]="c.imagen"
+        [attr.srcset]="portada().jpg800 + ' 800w, ' + c.imagen + ' 1600w'"
+        sizes="(min-width: 1200px) 1100px, 100vw"
+        [alt]="c.imagenAlt"
+        [attr.width]="c.imagenAncho"
+        [attr.height]="c.imagenAlto"
+        fetchpriority="high"
+      />
+    </picture>
+    <div class="campana__velo" aria-hidden="true"></div>
+    <div class="campana__amanecer" aria-hidden="true"></div>
+    <div class="campana__hero-texto">
+      <p class="campana__ocasion">{{ c.ocasion }}</p>
+      <h1 class="campana__titulo">{{ c.titulo }}</h1>
+      <p class="campana__lema">{{ c.lema }}</p>
+    </div>
+  </header>
+
+  <div class="campana__lectura">
+    <blockquote class="campana__cita">
+      <p>«{{ c.versiculo.texto }}»</p>
+      <cite>{{ c.versiculo.referencia }}</cite>
+    </blockquote>
+
+    @if (primeraSeccion(); as seccion) {
+      <section class="campana__seccion" aria-labelledby="seccion-0">
+        <h2 id="seccion-0">{{ seccion.titulo }}</h2>
+        @for (parrafo of seccion.parrafos; track $index) {
+          <p>{{ parrafo }}</p>
+        }
+      </section>
+    }
+
+    @if (c.puntos; as puntos) {
+      <ul class="campana__puntos" aria-label="Puntos clave">
+        @for (punto of puntos; track $index) {
+          <li>
+            <p>{{ punto.texto }}</p>
+            @if (punto.referencia) {
+              <cite>{{ punto.referencia }}</cite>
+            }
+          </li>
+        }
+      </ul>
+    }
+
+    @for (seccion of restoSecciones(); track seccion.titulo; let i = $index) {
+      <section class="campana__seccion" [attr.aria-labelledby]="'seccion-' + (i + 1)">
+        <h2 [id]="'seccion-' + (i + 1)">{{ seccion.titulo }}</h2>
+        @for (parrafo of seccion.parrafos; track $index) {
+          <p>{{ parrafo }}</p>
+        }
+      </section>
+    }
+  </div>
+
+  @if (c.descargas.length > 0) {
+    <section id="descargas" class="campana__descargas" aria-labelledby="descargas-titulo">
+      <h2 id="descargas-titulo">Descargas</h2>
+      <ul class="campana__descargas-lista">
+        @for (descarga of c.descargas; track descarga.archivo) {
+          <li class="descarga">
+            <h3 class="descarga__titulo">{{ descarga.titulo }}</h3>
+            <p class="descarga__texto">{{ descarga.descripcion }}</p>
+            <p class="descarga__meta">{{ descarga.tipo }} · {{ descarga.peso }}</p>
+            <a class="boton boton--principal" [href]="rutaDescarga(descarga.archivo)" download>
+              Descargar<span class="visually-hidden">: {{ descarga.titulo }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (c.evento; as evento) {
+    <section class="campana__evento" aria-labelledby="evento-titulo">
+      <p class="campana__evento-etiqueta">Te invitamos</p>
+      <h2 id="evento-titulo">{{ evento.titulo }}</h2>
+      <p class="campana__evento-dato">
+        <time [attr.datetime]="evento.fecha + 'T' + evento.hora">{{ fechaEvento() }}, a las {{ evento.hora }}</time>
+      </p>
+      <address class="campana__evento-dato">{{ evento.lugar }}</address>
+      <a class="boton boton--secundario" [href]="evento.mapsUrl" target="_blank" rel="noopener">
+        Cómo llegar
+        <span class="visually-hidden">(se abre en Google Maps en una pestaña nueva)</span>
+      </a>
+    </section>
+  }
+
+  <section class="campana__compartir" aria-labelledby="compartir-titulo">
+    <h2 id="compartir-titulo">Compártelo</h2>
+    <a
+      class="boton boton--principal"
+      [href]="whatsappHref()"
+      target="_blank"
+      rel="noopener"
+      (click)="compartir($event)"
+    >
+      Compartir por WhatsApp
+    </a>
+    <p class="campana__aviso" role="status" aria-live="polite">{{ aviso() }}</p>
+  </section>
+</article>

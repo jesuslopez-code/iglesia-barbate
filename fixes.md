@@ -88,6 +88,18 @@
 
 ---
 
+## FIX-006 — En producción, las páginas internas cargadas directamente no arrancan Angular (CRÍTICO)
+
+- **Estado:** ✅ ARREGLADA (pendiente de desplegar y probar en producción)
+- **Dónde:** `src/index.html`; además `src/app/pages/layout/layout.{html,ts}` y `src/app/pages/ministerios/ministerios.html`.
+- **Problema:** al entrar directamente a una página interna (desde Google, un enlace compartido o al refrescar) solo se aplica el CSS crítico incrustado: no funcionan el cambio de tema, el menú móvil, el formulario de contacto, los botones de compartir ni los reproductores de vídeo. La portada sí funciona. `https://icelcamino.com/ensenanza/main-DLOV67CE.js` devuelve 404 y `/main-DLOV67CE.js` devuelve 200. En local, `/campanas/hijos-de-luz` también se veía sin estilos.
+- **Causa:** el commit 2220126 (nov 2025) quitó `<base href="/">`. Las páginas prerenderizadas viven en `/<ruta>/index.html` y Hostinger las sirve en `/<ruta>/` con barra final; los scripts y estilos se emiten con URL relativas (`main-XXXX.js`), que se resolvían a `/<ruta>/main-XXXX.js`.
+- **Solución:** `<base href="/">` restaurado en `src/index.html`, con comentario. Efecto colateral tratado: con `<base>`, un `href="#ancla"` plano navega a la portada, así que el enlace «Saltar al contenido» ahora enfoca el `<main>` desde un manejador (`irAlContenido`) y el índice de `/ministerios` usa `[routerLink]="[]"` con `fragment`. Agente: cam-frontend-dev.
+- **Verificación:** `npm run build` OK (18 rutas prerenderizadas); `ensenanza/index.html` y `campanas/hijos-de-luz/index.html` de `dist/` llevan `<base href="/">` y sus scripts y estilos resuelven desde la raíz. No quedan rutas relativas de imagen en plantillas ni SCSS. Falta confirmar en producción tras desplegar.
+- **Detectado:** 19 oct 2026.
+
+---
+
 Formato de cada entrada:
 
 ## FIX-001 — Título breve del problema

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { CampanaAviso } from '../../components/campana-aviso/campana-aviso';
 import { WhatsappWidget } from '../../components/whatsapp-widget/whatsapp-widget';
 import { VideoCarousel } from '../../components/video-carousel/video-carousel';
 import { PREDICAS_REALES } from '../../data/predicas.data';
@@ -21,7 +22,7 @@ import {
 
 @Component({
   selector: 'app-body',
-  imports: [RouterLink, WhatsappWidget, VideoCarousel],
+  imports: [RouterLink, WhatsappWidget, VideoCarousel, CampanaAviso],
   templateUrl: './body.html',
   styleUrl: './body.scss',
 })

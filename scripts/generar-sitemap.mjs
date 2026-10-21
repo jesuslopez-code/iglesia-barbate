@@ -12,16 +12,40 @@ const rutasFichero = path.join(__dirname, '../src/app/app.routes.ts');
 const sitemapFichero = path.join(__dirname, '../public/sitemap.xml');
 const SITIO_URL = 'https://icelcamino.com';
 
-const fuenteTs = readFileSync(rutasFichero, 'utf8');
+// Las rutas importan resolvers de Angular (inject, Router) que no se pueden cargar desde un
+// `data:` URL; para el sitemap solo importan las rutas, así que se sustituyen por stubs.
+const fuenteTs = readFileSync(rutasFichero, 'utf8').replace(
+  /import \{[^}]*\} from '\.\/pages\/campanas\/campana\.resolvers';/,
+  'const campanaResolver = null, campanaSeoResolver = null, campanaTituloResolver = null;',
+);
 const { code } = await esbuild.transform(fuenteTs, { loader: 'ts', format: 'esm' });
 const moduloDataUrl = `data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
 const { routes } = await import(moduloDataUrl);
 
 // Solo rutas reales con su propia página: sin comodín ('**') y sin redirecciones (p.ej. 'know',
 // que ya apunta a 'conocenos' y no debe aparecer como URL propia en el sitemap).
-const paths = routes
+const rutasBase = routes
   .filter((ruta) => typeof ruta.path === 'string' && ruta.path !== '**' && !ruta.redirectTo)
   .map((ruta) => ruta.path);
+
+// Las rutas con parámetro (`campanas/:slug`) se expanden con los datos, igual que el
+// prerenderizado (`app.routes.server.ts`).
+const datosCampanas = await esbuild.transform(
+  readFileSync(path.join(__dirname, '../src/app/data/campanas.data.ts'), 'utf8'),
+  { loader: 'ts', format: 'esm' },
+);
+const { CAMPANAS } = await import(
+  `data:text/javascript;base64,${Buffer.from(datosCampanas.code).toString('base64')}`
+);
+
+const paths = rutasBase.flatMap((ruta) =>
+  ruta === 'campanas/:slug' ? CAMPANAS.map((c) => `campanas/${c.slug}`) : [ruta],
+);
+
+const sinExpandir = paths.filter((ruta) => ruta.includes(':'));
+if (sinExpandir.length > 0) {
+  throw new Error(`Rutas con parámetro sin expandir en el sitemap: ${sinExpandir.join(', ')}`);
+}
 
 const urls = paths
   .map((ruta) => `  <url>\n    <loc>${SITIO_URL}/${ruta}</loc>\n  </url>`)

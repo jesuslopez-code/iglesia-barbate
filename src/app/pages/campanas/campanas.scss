@@ -1,0 +1,137 @@
+.campanas {
+  max-width: 64rem;
+  margin-inline: auto;
+}
+
+.campanas__intro {
+  max-width: 42rem;
+  margin-bottom: var(--ec-space-xl);
+
+  h1 {
+    margin: 0 0 var(--ec-space-sm);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-3xl);
+    line-height: 1.1;
+    color: var(--ec-ink);
+  }
+
+  p {
+    margin: 0;
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-lg);
+    color: var(--ec-ink-soft);
+  }
+}
+
+.campanas__etiqueta {
+  margin: 0 0 var(--ec-space-md);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ec-accent);
+}
+
+.campanas__destacada {
+  margin-bottom: var(--ec-space-xl);
+}
+
+.campanas__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--ec-space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ficha {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--ec-rule);
+  border-radius: var(--ec-radius-md);
+  background: var(--ec-surface);
+}
+
+.ficha picture {
+  display: block;
+}
+
+.ficha__imagen {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.ficha__cuerpo {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--ec-space-md);
+}
+
+.ficha__ocasion {
+  margin: 0 0 var(--ec-space-2xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ec-accent);
+}
+
+.ficha__titulo {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-xl);
+  line-height: 1.2;
+  color: var(--ec-ink);
+}
+
+.ficha__texto {
+  margin: 0 0 var(--ec-space-md);
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-base);
+  color: var(--ec-ink-soft);
+}
+
+.ficha__enlace {
+  margin-top: auto;
+  font-family: var(--ec-font-ui);
+  font-weight: 700;
+  color: var(--ec-accent);
+
+  &:focus-visible {
+    outline: none;
+    border-radius: var(--ec-radius-sm);
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+@media (min-width: 768px) {
+  .ficha--destacada {
+    flex-direction: row;
+
+    picture {
+      flex: 0 0 55%;
+    }
+
+    .ficha__imagen {
+      height: 100%;
+    }
+
+    .ficha__cuerpo {
+      justify-content: center;
+      padding: var(--ec-space-lg);
+    }
+
+    .ficha__titulo {
+      font-size: var(--ec-text-2xl);
+    }
+  }
+}

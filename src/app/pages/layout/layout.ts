@@ -81,6 +81,12 @@ export class Layout {
     this.isDesktop.set(window.matchMedia(DESKTOP_BREAKPOINT).matches);
   }
 
+  // Un href="#..." plano, con <base href="/">, navegaría a la portada en vez de saltar al contenido.
+  protected irAlContenido(evento: Event): void {
+    evento.preventDefault();
+    document.getElementById('contenido-principal')?.focus();
+  }
+
   protected alternarMenu(): void {
     if (this.navOpen()) {
       this.cerrarMenu();

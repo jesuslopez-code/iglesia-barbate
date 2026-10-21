@@ -270,3 +270,31 @@ Tareas:
       un `$utilities` recortado a las claves de verdad usadas) y quitado `popper.min.js` +
       `@popperjs/core` de `package.json`. De 657.74 kB a 482.93 kB — bajo el presupuesto de 500 kB.
 - [ ] Revisión con `cam-reviewer` y cierre de la fase (parar y validar)
+
+---
+
+## Fase 5 — Campañas
+
+- **Objetivo:** una sección reutilizable para campañas puntuales (Halloween, Navidad, Semana
+  Santa…): añadir una es una entrada de datos más sus ficheros, sin tocar componentes.
+- **Alcance:** `/campanas` (índice) y `/campanas/:slug` (detalle), aviso en la portada mientras una
+  campaña está activa, entrada «Campañas» en «Vida de iglesia». **Fuera de alcance:** cambios en
+  prédicas o en `/ensenanza`.
+- **Entregables:** `data/campana.ts` + `data/campanas.data.ts`; `pages/campanas/` (índice, detalle y
+  resolvers); `components/campana-aviso/`; `app.routes.server.ts` (prerenderizado por slug);
+  `public/descargas/<slug>/`.
+- **Criterios de aceptación:** `npm run build` correcto; HTML prerenderizado de `/campanas` y de
+  cada campaña con título, descripción y Open Graph propios; sin errores de hidratación.
+- **Dependencias:** fase 3. **Estado:** en curso.
+
+Tareas:
+
+- [x] Datos, rutas, páginas, aviso de portada y prerenderizado por slug — `cam-frontend-dev`.
+      Primera campaña: `hijos-de-luz` (Halloween 2026). Ficheros de descarga copiados desde
+      `D:\Iglesia Barbate\campanas\hijos-de-luz\`. El sitemap ya se genera desde las rutas
+      (`scripts/generar-sitemap.mjs`, ahora expande `campanas/:slug` con los datos).
+      Evento del jueves 29 de octubre cancelado: se quitó el bloque `evento` de `hijos-de-luz`
+      (el campo sigue siendo opcional en `Campana` y los componentes lo soportan) y se actualizó
+      el peso del folleto regenerado.
+- [ ] Probar en navegador (móvil 360 px, claro y oscuro, compartir en móvil real) — Jesús
+- [ ] Revisión con `cam-reviewer`

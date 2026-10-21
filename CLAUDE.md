@@ -79,10 +79,16 @@ La barra lateral agrupa los apartados en cuatro bloques, con «Donar» y «Servi
 - **La iglesia** — Inicio (`/`) · Quiénes somos (`/quienes-somos`) · Nuestras creencias
   (`/creencias`) · Equipo pastoral (`/equipo`)
 - **Vida de iglesia** — Enseñanza (`/ensenanza`) · Ministerios (`/ministerios`) · Jóvenes
-  (`/ministerios/jovenes`) · Kids (`/ministerios/kids`) · Acción social (`/accion-social`)
+  (`/ministerios/jovenes`) · Kids (`/ministerios/kids`) · Acción social (`/accion-social`) ·
+  Campañas (`/campanas`)
 - **Conócenos** — Tu primera visita (`/primera-visita`) · Horarios y ubicación (`/horarios`) ·
   Galería y vídeos (`/conocenos`)
 - **Participar** — Servir (`/servir`) · Donar (`/donar`) · Contacto (`/contacto`)
+
+**Añadir una campaña:** una entrada nueva en `src/app/data/campanas.data.ts` y sus ficheros en
+`public/descargas/<slug>/` (carteles y PDF, más los derivados de portada: `portada.jpg`,
+`portada-800.jpg`, `portada.webp`, `portada-800.webp` y `og.jpg`). La ruta `campanas/:slug`, el
+prerenderizado y el sitemap salen de ese array; no se toca nada más.
 
 En móvil la misma estructura se pliega en un panel deslizante.
 

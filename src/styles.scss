@@ -331,3 +331,17 @@ app-root {
     }
   }
 }
+
+@keyframes ec-amanecer-sol {
+  from {
+    opacity: 0;
+    transform: translateY(12%) scale(0.55);
+  }
+}
+
+@keyframes ec-amanecer-texto {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}

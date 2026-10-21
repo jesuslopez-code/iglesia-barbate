@@ -1,0 +1,44 @@
+@if (activa(); as campana) {
+  <section class="campana-aviso" [attr.aria-labelledby]="'campana-aviso-' + campana.slug">
+    <picture class="campana-aviso__imagen">
+      <source
+        type="image/webp"
+        [attr.srcset]="portada().webp800 + ' 800w, ' + portada().webp + ' 1600w'"
+        [attr.sizes]="sizes"
+      />
+      <img
+        [src]="campana.imagen"
+        [attr.srcset]="portada().jpg800 + ' 800w, ' + campana.imagen + ' 1600w'"
+        [attr.sizes]="sizes"
+        [alt]="campana.imagenAlt"
+        [attr.width]="campana.imagenAncho"
+        [attr.height]="campana.imagenAlto"
+        loading="lazy"
+      />
+    </picture>
+    <div class="campana-aviso__velo" aria-hidden="true"></div>
+    <div
+      class="campana-aviso__amanecer"
+      aria-hidden="true"
+      [style.--sol-x]="(campana.sol?.x ?? 80) + '%'"
+      [style.--sol-y]="(campana.sol?.y ?? 35) + '%'"
+    ></div>
+    <div class="campana-aviso__texto">
+      <p class="campana-aviso__ocasion">{{ campana.ocasion }}</p>
+      <h2 class="campana-aviso__titulo" [id]="'campana-aviso-' + campana.slug">{{ campana.titulo }}</h2>
+      <p class="campana-aviso__lema">{{ campana.lema }}</p>
+      @if (fechaEvento(); as fecha) {
+        <p class="campana-aviso__evento">{{ fecha }} · {{ campana.evento?.hora }}</p>
+      }
+      <div class="campana-aviso__acciones">
+        <a class="campana-aviso__boton" [routerLink]="['/campanas', campana.slug]">Ver la campaña</a>
+        <a
+          class="campana-aviso__enlace"
+          [routerLink]="['/campanas', campana.slug]"
+          fragment="descargas"
+          >Descargar el cartel</a
+        >
+      </div>
+    </div>
+  </section>
+}

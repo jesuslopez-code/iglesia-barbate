@@ -7,10 +7,13 @@ import { filter } from 'rxjs';
 
 export interface RouteSeo {
   readonly descripcion: string;
+  /** Imagen Open Graph propia de la ruta (ruta absoluta desde la raíz del sitio). Sin ella se usa
+   *  la imagen por defecto. */
+  readonly imagen?: { readonly ruta: string; readonly ancho: number; readonly alto: number };
 }
 
 /** Sitio en producción, para construir URLs absolutas (canónica y Open Graph). */
-const SITIO_URL = 'https://icelcamino.com';
+export const SITIO_URL = 'https://icelcamino.com';
 
 /** Composición estática generada por `scripts/generar-og.mjs` (logo + nombre sobre papel hueso). */
 const IMAGEN_OG_DEFECTO = {
@@ -64,6 +67,9 @@ export class Seo {
     // el snapshot, así que se usa directamente esa misma fuente.
     const titulo = ruta.snapshot.title ?? this.title.getTitle();
     const descripcion = seo?.descripcion ?? '';
+    const imagen = seo?.imagen
+      ? { url: `${SITIO_URL}${seo.imagen.ruta}`, ancho: seo.imagen.ancho, alto: seo.imagen.alto }
+      : IMAGEN_OG_DEFECTO;
     const rutaActual = this.router.url.split(/[?#]/)[0];
     const url = rutaActual === '/' ? `${SITIO_URL}/` : `${SITIO_URL}${rutaActual}`;
 
@@ -74,13 +80,13 @@ export class Seo {
     this.meta.updateTag({ property: 'og:title', content: titulo });
     this.meta.updateTag({ property: 'og:description', content: descripcion });
     this.meta.updateTag({ property: 'og:url', content: url });
-    this.meta.updateTag({ property: 'og:image', content: IMAGEN_OG_DEFECTO.url });
-    this.meta.updateTag({ property: 'og:image:width', content: String(IMAGEN_OG_DEFECTO.ancho) });
-    this.meta.updateTag({ property: 'og:image:height', content: String(IMAGEN_OG_DEFECTO.alto) });
+    this.meta.updateTag({ property: 'og:image', content: imagen.url });
+    this.meta.updateTag({ property: 'og:image:width', content: String(imagen.ancho) });
+    this.meta.updateTag({ property: 'og:image:height', content: String(imagen.alto) });
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
     this.meta.updateTag({ name: 'twitter:title', content: titulo });
     this.meta.updateTag({ name: 'twitter:description', content: descripcion });
-    this.meta.updateTag({ name: 'twitter:image', content: IMAGEN_OG_DEFECTO.url });
+    this.meta.updateTag({ name: 'twitter:image', content: imagen.url });
 
     this.actualizarCanonica(url);
   }

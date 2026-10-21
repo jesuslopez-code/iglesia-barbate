@@ -1,4 +1,9 @@
 import { Routes } from '@angular/router';
+import {
+  campanaResolver,
+  campanaSeoResolver,
+  campanaTituloResolver,
+} from './pages/campanas/campana.resolvers';
 
 /**
  * Arquitectura de información de CLAUDE.md, declarada una única vez. `data.nav` es lo que lee
@@ -129,6 +134,28 @@ export const routes: Routes = [
           'Camino a la comunidad de Barbate más allá de sus puertas.',
       },
     },
+  },
+  {
+    path: 'campanas',
+    loadComponent: () => import('./pages/campanas/campanas').then((m) => m.Campanas),
+    title: 'Campañas — Iglesia El Camino',
+    data: {
+      nav: { grupo: 'vida-de-iglesia', etiqueta: 'Campañas', orden: 6 },
+      seo: {
+        descripcion:
+          'Campañas de la Iglesia El Camino en fechas señaladas: textos, carteles y folletos ' +
+          'para descargar y compartir.',
+      },
+    },
+  },
+  {
+    // Cada campaña de `data/campanas.data.ts` sale de aquí; título, descripción y Open Graph
+    // se resuelven por campaña, no se escriben en la ruta.
+    path: 'campanas/:slug',
+    loadComponent: () =>
+      import('./pages/campanas/detalle/campana-detalle').then((m) => m.CampanaDetalle),
+    title: campanaTituloResolver,
+    resolve: { campana: campanaResolver, seo: campanaSeoResolver },
   },
   {
     path: 'primera-visita',
