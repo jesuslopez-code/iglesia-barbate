@@ -1,319 +1,245 @@
-// z-index: 0 abre un contexto de apilamiento propio para toda la portada: así el fondo fijo de
-// abajo (z-index: -1) queda detrás del resto del contenido de ESTA página sin colarse por debajo
-// del fondo de .shell (layout.scss), que es un hermano no posicionado fuera de este contexto.
-// Ese mismo z-index: 0 también pinta la portada por delante de CUALQUIER otro hermano no
-// posicionado del árbol (p. ej. el pie, footer.scss) aunque venga después en el DOM: por eso el
-// pie declara su propia capa (position: relative; z-index: 1) en vez de depender del orden del
-// documento. Si se añade otro hermano no posicionado a la derecha de .shell, revisar si también
-// necesita su propia capa.
-:host {
-  display: block;
-  position: relative;
-  z-index: 0;
-}
-
-// Fondo de página exclusivo de la portada: fondo.png (vía sus derivados -960/-1920, el PNG de
-// 6MB no se referencia en ningún sitio) con un velo UNIFORME (no degradado) encima. A diferencia
-// de --ec-veil (que solo funde el borde inferior de la banda), aquí el texto puede caer en
-// cualquier punto de la página, así que el velo tiene que garantizar contraste en todo el área,
-// no solo cerca del papel. Medido contra la foto real: en claro hace falta ~96% de opacidad de
-// --ec-ground para que --ec-ink-soft llegue a 4.5:1 en el peor píxel de la foto (una mancha de
-// foco muy oscura); en oscuro, ~85% de --ec-ground-dark.
-//
-// position: fixed (en vez del :host, que vive dentro de .content con max-width y margin-inline:
-// auto) para que la capa cubra TODA el área a la derecha de la lateral, no solo la columna
-// central de texto. En escritorio arranca en el borde de la lateral (--ec-sidebar-width, mismo
-// punto de corte de 992px que layout.scss usa para pasar la lateral a fija); en móvil, donde la
-// lateral es un panel deslizante que no ocupa espacio en el flujo, cubre de borde a borde.
-// pointer-events: none y aria-hidden porque es pura decoración, nunca debe interceptar clics,
-// foco ni lectores de pantalla.
-.portada-fondo {
-  position: fixed;
-  inset-block: 0;
-  left: 0;
-  right: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)), url('/fondo-960.jpg');
-  // image-set() con reserva: un navegador que no entienda esta declaración la descarta entera y
-  // se queda con el url() de arriba; el que sí la entiende (y por tanto entiende WebP) la usa.
-  background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)),
-    image-set(url('/fondo-960.webp') type('image/webp'), url('/fondo-960.jpg') type('image/jpeg'));
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-}
-
-@media (min-width: 992px) {
-  .portada-fondo {
-    left: var(--ec-sidebar-width);
-    background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)), url('/fondo-1920.jpg');
-    background-image: linear-gradient(var(--ec-veil-page), var(--ec-veil-page)),
-      image-set(
-        url('/fondo-1920.webp') type('image/webp'),
-        url('/fondo-1920.jpg') type('image/jpeg')
-      );
-  }
-}
-
-.hero {
-  max-width: 42rem;
-  margin-bottom: var(--ec-space-lg);
+// Portada: foto de cabecera a todo el ancho (portada-hero) y, debajo, tarjetas sobre el papel
+// dentro de la columna de contenido. Móvil primero: una columna, en el orden del HTML.
+.tarjetas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ec-space-md);
   padding-top: var(--ec-space-lg);
 }
 
-.hero-titulo {
-  margin: 0 0 var(--ec-space-sm);
-  font-family: var(--ec-font-display);
-  font-size: var(--ec-text-3xl);
-  line-height: 1.1;
-  color: var(--ec-ink);
-}
-
-// Frase de apoyo del nombre, no un segundo titular: mismo tratamiento que el párrafo lead de
-// .page-intro (styles.scss) para que la jerarquía coincida con el resto del sitio.
-.hero-subtitulo {
-  margin: 0;
-  font-family: var(--ec-font-body);
-  font-size: var(--ec-text-lg);
-  color: var(--ec-ink-soft);
-}
-
-// Banda contenida en el ancho del contenido, nunca a sangre. aspect-ratio (no una altura suelta
-// en clamp()/rem) mantiene la proporción real de la foto estable entre anchos de viewport.
-// 21:8 es la proporción de banda acordada; la foto (4:3) se recorta con object-fit: cover.
-.hero-banda {
-  position: relative;
-  max-width: 64rem;
-  margin-bottom: var(--ec-space-2xl);
-  aspect-ratio: 21 / 8;
-  overflow: hidden;
-  border-radius: var(--ec-radius-md);
-}
-
-// <picture> es inline por defecto: sin display: block y una altura explícita se queda con
-// altura automática y el img al 100% (relativo a una altura auto) no llena la banda.
-.hero-banda picture {
-  display: block;
-  height: 100%;
-}
-
-.hero-imagen {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-// El velo solo fundía la mitad del degradado y arrancaba desde el primer píxel: sobre una foto
-// clara eso la dejaba lavada entera. Ahora el tercio superior queda limpio y el fundido con
-// --ec-ground (mecanismo de --ec-veil) se concentra en el tercio inferior, donde la banda toca
-// el papel de la página.
-.hero-velo {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 45%,
-    var(--ec-veil) 75%,
-    var(--ec-ground) 100%
-  );
-}
-
-// Bloque "Cuándo y dónde": los datos prácticos y el mapa, movidos aquí desde el pie (que ahora
-// es mínimo). Móvil primero: una columna, datos antes que mapa (el orden ya viene así en el
-// HTML). A partir de 768px, dos columnas de la misma altura.
-.cuando-donde {
-  max-width: 64rem;
-  margin-bottom: var(--ec-space-2xl);
-}
-
-.cuando-donde-titulo {
-  margin: 0 0 var(--ec-space-md);
-  font-family: var(--ec-font-display);
-  font-size: var(--ec-text-2xl);
-  color: var(--ec-ink);
-}
-
-.cuando-donde-grid {
+.fila {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--ec-space-md);
+}
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: stretch;
+@media (min-width: 768px) {
+  .fila--inicio {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .fila--cierre {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   }
 }
 
-.cuando-donde-datos {
+.lado {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--ec-space-md);
+}
+
+.tarjeta {
   display: flex;
   flex-direction: column;
   gap: var(--ec-space-sm);
+  box-sizing: border-box;
+  padding: var(--ec-space-md);
+  border-radius: var(--ec-radius-card);
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    padding: var(--ec-space-lg);
+  }
 }
 
-// Mismo criterio que .entrada-tarjeta: superficie propia, filo fino y filo de latón a la
-// izquierda que marca "esto es un dato consultable", igual que en el resto del sitio.
-.cuando-donde-celda {
-  padding: var(--ec-space-sm) var(--ec-space-md);
+.tarjeta--clara {
   background: var(--ec-surface);
   border: 1px solid var(--ec-rule);
-  border-left: 2px solid var(--ec-accent-fill);
-  border-radius: var(--ec-radius-md);
-  font-family: var(--ec-font-ui);
-  font-size: var(--ec-text-sm);
+  box-shadow: var(--ec-shadow-sm);
   color: var(--ec-ink);
 }
 
-.cuando-donde-horario {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--ec-space-sm);
+.tarjeta--noche {
+  background: var(--ec-sidebar);
+  border: var(--ec-sidebar-edge);
+  color: var(--ec-sidebar-ink);
 }
 
-.cuando-donde-reunion {
+// Tarjeta noche con la foto arriba y el texto debajo, sobre --ec-sidebar: el contraste del texto no
+// depende de la foto.
+.tarjeta--foto {
+  gap: 0;
+  padding: 0;
+}
+
+.tarjeta--foto .tarjeta__imagen {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+
+  // Más baja en columna estrecha para que la tarjeta no alargue la fila de la prédica.
+  @media (min-width: 768px) {
+    aspect-ratio: 3 / 1;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    // Con el recorte 3:1 el centro corta las cabezas de los músicos; se sube el encuadre.
+    object-position: center 15%;
+  }
+}
+
+.tarjeta--foto .tarjeta__cuerpo {
   display: flex;
+  flex: 1;
   flex-direction: column;
-  gap: var(--ec-space-2xs);
+  gap: var(--ec-space-sm);
+  padding: var(--ec-space-md);
+
+  @media (min-width: 768px) {
+    padding: var(--ec-space-lg);
+  }
 }
 
-.cuando-donde-dia {
+.tarjeta__etiqueta {
+  margin: 0;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
   font-weight: 700;
-}
-
-.cuando-donde-hora {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
   color: var(--ec-accent);
 }
 
-.cuando-donde-direccion {
-  font-style: normal;
+.tarjeta__etiqueta--fill {
+  color: var(--ec-accent-fill);
+}
+
+.tarjeta__titulo {
+  margin: 0;
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-2xl);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.tarjeta__texto {
+  margin: 0;
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-base);
   line-height: 1.5;
 }
 
-.cuando-donde-contacto {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ec-space-2xs);
-
-  a {
-    color: var(--ec-accent);
-    text-decoration: none;
-
-    &:hover,
-    &:focus-visible {
-      text-decoration: underline;
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: var(--ec-focus-ring);
-    }
-  }
-}
-
-// aspect-ratio en móvil, donde el mapa es una columna suelta que necesita definir su propia
-// altura; en el grid de dos columnas (768px) se sustituye por height: 100% para ocupar todo el
-// alto de la fila, que marca la columna de datos. El iframe hereda esa caja fija, así que no
-// hay salto de maquetación cuando `loading="lazy"` lo descarga al llegar al viewport.
-.cuando-donde-mapa {
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: var(--ec-radius-md);
-  border: 1px solid var(--ec-rule);
-
-  @media (min-width: 768px) {
-    aspect-ratio: auto;
-    height: 100%;
-  }
-}
-
-.cuando-donde-mapa-iframe {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.cuando-donde-enlaces {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--ec-space-sm) var(--ec-space-lg);
-  margin: var(--ec-space-md) 0 0;
-  font-family: var(--ec-font-ui);
-  font-size: var(--ec-text-sm);
-  font-weight: 700;
-
-  a {
-    color: var(--ec-accent);
-    text-decoration: none;
-
-    &:hover,
-    &:focus-visible {
-      text-decoration: underline;
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: var(--ec-focus-ring);
-    }
-  }
-}
-
-// Carrusel a ancho de columna + columna de texto al lado; se apila en móvil. La columna de
-// texto no depende del carrusel para nada: el enlace de archivo queda siempre visible aunque
-// el carrusel esté vacío (piezasDestacadas.length === 0).
-.predicas-portada {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--ec-space-lg);
-  max-width: 64rem;
-  margin-bottom: var(--ec-space-2xl);
-
-  @media (min-width: 768px) {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    align-items: start;
-  }
-}
-
-.predicas-portada-texto {
-  h2 {
-    margin: 0 0 var(--ec-space-xs);
-    font-family: var(--ec-font-display);
-    font-size: var(--ec-text-2xl);
-    color: var(--ec-ink);
-  }
-
-  p {
-    margin: 0 0 var(--ec-space-md);
-    font-family: var(--ec-font-body);
-    font-size: var(--ec-text-base);
-    color: var(--ec-ink-soft);
-  }
-}
-
-.predicas-portada-enlace {
-  display: inline-block;
+.tarjeta__enlace {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-block: var(--ec-space-2xs);
   font-family: var(--ec-font-ui);
   font-size: var(--ec-text-sm);
   font-weight: 700;
   color: var(--ec-accent);
   text-decoration: none;
 
-  &:hover,
-  &:focus-visible {
+  &:hover {
     text-decoration: underline;
   }
 
   &:focus-visible {
     outline: none;
+    text-decoration: underline;
     box-shadow: var(--ec-focus-ring);
   }
 }
 
-// .entradas y .entrada-tarjeta son ahora utilidades globales (styles.scss): se reutilizan en
-// /ministerios para las entradas a Jóvenes y Kids. Aquí solo queda el espaciado propio de la
-// portada.
-.entradas {
-  padding-bottom: var(--ec-space-2xl);
+.tarjeta__enlace--fill {
+  color: var(--ec-accent-fill);
+
+  &:focus-visible {
+    box-shadow: var(--ec-focus-ring-fill);
+  }
+}
+
+.horas {
+  display: grid;
+  flex: 1;
+  align-content: space-evenly;
+  gap: var(--ec-space-sm);
+  margin: 0;
+}
+
+.horas__fila {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ec-space-2xs);
+  padding-bottom: var(--ec-space-xs);
+  border-bottom: 1px solid var(--ec-rule);
+  font-family: var(--ec-font-ui);
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--ec-ink-soft);
+  }
+}
+
+.predica app-video-card {
+  display: block;
+}
+
+.donde__direccion {
+  margin: 0;
+  font-family: var(--ec-font-display);
+  font-size: var(--ec-text-xl);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.donde__contacto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ec-space-2xs) var(--ec-space-md);
+  margin: 0;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+
+  a {
+    padding-block: var(--ec-space-2xs);
+    color: var(--ec-accent);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: none;
+      text-decoration: underline;
+      box-shadow: var(--ec-focus-ring);
+    }
+  }
+}
+
+// Caja con altura mínima propia en móvil; en escritorio crece para llenar la altura que deje la
+// tarjeta de la izquierda. El iframe ocupa siempre la caja, así que `loading="lazy"` no provoca
+// ningún salto al cargar.
+.donde__mapa {
+  position: relative;
+  flex: 1;
+  min-height: 11rem;
+  overflow: hidden;
+  border-radius: var(--ec-radius-md);
+  border: 1px solid var(--ec-rule);
+
+  // Absoluto: un iframe en flujo mide 150 px por defecto y sería el alto natural de la caja.
+  iframe {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  // Más baja desde 768 px para que «Dónde» no haga la columna más alta que la tarjeta de la prédica.
+  @media (min-width: 768px) {
+    min-height: 7rem;
+  }
 }

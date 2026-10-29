@@ -5,11 +5,22 @@ export interface Reunion {
   readonly id: string;
   readonly dia: string;
   readonly actividad: string;
+  /** Forma corta para los resúmenes de la portada, donde `actividad` no cabe. */
+  readonly resumen: string;
 }
 
+/** El culto principal, al que se invita a las visitas: portada y `/primera-visita` lo leen de aquí
+ *  en vez de buscarlo por id en `REUNIONES`. */
+export const REUNION_DOMINGO: Reunion = {
+  id: 'domingo',
+  dia: 'Domingos',
+  actividad: 'Culto principal y El Camino Kids',
+  resumen: 'culto y Kids',
+};
+
 export const REUNIONES: readonly Reunion[] = [
-  { id: 'jueves', dia: 'Jueves', actividad: 'Oración e intercesión' },
-  { id: 'domingo', dia: 'Domingos', actividad: 'Culto principal y El Camino Kids' },
+  { id: 'jueves', dia: 'Jueves', actividad: 'Oración e intercesión', resumen: 'oración' },
+  REUNION_DOMINGO,
 ];
 
 /** Las reuniones se adelantan una hora en verano. Única fuente de las horas por temporada: todo

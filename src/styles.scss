@@ -20,17 +20,6 @@
   --ec-sea: #3E7C78;
   --ec-word: #7A2E2E;
 
-  /* Velo de la banda de portada: versión traslúcida del papel del modo activo, para fundir
-     solo el borde inferior de la foto con la página. El degradado (body.scss) deja el resto de
-     la imagen limpio: un velo que arranca desde el primer píxel lava la foto entera. */
-  --ec-veil: rgba(245, 243, 238, 0.55);
-
-  /* Fondo de página de la portada (fondo.png): a diferencia de --ec-veil, el texto puede caer en
-     cualquier punto de la página, no solo cerca del papel, así que este velo es UNIFORME (no
-     degradado) y mucho más opaco — medido contra la foto real para que --ec-ink-soft, el token
-     de texto más exigente, llegue a 4.5:1 incluso sobre el píxel más oscuro de la imagen. */
-  --ec-veil-page: rgba(245, 243, 238, 0.96);
-
   /* Tipografía */
   --ec-font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --ec-font-body: 'Source Serif 4', Georgia, 'Times New Roman', serif;
@@ -57,11 +46,16 @@
   --ec-radius-sm: 4px;
   --ec-radius-md: 10px;
   --ec-radius-lg: 18px;
+  /* Tarjetas de la portada: entre md y lg, tal como se eligió en la maqueta G1. */
+  --ec-radius-card: 14px;
 
   --ec-shadow-sm: 0 1px 3px rgba(11, 36, 50, 0.08);
   --ec-shadow-md: 0 8px 24px rgba(11, 36, 50, 0.12);
 
-  --ec-sidebar-width: 260px;
+  /* Altos de la cabecera fija (normal y compactada al hacer scroll). Los usan la cabecera, el
+     hueco que reserva el contenido y el scroll-padding de las anclas: deben cambiar juntos. */
+  --ec-header-h: 4rem;
+  --ec-header-h-compact: 3.5rem;
   /* Anchura máxima del contenido centrado. La comparten la columna principal y el pie: con un
      número suelto en cada sitio, el pie se desalinearía en cuanto uno de los dos cambiara. */
   --ec-content-max: 1100px;
@@ -70,19 +64,19 @@
      --ec-accent se redefine en sus bloques y este token no se repite ahí. 75% de mezcla: el
      mínimo que llega a 3:1 en el modo claro (el caso más ajustado, latón oscurecido sobre papel
      hueso, 3,14:1) sin pasarse de necesario en el resto. Para foco sobre papel y sobre superficie
-     de tarjeta; dentro de la lateral usar --ec-focus-ring-fill. */
+     de tarjeta; dentro de la cabecera usar --ec-focus-ring-fill. */
   --ec-focus-ring: 0 0 0 3px color-mix(in srgb, var(--ec-accent) 75%, transparent);
 
   /* Mismo mecanismo que --ec-focus-ring pero derivado de --ec-accent-fill: el latón oscurecido
      de --ec-accent está pensado para leerse sobre papel claro y sobre el fondo oscuro de la
-     lateral pierde visibilidad (no llega a 3:1). Para foco sobre la barra lateral: marca,
-     navegación, enlace de servir, llamada de donar y el interruptor de tema cuando vive ahí.
+     cabecera pierde visibilidad (no llega a 3:1). Para foco sobre la cabecera: marca,
+     navegación, enlace de donar, botón de visita y el interruptor de tema cuando vive ahí.
      --ec-accent-fill no se redefine por modo, así que 60% basta para 3:1 en los dos. */
   --ec-focus-ring-fill: 0 0 0 3px color-mix(in srgb, var(--ec-accent-fill) 60%, transparent);
 
-  /* Filo de la lateral: mecanismo de contraste, no papel. En claro no hace falta (el bloque
-     oscuro ya contrasta con el papel hueso); en oscuro separa la lateral, algo más clara, del
-     fondo. Un token en vez de una regla condicional por modo, para no repetir el componente. */
+  /* Filo inferior de la cabecera: mecanismo de contraste, no papel. En claro no hace falta (el
+     bloque oscuro ya contrasta con el papel hueso); en oscuro separa la cabecera, algo más clara,
+     del fondo. Un token en vez de una regla condicional por modo, para no repetir el componente. */
   --ec-sidebar-edge: none;
 }
 
@@ -102,8 +96,6 @@
     --ec-accent-fill: #C8A44D;
     --ec-sea: #5FA9A4;
     --ec-word: #D98C86;
-    --ec-veil: rgba(10, 18, 25, 0.78);
-    --ec-veil-page: rgba(10, 18, 25, 0.85);
 
     --ec-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
     --ec-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
@@ -126,8 +118,6 @@
   --ec-accent-fill: #C8A44D;
   --ec-sea: #5FA9A4;
   --ec-word: #D98C86;
-  --ec-veil: rgba(10, 18, 25, 0.6);
-  --ec-veil-page: rgba(10, 18, 25, 0.85);
 
   --ec-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
   --ec-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
@@ -143,34 +133,25 @@ body {
   overflow-x: hidden; /* Evita el scroll horizontal si algo se sale un poco */
 }
 
+html {
+  scroll-padding-top: calc(var(--ec-header-h) + var(--ec-space-sm));
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --ec-header-h: 4.75rem;
+    --ec-header-h-compact: 3.75rem;
+  }
+}
+
 app-root {
   display: block;
   min-height: 100vh;
 }
 
-/* Patrón compartido por el esqueleto de las páginas de contenido (fase 1): titular real, párrafo
-   breve y secciones semánticas mientras cada apartado espera su tratamiento definitivo (fase 2).
-   Vive aquí porque lo usan páginas de rutas distintas; así no se repite en cada componente. */
-.page-intro {
-  max-width: 42rem;
-  margin-bottom: var(--ec-space-xl);
-
-  h1 {
-    margin: 0 0 var(--ec-space-sm);
-    font-family: var(--ec-font-display);
-    font-size: var(--ec-text-3xl);
-    line-height: 1.1;
-    color: var(--ec-ink);
-  }
-
-  p {
-    margin: 0;
-    font-family: var(--ec-font-body);
-    font-size: var(--ec-text-lg);
-    color: var(--ec-ink-soft);
-  }
-}
-
+/* Esqueleto de las páginas de contenido: el titular y la introducción los pone app-franja
+   (components/franja); estas utilidades son las secciones que le siguen. Viven aquí porque las
+   usan páginas de rutas distintas. */
 .page-section {
   max-width: 46rem;
   margin-bottom: var(--ec-space-xl);
@@ -263,8 +244,7 @@ app-root {
 /* Rejilla de tarjetas de entrada: nació en la portada (body.scss) y pasó a utilidad global al
    reutilizarse en /ministerios para las entradas a Jóvenes y Kids. Superficie propia
    (--ec-surface) para distinguirse del papel de la página; el filo de latón a la izquierda ata
-   visualmente la tarjeta con el apartado activo en la barra lateral (.nav-group a.is-active en
-   layout.scss). */
+   visualmente la tarjeta con el apartado activo en la cabecera (.is-active en header.scss). */
 .entradas {
   display: grid;
   grid-template-columns: 1fr;
@@ -343,5 +323,16 @@ app-root {
   from {
     opacity: 0;
     transform: translateY(0.75rem);
+  }
+}
+
+/* Enlaces del texto corriente: sin esto Bootstrap (reboot) los pinta con su azul por defecto. */
+.page-section a {
+  color: var(--ec-accent);
+  text-decoration: underline;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
   }
 }

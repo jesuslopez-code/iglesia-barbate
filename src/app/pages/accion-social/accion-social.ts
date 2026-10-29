@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Franja } from '../../components/franja/franja';
 
 interface AreaRefugio {
   readonly titulo: string;
@@ -8,7 +9,7 @@ interface AreaRefugio {
 
 @Component({
   selector: 'app-accion-social',
-  imports: [RouterLink],
+  imports: [RouterLink, Franja],
   templateUrl: './accion-social.html',
   styleUrl: './accion-social.scss',
 })

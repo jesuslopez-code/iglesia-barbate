@@ -4,8 +4,8 @@ import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import { Theme } from '../../core/theme/theme';
 
 /**
- * Interruptor accesible de modo claro/oscuro. Se monta en el bloque inferior de la barra
- * lateral (ver layout.html).
+ * Interruptor accesible de modo claro/oscuro. Se monta en la cabecera y en el panel móvil
+ * (ver header.html).
  */
 @Component({
   selector: 'app-theme-switch',

@@ -7,7 +7,7 @@ import {
 
 /**
  * Arquitectura de información de CLAUDE.md, declarada una única vez. `data.nav` es lo que lee
- * `core/nav/nav.ts` para construir la barra lateral y el pie: una ruta sin `nav` no aparece en
+ * `core/nav/nav.ts` para construir la cabecera y el pie: una ruta sin `nav` no aparece en
  * ningún sitio. No añadir un array de menú aparte.
  *
  * `data.seo` es lo que lee `core/seo/seo.ts` para la descripción y el Open Graph de cada ruta
@@ -22,7 +22,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./pages/body/body').then((m) => m.Body),
-    title: 'Iglesia El Camino — Inicio',
+    title: 'Iglesia evangélica en Barbate (Cádiz) · El Camino',
     data: {
       nav: { grupo: 'la-iglesia', etiqueta: 'Inicio', orden: 1, exact: true, pie: true },
       seo: {
@@ -87,9 +87,9 @@ export const routes: Routes = [
   {
     path: 'ministerios',
     loadComponent: () => import('./pages/ministerios/ministerios').then((m) => m.Ministerios),
-    title: 'Ministerios — Iglesia El Camino',
+    title: 'Ministerios en Barbate — Iglesia El Camino',
     data: {
-      nav: { grupo: 'vida-de-iglesia', etiqueta: 'Ministerios', orden: 2 },
+      nav: { grupo: 'vida-de-iglesia', etiqueta: 'Ministerios', orden: 2, exact: true },
       seo: {
         descripcion:
           'Los equipos y espacios a través de los que sirve la Iglesia El Camino, entre ellos ' +
@@ -160,9 +160,9 @@ export const routes: Routes = [
   {
     path: 'primera-visita',
     loadComponent: () => import('./pages/primera-visita/primera-visita').then((m) => m.PrimeraVisita),
-    title: 'Tu primera visita — Iglesia El Camino',
+    title: 'Tu primera visita en Barbate — Iglesia El Camino',
     data: {
-      nav: { grupo: 'conocenos', etiqueta: 'Tu primera visita', orden: 1 },
+      nav: { grupo: 'conocenos', etiqueta: 'Tu primera visita', orden: 1, rol: 'visita' },
       seo: {
         descripcion:
           'Todo lo que necesitas saber antes de venir a conocer la Iglesia El Camino por ' +
@@ -173,7 +173,7 @@ export const routes: Routes = [
   {
     path: 'horarios',
     loadComponent: () => import('./pages/horarios/horarios').then((m) => m.Horarios),
-    title: 'Horarios y ubicación — Iglesia El Camino',
+    title: 'Horarios y ubicación en Barbate — Iglesia El Camino',
     data: {
       nav: { grupo: 'conocenos', etiqueta: 'Horarios y ubicación', orden: 2, pie: true },
       seo: {
@@ -205,7 +205,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/servir/servir').then((m) => m.Servir),
     title: 'Servir — Iglesia El Camino',
     data: {
-      nav: { grupo: 'servir', etiqueta: 'Servir', orden: 1 },
+      nav: { grupo: 'participar', etiqueta: 'Servir', orden: 1 },
       seo: {
         descripcion: 'Formas de poner tus dones al servicio de la comunidad en la Iglesia El Camino.',
       },
@@ -216,7 +216,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/donar/donar').then((m) => m.Donar),
     title: 'Donar — Iglesia El Camino',
     data: {
-      nav: { grupo: 'donar', etiqueta: 'Donar', orden: 1 },
+      nav: { grupo: 'participar', etiqueta: 'Donar', orden: 2, rol: 'donar' },
       seo: {
         descripcion: 'Cómo sostener económicamente el trabajo de la Iglesia El Camino en Barbate.',
       },
@@ -227,7 +227,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contacto/contacto').then((m) => m.Contacto),
     title: 'Contacto — Iglesia El Camino',
     data: {
-      nav: { grupo: 'participar', etiqueta: 'Contacto', orden: 1, pie: true },
+      nav: { grupo: 'participar', etiqueta: 'Contacto', orden: 3, pie: true },
       seo: {
         descripcion:
           'Escríbenos o encuéntranos: teléfono, correo, redes y formulario de contacto de la ' +

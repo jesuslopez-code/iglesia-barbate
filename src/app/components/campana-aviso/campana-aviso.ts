@@ -10,7 +10,8 @@ import {
 } from '../../data/campanas.data';
 
 /**
- * Tarjeta de la campaña activa para la portada.
+ * Primera tarjeta de la portada: la campaña activa o, si no la hay, la invitación a la primera
+ * visita, para que la fila nunca quede con un hueco.
  *
  * Qué campaña está activa depende de la fecha de HOY, y la página se prerenderiza en el build,
  * así que:
@@ -27,15 +28,21 @@ import {
   imports: [RouterLink],
   templateUrl: './campana-aviso.html',
   styleUrl: './campana-aviso.scss',
-  host: { '[class.reservado]': 'reservado', '[class.con-aviso]': 'reservado || activa()' },
+  host: { '[class.reservado]': 'reservado' },
 })
 export class CampanaAviso {
-  // `sizes` no admite var(): 1024 px es el max-width de la tarjeta (64rem); entre 992 y 1200 px la
-  // tarjeta ocupa el ancho del contenido, que descontada la lateral es en torno al 70 % del viewport.
-  protected readonly sizes = '(min-width: 1200px) 1024px, (min-width: 992px) 70vw, 100vw';
+  // Slot de la foto: 2fr de la fila de la portada. Con 1100 px de columna menos 2 × 32 de relleno y
+  // 20 de hueco, son ~680 px a partir de 1200 px de ventana; por debajo la tarjeta ocupa
+  // ~60 % de la ventana hasta 768 px y todo el ancho (menos el relleno) en móvil. Recalcular si
+  // cambian --ec-content-max, el relleno de .content o las columnas de .fila-inicio en body.scss.
+  protected readonly sizes = '(min-width: 1200px) 680px, (min-width: 768px) 60vw, 100vw';
 
   protected readonly reservado = campanaActiva(hoyIso()) !== undefined;
   protected readonly activa = signal<Campana | undefined>(undefined);
+  // El fallback se pinta ya en el HTML prerenderizado si no había campaña al compilar; si la
+  // había (el hueco está reservado), solo aparece cuando el cliente confirma que ya no hay.
+  private readonly resuelta = signal(false);
+  protected readonly mostrarPrimeraVisita = computed(() => !this.reservado || this.resuelta());
   protected readonly portada = computed(() => variantesPortada(this.activa()?.imagen ?? ''));
 
   /** «Jueves 5 de noviembre» mientras el evento no haya pasado; vacío si no hay evento o ya fue. */
@@ -47,6 +54,9 @@ export class CampanaAviso {
   });
 
   constructor() {
-    afterNextRender(() => this.activa.set(campanaActiva(hoyIso())));
+    afterNextRender(() => {
+      this.activa.set(campanaActiva(hoyIso()));
+      this.resuelta.set(true);
+    });
   }
 }

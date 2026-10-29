@@ -1,6 +1,6 @@
 ---
 name: cam-frontend-dev
-description: "Use para crear o modificar cualquier parte del sitio de la Iglesia El Camino — componentes Angular, plantillas, SCSS y tokens, rutas, layout con barra lateral, formularios, accesibilidad, rendimiento y metadatos de cada página. Es el agente de toda la capa de producto: el proyecto no tiene backend."
+description: "Use para crear o modificar cualquier parte del sitio de la Iglesia El Camino — componentes Angular, plantillas, SCSS y tokens, rutas, layout con cabecera fija, formularios, accesibilidad, rendimiento y metadatos de cada página. Es el agente de toda la capa de producto: el proyecto no tiene backend."
 model: sonnet
 ---
 
@@ -24,7 +24,7 @@ ruta (loadComponent) → componente standalone → plantilla + SCSS con tokens
   rompería el modelo de coste y despliegue del proyecto.
 - `src/app/pages/` — estructura de la página y páginas de ruta. `src/app/components/` — piezas
   reutilizables e independientes.
-- La barra lateral se genera desde **la misma definición de rutas**, no desde un array de menú
+- La cabecera de navegación se genera desde **la misma definición de rutas**, no desde un array de menú
   aparte. El proyecto ya tuvo el fallo de tener dos listas que se desincronizaron: no repetirlo.
 - Contenido que cambia con el tiempo (prédicas, ministerios, horarios) vive en ficheros JSON de
   datos, no incrustado en plantillas.
@@ -41,7 +41,7 @@ sitio no debe parecer una plantilla de Bootstrap.
   nunca se escriben dentro de un bloque de media query o de `[data-theme]`, porque entonces no
   aplican en el estado sin marcar.
 - **Dos tokens de latón por accesibilidad:** `--ec-accent` (latón oscurecido) para texto y enlaces
-  sobre fondo claro; `--ec-accent-fill` (latón puro) para rellenos, filos y texto sobre la lateral
+  sobre fondo claro; `--ec-accent-fill` (latón puro) para rellenos, filos y texto sobre la cabecera
   oscura. El latón puro sobre papel no llega al contraste mínimo. No confundirlos.
 - **`--ec-word`** solo para referencias bíblicas. Nunca como color decorativo.
 - La tabla completa de tokens está en `CLAUDE.md`. Si hace falta un token nuevo, se añade al juego
@@ -140,11 +140,36 @@ normal y cuidado, sin abreviar.
 
 ## Componentes UI
 - **Navegación derivada de rutas** (`src/app/core/nav/nav.ts`): cada ruta que debe aparecer en la
-  lateral lleva `data: { nav: { grupo, etiqueta, orden, exact?, pie? } }`. `buildNavGroups(routes)`
-  agrupa y ordena para la lateral; `findNavLink(routes, 'servir' | 'donar')` saca los dos enlaces
-  sueltos del fondo; `buildFooterLinks(routes)` saca los enlaces del pie a partir de las rutas
+  cabecera lleva `data: { nav: { grupo, etiqueta, orden, exact?, rol?, pie? } }` con `grupo` entre
+  los cuatro de CLAUDE.md (Servir y Donar viven en `participar`). `buildNavGroups(routes)` agrupa y
+  ordena; `findNavByRole(routes, 'donar' | 'visita')` saca los dos enlaces que además salen sueltos
+  en la barra (marcados con `rol`, siguen también en su grupo); `buildFooterLinks(routes)` saca los enlaces del pie a partir de las rutas
   marcadas con `pie: true`. Una ruta sin `data.nav` no aparece en ningún sitio — es la única
   fuente, no se crea un segundo array de menú por ningún motivo.
+- **Cabecera** (`pages/header/`, fase 7): barra fija `--ec-sidebar`, que se compacta con scroll
+  (histéresis 48/12 px, altos en `--ec-header-h` y `--ec-header-h-compact`, que también reservan el
+  hueco de `.content` y el `scroll-padding-top` de `html`). Corte escritorio/móvil en **1200 px**
+  (debe coincidir en `header.ts` y `header.scss`): antes, barra con «Visítanos» + ☰ y panel
+  `position: fixed` a pantalla completa; el panel solo se renderiza abierto (`@if`), con foco
+  atrapado a mano (Tab/Mayúsculas+Tab), `body.style.overflow` bloqueado y `output panelCambia`
+  para que el layout ponga `inert` en el contenido. Desplegables: `<button aria-expanded
+  aria-controls>` + `<ul [hidden]>`; Esc/clic fuera/Tab fuera/navegar cierran. Para enfocar algo
+  recién renderizado, **`afterNextRender` con `injector`, no `queueMicrotask`**: la app es zoneless y
+  el microtask corre antes de pintar. Ni `transform` ni `filter` en `.site-header` (encerrarían el
+  panel fijo). El interruptor de tema oculta su texto dentro de `.acciones` (barra de escritorio).
+- **Franja de título** (`components/franja/`, fase 7): `<app-franja titulo="…"><p>intro</p></app-franja>`
+  es lo único que escribe el H1 de una página interior (ya no hay `.page-intro`). Va a todo el
+  ancho con `margin-inline: calc(50% - 50vw)` y debe quedar como hijo directo de la página o de un
+  contenedor centrado, nunca dentro de uno alineado a la izquierda. Páginas con cabecera propia
+  (detalle de campaña, 404) no la usan. Misma técnica en las bandas de la portada (`.banda*` en
+  `styles.scss`: margen negativo + relleno `calc(50vw - 50%)`; la portada, «Descubre» y «Así somos»
+  son componentes en `pages/body/portada-*`, y el aviso de campaña es banda a ancho completo); `--contenido-pb` de `.content` permite
+  que la última banda llegue al pie.
+- **El `npm start` puede servir módulos viejos** (la portada anterior tras reescribir `Body`):
+  si una captura no refleja el cambio, comprobar con `curl` y, si hace falta, capturar el build de
+  `dist/` servido con un servidor estático propio en otro puerto antes de diagnosticar el CSS.
+  Y matar el Chrome sin interfaz al terminar (`Browser.close` por CDP), o la siguiente captura
+  reutiliza el anterior.
 - **Patrón de esqueleto de página** (`src/styles.scss`): `.page-intro` (titular + párrafo lead),
   `.page-section` (subtítulo + párrafo) y `.page-placeholder` (marcador de contenido pendiente,
   con `--ec-accent`, nunca `--ec-word`) son utilidades globales para que las páginas de ruta sin
@@ -157,7 +182,7 @@ normal y cuidado, sin abreviar.
 
 - El atributo `sizes` de una `<img>` con `srcset` no acepta `var()`: el navegador no resuelve
   tokens CSS ahí, hay que dar un valor fijo en píxeles/vw. Si el slot real depende de tokens de
-  layout (ancho de `.content`, `--ec-sidebar-width`, relleno), calcularlo a mano y dejar un
+  layout (ancho de `.content`, `--ec-content-max`, relleno), calcularlo a mano y dejar un
   comentario que documente de qué tokens sale la cuenta, para poder recalcular si cambian.
 
 - **Carrusel** (`components/carousel/`): componente reutilizable con las fotos reales de la
@@ -219,9 +244,9 @@ normal y cuidado, sin abreviar.
 - **Jóvenes y Kids** son dos entradas propias en «Vida de iglesia» (`/ministerios/jovenes` y
   `/ministerios/kids`, cada una con su `data.nav`). La fase 1 empezó con una única entrada
   compartida con enlace cruzado; Jesús decidió separarlas. Si una página de ministerio nueva
-  vuelve a agrupar dos audiencias, dale a cada una su propia entrada en la lateral desde el
+  vuelve a agrupar dos audiencias, dale a cada una su propia entrada en la cabecera desde el
   principio, no un enlace cruzado a modo de sustituto.
-- El pie de página no muestra los 15 enlaces de la lateral: toma solo los marcados con
+- El pie de página no muestra los 15 enlaces de la cabecera: toma solo los marcados con
   `pie: true` en `app.routes.ts` (Inicio, Horarios, Conócenos, Contacto). Si se añade una ruta que
   también deba salir en el pie, se marca ahí — nunca escribiendo el enlace a mano en
   `footer.html`.
@@ -289,3 +314,11 @@ normal y cuidado, sin abreviar.
   `@Input() prioritaria` (por defecto `false`) para decidir si su primera foto carga eager con
   `fetchpriority="high"`: sin ese flag, siempre lazy. Si se vuelve a usar en la portada como LCP,
   pasar `[prioritaria]="true"` desde ese sitio — no cambiar el valor por defecto del componente.
+
+## Fase 6 (portada)
+- `video-carousel` ya no existe: la portada usa rejilla de `app-video-card`.
+- JSON-LD por página (`VideoObject`, `Event`) va en `core/seo/structured-data-pagina.ts`, no en
+  `StructuredData` (eager): el bundle inicial está pegado al presupuesto de 500 kB.
+- Texto sobre foto: velo con `color-mix(var(--ec-sidebar) …)` y texto `--ec-sidebar-ink` /
+  `--ec-accent-fill`; vale igual en los dos modos sin tokens nuevos.
+- Fotos derivadas de originales de cámara: `scripts/generar-fotos-culto.mjs` (sharp + ffmpeg).

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TEMPORADAS } from '../../../data/horarios.data';
+import { Franja } from '../../../components/franja/franja';
 
 @Component({
   selector: 'app-ministerio-kids',
-  imports: [RouterLink],
+  imports: [RouterLink, Franja],
   templateUrl: './kids.html',
 })
 export class MinisterioKids {

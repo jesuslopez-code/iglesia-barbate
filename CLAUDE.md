@@ -21,8 +21,8 @@ Reglas de arquitectura a tener presentes antes de tocar código:
   (layout, navegación, pie, páginas de ruta); `src/app/components/` las reutilizables e
   independientes (carrusel, formulario, widget de WhatsApp, caja de vídeo, redes).
 - **Rutas perezosas.** Los apartados se cargan con `loadComponent` para que añadir páginas no
-  engorde la descarga inicial. La barra lateral se genera desde la misma definición de rutas, no
-  desde un array de menú aparte: si se duplica, se desincroniza (ya pasó una vez).
+  engorde la descarga inicial. El menú de la cabecera se genera desde la misma definición de rutas,
+  no desde un array de menú aparte: si se duplica, se desincroniza (ya pasó una vez).
 - **El sitio debe prerenderizarse.** Cada ruta tiene que servir HTML real con su título, descripción
   y Open Graph. Una ruta nueva sin metadatos propios está incompleta.
 - **Contenido en JSON.** Prédicas, ministerios y horarios viven en ficheros de datos, no incrustados
@@ -41,11 +41,17 @@ La identidad está decidida y especificada. **No se improvisan colores ni tipogr
   componente nunca se escriben dentro de un bloque de media query o de `[data-theme]`.
 - **El latón es la marca y no cambia entre modos.** Hay dos tokens distintos por un motivo de
   contraste: `--ec-accent` (latón oscurecido) para texto y enlaces sobre fondo claro, y
-  `--ec-accent-fill` (latón puro) para rellenos, filos y texto sobre la lateral oscura. El latón puro
-  sobre papel no llega al contraste mínimo: no usarlo como texto.
-- **La barra lateral cambia de mecanismo de contraste, no de papel.** En claro es un bloque oscuro
-  sobre papel hueso; en oscuro es una superficie más clara que el fondo, separada por un filo de
-  1 px. En ambos casos el elemento activo lleva la barra de latón.
+  `--ec-accent-fill` (latón puro) para rellenos, filos y texto sobre la cabecera oscura. El latón
+  puro sobre papel no llega al contraste mínimo: no usarlo como texto.
+- **Navegación en cabecera** (decisión de Jesús, 26 de octubre de 2026; sustituye a la barra
+  lateral). Barra azul noche (`--ec-sidebar`) fija en todas las páginas, que se compacta al hacer
+  scroll: logo a la izquierda, los cuatro grupos como desplegables, «Donar» discreto y «Tu primera
+  visita» como único botón en latón. El elemento activo lleva el filo de latón. En móvil: barra fija
+  con logo, botón «Visítanos» y ☰ que abre el panel a pantalla completa con los cuatro grupos.
+- **La cabecera cambia de mecanismo de contraste, no de papel.** En claro es un bloque oscuro sobre
+  papel hueso; en oscuro es una superficie más clara que el fondo, separada por un filo de 1 px.
+  Los tokens conservan el nombre `--ec-sidebar*` por historia: renombrarlos tocaría todo el sitio
+  sin cambiar nada visible.
 - **Tres tipografías, tres papeles:** Cormorant Garamond (titulares y cita del versículo),
   Source Serif 4 (cuerpo de artículos y enseñanza), Karla (navegación, botones, etiquetas,
   formularios). No se añade una cuarta sin consultarlo.
@@ -58,23 +64,23 @@ La identidad está decidida y especificada. **No se improvisan colores ni tipogr
 |---|---|---|---|
 | `--ec-ground` | `#F5F3EE` | `#0A1219` | Fondo de página |
 | `--ec-surface` | `#FFFFFF` | `#101C24` | Tarjetas y formularios |
-| `--ec-sidebar` | `#0B2432` | `#16242E` | Barra lateral |
-| `--ec-sidebar-ink` | `#E7E2D6` | `#E7E2D6` | Texto de la lateral |
+| `--ec-sidebar` | `#0B2432` | `#16242E` | Cabecera (antes barra lateral) |
+| `--ec-sidebar-ink` | `#E7E2D6` | `#E7E2D6` | Texto de la cabecera |
 | `--ec-ink` | `#17222B` | `#E6EDF3` | Texto principal |
 | `--ec-ink-soft` | `#5A6A73` | `#97A8B2` | Texto secundario |
 | `--ec-rule` | `#DDD8CD` | `#24333D` | Líneas y bordes |
 | `--ec-accent` | `#806323` | `#D9B45F` | Latón para texto y enlaces — el valor anterior en claro (`#A8822E`) no llegaba a 4.5:1 sobre `--ec-ground` ni `--ec-surface`; este da 5.08:1 / 5.63:1 |
 | `--ec-accent-fill` | `#C8A44D` | `#C8A44D` | Latón para rellenos y filos |
 | `--ec-focus-ring` | `color-mix(in srgb, var(--ec-accent) 75%, transparent)` | ídem | Anillo de foco sobre papel (`--ec-ground`) y sobre superficie de tarjeta (`--ec-surface`); 3,14:1 / 3,35:1 en claro, 5,78:1 / 5,46:1 en oscuro |
-| `--ec-focus-ring-fill` | `color-mix(in srgb, var(--ec-accent-fill) 60%, transparent)` | ídem | Anillo de foco **dentro de la barra lateral** (marca, navegación, servir, donar, interruptor de tema): `--ec-accent` está pensado para papel claro y ahí pierde visibilidad; 3,27:1 en claro, 3,29:1 en oscuro sobre `--ec-sidebar` |
+| `--ec-focus-ring-fill` | `color-mix(in srgb, var(--ec-accent-fill) 60%, transparent)` | ídem | Anillo de foco **dentro de la cabecera** (marca, navegación, donar, botón de visita, interruptor de tema): `--ec-accent` está pensado para papel claro y ahí pierde visibilidad; 3,27:1 en claro, 3,29:1 en oscuro sobre `--ec-sidebar` |
 | `--ec-sea` | `#3E7C78` | `#5FA9A4` | Acento frío, uso puntual |
 | `--ec-word` | `#7A2E2E` | `#D98C86` | Solo referencias bíblicas |
-| `--ec-veil` | `rgba(245,243,238,.55)` | `rgba(10,18,25,.78)` (sistema) / `rgba(10,18,25,.6)` (elegido) | Degradado que funde el borde inferior de la banda de portada con el papel |
-| `--ec-veil-page` | `rgba(245,243,238,.96)` | `rgba(10,18,25,.85)` | Velo UNIFORME (no degradado) sobre `fondo.png` como fondo de página en la portada: opacidad calculada para que `--ec-ink-soft` llegue a 4.5:1 incluso sobre el píxel más oscuro de la foto, en cualquier punto de la página |
+| `--ec-radius-card` | `14px` | `14px` | Radio de las tarjetas de la portada |
 
 ## Arquitectura de información
 
-La barra lateral agrupa los apartados en cuatro bloques, con «Donar» y «Servir» separados abajo:
+La cabecera agrupa los apartados en cuatro desplegables, con «Donar» y «Tu primera visita» aparte a
+la derecha:
 
 - **La iglesia** — Inicio (`/`) · Quiénes somos (`/quienes-somos`) · Nuestras creencias
   (`/creencias`) · Equipo pastoral (`/equipo`)
@@ -90,7 +96,7 @@ La barra lateral agrupa los apartados en cuatro bloques, con «Donar» y «Servi
 `portada-800.jpg`, `portada.webp`, `portada-800.webp` y `og.jpg`). La ruta `campanas/:slug`, el
 prerenderizado y el sitemap salen de ese array; no se toca nada más.
 
-En móvil la misma estructura se pliega en un panel deslizante.
+En móvil la misma estructura se abre en un panel a pantalla completa desde el botón ☰.
 
 ## Usar los agentes adecuados
 

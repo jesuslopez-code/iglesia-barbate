@@ -1,84 +1,20 @@
 <a class="skip-link" href="#contenido-principal" (click)="irAlContenido($event)">Saltar al contenido</a>
 
-<div class="shell">
-  <button
-    #navToggle
-    type="button"
-    class="nav-toggle"
-    (click)="alternarMenu()"
-    [attr.aria-expanded]="navOpen()"
-    aria-controls="navegacion-principal"
-    [attr.aria-label]="navOpen() ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'"
-  >
-    <fa-icon [icon]="navOpen() ? iconClose : iconBars" aria-hidden="true"></fa-icon>
-  </button>
+<app-header (panelCambia)="contentInert.set($event)"></app-header>
 
-  @if (navOpen()) {
-    <div class="backdrop" (click)="alternarMenu()"></div>
-  }
-
-  <aside
-    #sidebarNav
-    id="navegacion-principal"
-    class="sidebar"
-    [class.sidebar--open]="navOpen()"
-    [attr.inert]="sidebarInert() ? '' : null"
-  >
-    <div class="sidebar__inner">
-      <a routerLink="/" class="brand" aria-label="Iglesia El Camino, Barbate. Ir al inicio">
-        <picture class="brand__logo">
-          <source type="image/webp" srcset="/logo/logo-88.webp" />
-          <img src="/logo/logo-88.png" alt="" width="44" height="44" />
-        </picture>
-        <span class="brand__texto">
-          <span class="brand__nombre">El Camino</span>
-          <span class="brand__lugar">Barbate</span>
-        </span>
-      </a>
-
-      <nav class="sidebar__nav" aria-label="Navegación principal">
-        @for (grupo of navGroups; track grupo.title) {
-          <div class="nav-group">
-            <p class="nav-group__title">{{ grupo.title }}</p>
-            <ul>
-              @for (item of grupo.items; track item.label) {
-                <li>
-                  <a
-                    [routerLink]="item.path"
-                    routerLinkActive="is-active"
-                    [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
-                    [ariaCurrentWhenActive]="'page'"
-                    >{{ item.label }}</a
-                  >
-                </li>
-              }
-            </ul>
-          </div>
-        }
-      </nav>
-
-      <div class="sidebar__bottom">
-        @if (servirLink) {
-          <a [routerLink]="servirLink.path" class="servir-link">{{ servirLink.label }}</a>
-        }
-
-        @if (donarLink) {
-          <a [routerLink]="donarLink.path" class="donar-cta">{{ donarLink.label }}</a>
-        }
-
-        <app-theme-switch></app-theme-switch>
-      </div>
-    </div>
-  </aside>
-
-  <main
-    id="contenido-principal"
-    class="content"
-    tabindex="-1"
-    [attr.inert]="contentInert() ? '' : null"
-  >
-    <router-outlet></router-outlet>
-  </main>
+<div class="envoltorio">
+<main
+  id="contenido-principal"
+  class="content"
+  tabindex="-1"
+  [attr.inert]="contentInert() ? '' : null"
+>
+  <router-outlet></router-outlet>
+</main>
 </div>
+
+@if (esPortada()) {
+  <app-whatsapp-widget [attr.inert]="contentInert() ? '' : null"></app-whatsapp-widget>
+}
 
 <app-footer [attr.inert]="contentInert() ? '' : null"></app-footer>

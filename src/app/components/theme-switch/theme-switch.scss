@@ -25,13 +25,13 @@
   }
 }
 
-/* Montado en la barra lateral, la superficie clara del botón queda flotando sobre
-   fondo oscuro: aquí se integra con los tokens de la lateral en vez de con --ec-surface.
-   El fondo pasa a transparent, así que el anillo de foco se ve sobre la lateral, no sobre
-   --ec-surface: necesita la variante derivada de --ec-accent-fill. */
-:host-context(.sidebar) .theme-switch {
+/* Montado en la cabecera, la superficie clara del botón queda flotando sobre fondo oscuro:
+   aquí se integra con los tokens de la cabecera en vez de con --ec-surface. El fondo pasa a
+   transparent, así que el anillo de foco se ve sobre la cabecera, no sobre --ec-surface:
+   necesita la variante derivada de --ec-accent-fill. */
+:host-context(.site-header) .theme-switch {
   background: transparent;
-  border-color: color-mix(in srgb, var(--ec-sidebar-ink) 35%, transparent);
+  border-color: color-mix(in srgb, var(--ec-sidebar-ink) 45%, transparent);
   color: var(--ec-sidebar-ink);
 
   &:hover {
@@ -45,4 +45,10 @@
   fa-icon {
     color: var(--ec-accent-fill);
   }
+}
+
+/* En la barra de escritorio solo cabe el icono; el nombre accesible lo da el aria-label. En el
+   panel móvil sí se muestra el texto. */
+:host-context(.acciones) .theme-switch__label {
+  display: none;
 }

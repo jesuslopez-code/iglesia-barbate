@@ -1,55 +1,46 @@
-// Alto reservado = alto de la tarjeta por tramo (móvil: imagen 11rem + texto; escritorio: fijo),
-// para que al aparecer tras la hidratación no se mueva nada. El margen inferior va en el host y
-// no en la tarjeta: con min-height en el host, un margen interior sumaría al hueco reservado.
+// Alto reservado = alto mínimo de la tarjeta, para que al aparecer tras la hidratación no se mueva
+// nada. La tarjeta rellena la celda de la fila (body.scss), que puede ser más alta que el mínimo.
 :host {
   display: block;
-  max-width: 64rem;
-  --aviso-alto: 33rem;
-  --aviso-alto-imagen: 11rem;
+  --tarjeta-alto: 26rem;
 }
 
 :host(.reservado) {
-  min-height: var(--aviso-alto);
+  min-height: var(--tarjeta-alto);
 }
 
-:host(.con-aviso) {
-  margin-bottom: var(--ec-space-lg);
-}
-
-// Los tramos son de maquetación: solo cambian variables de tamaño.
 @media (min-width: 768px) {
   :host {
-    --aviso-alto: 25rem;
+    --tarjeta-alto: 21rem;
   }
 }
 
-@media (min-width: 900px) {
-  :host {
-    --aviso-alto: 23rem;
-  }
-}
-
-.campana-aviso {
+.tarjeta {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: var(--aviso-alto);
+  justify-content: flex-end;
+  box-sizing: border-box;
+  height: 100%;
+  min-height: var(--tarjeta-alto);
   overflow: hidden;
-  border-radius: var(--ec-radius-lg);
+  border-radius: var(--ec-radius-card);
   background: var(--ec-sidebar);
+  border: var(--ec-sidebar-edge);
   color: var(--ec-sidebar-ink);
 
-  // Móvil: el velo funde la parte baja de la foto con el panel de texto. Escritorio: cubre el
-  // lado del texto (ver media query).
-  --velo-direccion: to bottom;
-  --velo-inicio: color-mix(in srgb, var(--ec-sidebar) 15%, transparent);
-  --velo-fin: var(--ec-sidebar);
+  // Móvil: el texto va abajo y el velo sube desde ahí. Escritorio: el texto va a la izquierda y el
+  // velo corre de izquierda a derecha (ver media query). Solo cambian variables.
+  --velo-direccion: to top;
+  --velo-inicio: color-mix(in srgb, var(--ec-sidebar) 95%, transparent);
+  --velo-medio: color-mix(in srgb, var(--ec-sidebar) 92%, transparent);
+  --velo-fin: color-mix(in srgb, var(--ec-sidebar) 15%, transparent);
 }
 
-.campana-aviso__imagen {
+.tarjeta__imagen {
+  position: absolute;
+  inset: 0;
   display: block;
-  flex: none;
-  height: var(--aviso-alto-imagen);
 
   img {
     display: block;
@@ -59,24 +50,24 @@
   }
 }
 
-.campana-aviso__velo,
-.campana-aviso__amanecer {
+// Con el velo en 0,92 como mínimo bajo el texto, --ec-sidebar-ink da ≥ 9:1 y el latón de las
+// etiquetas ≥ 4,5:1 incluso sobre un píxel blanco puro, en los dos modos.
+.tarjeta__velo {
   position: absolute;
-  inset: 0 0 auto;
-  height: var(--aviso-alto-imagen);
-  pointer-events: none;
-}
-
-.campana-aviso__velo {
+  inset: 0;
   background: linear-gradient(
     var(--velo-direccion),
     var(--velo-inicio) 0%,
-    var(--velo-inicio) var(--velo-tramo, 35%),
+    var(--velo-medio) 55%,
     var(--velo-fin) 100%
   );
+  pointer-events: none;
 }
 
-.campana-aviso__amanecer {
+// Va bajo el velo: solo se nota donde la foto asoma, y nunca encima del texto.
+.tarjeta__amanecer {
+  position: absolute;
+  inset: 0;
   background: radial-gradient(
     circle at var(--sol-x, 80%) var(--sol-y, 35%),
     color-mix(in srgb, var(--ec-accent-fill) 45%, transparent) 0%,
@@ -84,13 +75,11 @@
     transparent 55%
   );
   transform-origin: var(--sol-x, 80%) var(--sol-y, 35%);
-}
-
-// Los @keyframes son globales (styles.scss). La imagen no se anima, así que el LCP no cambia.
-.campana-aviso__amanecer {
+  pointer-events: none;
   animation: var(--aviso-animacion, none);
 }
 
+// Los @keyframes son globales (styles.scss). La imagen no se anima, así que el LCP no cambia.
 // Solo se define la variable aquí: las reglas de componente no van dentro de la media query.
 @media (prefers-reduced-motion: no-preference) {
   :host {
@@ -98,58 +87,56 @@
   }
 }
 
-.campana-aviso__texto {
+.tarjeta__texto {
   position: relative;
   display: flex;
-  flex: 1;
   flex-direction: column;
   align-items: flex-start;
-  padding: var(--ec-space-sm) var(--ec-space-md) var(--ec-space-md);
+  padding: var(--ec-space-md);
 }
 
-.campana-aviso__ocasion {
+.tarjeta__etiqueta {
   margin: 0 0 var(--ec-space-xs);
   font-family: var(--ec-font-ui);
-  font-size: var(--ec-text-sm);
+  font-size: var(--ec-text-xs);
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ec-accent-fill);
 }
 
-.campana-aviso__titulo {
-  max-width: 30rem;
-  margin: 0 0 var(--ec-space-sm);
+.tarjeta__titulo {
+  max-width: 32rem;
+  margin: 0 0 var(--ec-space-xs);
   font-family: var(--ec-font-display);
-  font-size: clamp(1.9rem, 1.4rem + 2.4vw, 3rem);
+  font-size: clamp(1.9rem, 1.4rem + 2vw, 2.75rem);
+  font-weight: 600;
   line-height: 1.05;
 }
 
-.campana-aviso__lema {
+.tarjeta__lema {
   max-width: 28rem;
   margin: 0 0 var(--ec-space-sm);
-  font-family: var(--ec-font-display);
-  font-size: var(--ec-text-lg);
-  font-style: italic;
-  line-height: 1.35;
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-base);
+  line-height: 1.45;
 }
 
-.campana-aviso__evento {
-  margin: 0 0 var(--ec-space-md);
+.tarjeta__evento {
+  margin: 0 0 var(--ec-space-sm);
   font-family: var(--ec-font-ui);
   font-size: var(--ec-text-base);
   font-weight: 700;
 }
 
-.campana-aviso__acciones {
+.tarjeta__acciones {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--ec-space-sm) var(--ec-space-md);
-  margin-top: auto;
+  gap: var(--ec-space-xs) var(--ec-space-md);
 }
 
-.campana-aviso__boton {
+.tarjeta__boton {
   display: inline-block;
   padding: var(--ec-space-xs) var(--ec-space-md);
   border: 2px solid var(--ec-accent-fill);
@@ -165,7 +152,7 @@
   }
 }
 
-.campana-aviso__enlace {
+.tarjeta__enlace {
   padding-block: var(--ec-space-xs);
   font-family: var(--ec-font-ui);
   font-weight: 700;
@@ -174,31 +161,64 @@
   text-underline-offset: 0.25em;
 }
 
-.campana-aviso__boton:focus-visible,
-.campana-aviso__enlace:focus-visible {
+.tarjeta__boton:focus-visible,
+.tarjeta__enlace:focus-visible {
   outline: none;
   box-shadow: var(--ec-focus-ring-fill);
 }
 
 @media (min-width: 768px) {
-  .campana-aviso {
-    --velo-direccion: to right;
-    --velo-tramo: 60%;
-    --velo-inicio: color-mix(in srgb, var(--ec-sidebar) 94%, transparent);
-    --velo-fin: color-mix(in srgb, var(--ec-sidebar) 10%, transparent);
-  }
-
-  .campana-aviso__imagen,
-  .campana-aviso__velo,
-  .campana-aviso__amanecer {
-    position: absolute;
-    inset: 0;
-    height: auto;
-  }
-
-  .campana-aviso__texto {
+  .tarjeta {
     justify-content: center;
-    width: 60%;
+    --velo-direccion: to right;
+    --velo-inicio: color-mix(in srgb, var(--ec-sidebar) 95%, transparent);
+    --velo-medio: color-mix(in srgb, var(--ec-sidebar) 92%, transparent);
+    --velo-fin: color-mix(in srgb, var(--ec-sidebar) 8%, transparent);
+  }
+
+  .tarjeta__texto {
     padding: var(--ec-space-lg);
+  }
+}
+
+// Reserva de primera visita. Móvil: foto recortada a las dos mujeres en una franja arriba y el texto
+// debajo sobre --ec-sidebar, sin velo. Escritorio: foto de fondo y velo, como la campaña.
+.tarjeta--noche {
+  justify-content: flex-start;
+
+  .tarjeta__imagen {
+    position: relative;
+    inset: auto;
+    flex: none;
+    aspect-ratio: 16 / 9;
+  }
+
+  .tarjeta__velo {
+    display: none;
+  }
+
+  .tarjeta__texto {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 768px) {
+  .tarjeta--noche {
+    justify-content: center;
+
+    .tarjeta__imagen {
+      position: absolute;
+      inset: 0;
+      aspect-ratio: auto;
+
+      img {
+        object-position: 85% 50%;
+      }
+    }
+
+    .tarjeta__velo {
+      display: block;
+    }
   }
 }

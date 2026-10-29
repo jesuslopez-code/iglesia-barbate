@@ -1,0 +1,125 @@
+<header class="site-header" [class.site-header--compacto]="compacto()">
+  <div class="barra">
+    <a routerLink="/" class="brand" aria-label="Iglesia El Camino, Barbate. Ir al inicio">
+      <picture class="brand__logo">
+        <source type="image/webp" srcset="/logo/logo-88.webp" />
+        <img src="/logo/logo-88.png" alt="" width="44" height="44" />
+      </picture>
+      <span class="brand__texto">
+        <span class="brand__nombre">El Camino</span>
+        <span class="brand__lugar">Barbate</span>
+      </span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="Navegación principal">
+      <ul class="nav-desktop__lista">
+        @for (grupo of navGroups; track grupo.title; let i = $index) {
+          <li
+            #item
+            class="nav-item"
+            [class.nav-item--abierto]="grupoAbierto() === i"
+            [class.nav-item--activo]="grupoActivo(grupo)"
+            (focusout)="alSalirElFoco($event, item)"
+          >
+            <button
+              type="button"
+              class="nav-item__boton"
+              [id]="'grupo-boton-' + i"
+              [attr.aria-expanded]="grupoAbierto() === i"
+              [attr.aria-controls]="'grupo-menu-' + i"
+              (click)="alternarGrupo(i)"
+              (keydown.arrowdown)="abrirGrupoConTeclado($event, i)"
+            >
+              {{ grupo.title }}
+              <svg class="nav-item__flecha" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true">
+                <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" />
+              </svg>
+            </button>
+            <ul
+              class="nav-item__menu"
+              [id]="'grupo-menu-' + i"
+              [hidden]="grupoAbierto() !== i"
+              (keydown.arrowdown)="moverEnMenu($event, 1)"
+              (keydown.arrowup)="moverEnMenu($event, -1)"
+              (keydown.home)="moverEnMenu($event, 'inicio')"
+              (keydown.end)="moverEnMenu($event, 'fin')"
+            >
+              @for (enlace of grupo.items; track enlace.label) {
+                <li>
+                  <a
+                    [routerLink]="enlace.path"
+                    routerLinkActive="is-active"
+                    [routerLinkActiveOptions]="{ exact: enlace.exact ?? false }"
+                    [ariaCurrentWhenActive]="'page'"
+                    >{{ enlace.label }}</a
+                  >
+                </li>
+              }
+            </ul>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="acciones">
+      @if (donarLink) {
+        <a
+          [routerLink]="donarLink.path"
+          routerLinkActive="is-active"
+          [ariaCurrentWhenActive]="'page'"
+          class="donar-link"
+          >{{ donarLink.label }}</a
+        >
+      }
+      <app-theme-switch class="acciones__tema"></app-theme-switch>
+      @if (visitaLink) {
+        <a [routerLink]="visitaLink.path" class="boton-visita">
+          <span class="solo-escritorio">{{ visitaLink.label }}</span>
+          <span class="solo-movil">Visítanos</span>
+        </a>
+      }
+      <button
+        type="button"
+        class="nav-toggle"
+        (click)="alternarPanel()"
+        [attr.aria-expanded]="panelAbierto()"
+        [attr.aria-controls]="panelAbierto() ? 'panel-navegacion' : null"
+        [attr.aria-label]="panelAbierto() ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'"
+      >
+        <fa-icon [icon]="panelAbierto() ? iconClose : iconBars" aria-hidden="true"></fa-icon>
+      </button>
+    </div>
+  </div>
+
+  @if (panelAbierto()) {
+    <nav id="panel-navegacion" class="panel" aria-label="Navegación principal">
+      @for (grupo of navGroups; track grupo.title) {
+        <section class="panel__grupo">
+          <p class="panel__titulo">{{ grupo.title }}</p>
+          <ul>
+            @for (enlace of grupo.items; track enlace.label) {
+              @if (enlace.path !== donarLink?.path) {
+                <li>
+                  <a
+                    [routerLink]="enlace.path"
+                    routerLinkActive="is-active"
+                    [routerLinkActiveOptions]="{ exact: enlace.exact ?? false }"
+                    [ariaCurrentWhenActive]="'page'"
+                    >{{ enlace.label }}</a
+                  >
+                </li>
+              }
+            }
+          </ul>
+        </section>
+      }
+
+      <div class="panel__pie">
+        @if (donarLink) {
+          <a [routerLink]="donarLink.path" class="panel__donar">{{ donarLink.label }}</a>
+        }
+        <app-theme-switch></app-theme-switch>
+      </div>
+    </nav>
+  }
+</header>

@@ -1,15 +1,15 @@
 import { Route, Routes } from '@angular/router';
 
-/**
- * Grupos de la barra lateral, tal como los define CLAUDE.md. `servir` y `donar` no son grupos
- * visibles en la lista: son enlaces sueltos que van separados abajo (el bloque de latón de
- * «Donar» y el enlace de «Servir»), pero comparten la misma fuente para no duplicar nada.
- */
+/** Grupos de la cabecera, tal como los define CLAUDE.md. */
 export type NavGroupId = 'la-iglesia' | 'vida-de-iglesia' | 'conocenos' | 'participar';
-export type NavSlot = NavGroupId | 'servir' | 'donar';
+
+/** Enlaces que además salen sueltos en la cabecera, fuera de los desplegables: «Donar» discreto y
+ *  «Tu primera visita» como botón. Siguen en su grupo: comparten la misma fuente. */
+export type NavRole = 'donar' | 'visita';
 
 export interface NavMeta {
-  readonly grupo: NavSlot;
+  readonly grupo: NavGroupId;
+  readonly rol?: NavRole;
   readonly etiqueta: string;
   readonly orden: number;
   readonly exact?: boolean;
@@ -51,7 +51,7 @@ function toNavLink(route: Route, nav: NavMeta): NavLink {
 }
 
 /**
- * Deriva la estructura de los cuatro grupos de la barra lateral directamente de las rutas. Una
+ * Deriva la estructura de los cuatro grupos de la cabecera directamente de las rutas. Una
  * ruta sin `data.nav` simplemente no aparece: así no puede haber una segunda lista de menú que
  * se desincronice de las rutas reales (ya pasó una vez en este proyecto).
  */
@@ -60,7 +60,7 @@ export function buildNavGroups(routes: Routes): NavGroup[] {
 
   for (const route of routes) {
     const nav = readNav(route);
-    if (!nav || nav.grupo === 'servir' || nav.grupo === 'donar') {
+    if (!nav) {
       continue;
     }
     const entradas = porGrupo.get(nav.grupo) ?? [];
@@ -76,12 +76,11 @@ export function buildNavGroups(routes: Routes): NavGroup[] {
   }));
 }
 
-/** El enlace marcado con el `grupo` dado — usado para «Servir» y «Donar», que van separados de
- *  los cuatro bloques de arriba según la maqueta. */
-export function findNavLink(routes: Routes, grupo: NavSlot): NavLink | undefined {
+/** El enlace marcado con el `rol` dado: los dos que la cabecera muestra además de los grupos. */
+export function findNavByRole(routes: Routes, rol: NavRole): NavLink | undefined {
   for (const route of routes) {
     const nav = readNav(route);
-    if (nav?.grupo === grupo) {
+    if (nav?.rol === rol) {
       return toNavLink(route, nav);
     }
   }

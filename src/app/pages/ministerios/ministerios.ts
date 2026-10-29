@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TEMPORADAS } from '../../data/horarios.data';
+import { Franja } from '../../components/franja/franja';
 
 @Component({
   selector: 'app-ministerios',
-  imports: [RouterLink],
+  imports: [RouterLink, Franja],
   templateUrl: './ministerios.html',
   styleUrl: './ministerios.scss',
 })

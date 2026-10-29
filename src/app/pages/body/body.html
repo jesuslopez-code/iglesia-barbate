@@ -1,97 +1,72 @@
-<div class="portada-fondo" aria-hidden="true"></div>
+<app-portada-hero></app-portada-hero>
 
-<section class="hero">
-  <h1 class="hero-titulo">Iglesia Evangélica El Camino</h1>
-  <p class="hero-subtitulo">Bienvenido a tu iglesia en Barbate</p>
-</section>
+<div class="tarjetas">
+  <div class="fila fila--inicio">
+    <app-campana-aviso></app-campana-aviso>
 
-<section class="hero-banda">
-  <picture>
-    <source
-      type="image/webp"
-      srcset="/photos-iglesia/bautizo6-960.webp 960w, /photos-iglesia/bautizo6-1920.webp 1920w"
-      sizes="(min-width: 1200px) 1140px, 100vw"
-    />
-    <img
-      class="hero-imagen"
-      src="/photos-iglesia/bautizo6-1920.jpg"
-      srcset="/photos-iglesia/bautizo6-960.jpg 960w, /photos-iglesia/bautizo6-1920.jpg 1920w"
-      sizes="(min-width: 1200px) 1140px, 100vw"
-      alt="El grupo de la iglesia de espaldas en la playa, cogidos de la mano y con los brazos levantados hacia el mar, en el momento del bautismo"
-      width="1920"
-      height="731"
-      fetchpriority="high"
-    />
-  </picture>
-  <div class="hero-velo" aria-hidden="true"></div>
-</section>
-
-<app-campana-aviso></app-campana-aviso>
-
-<section class="entradas">
-  <a class="entrada-tarjeta" routerLink="/creencias">
-    <h2>Creencias</h2>
-    <p>En qué nos apoyamos</p>
-  </a>
-
-  <a class="entrada-tarjeta" routerLink="/ensenanza">
-    <h2>Enseñanza</h2>
-    <p>Últimas prédicas</p>
-  </a>
-
-  <a class="entrada-tarjeta" routerLink="/servir">
-    <h2>Servir</h2>
-    <p>Dónde hace falta</p>
-  </a>
-</section>
-
-<section class="predicas-portada" aria-labelledby="predicas-portada-titulo">
-  <div class="predicas-portada-carrusel">
-    <app-video-carousel [piezas]="piezasDestacadas" [etiqueta]="piezasTitulo" sustantivo="prédica"></app-video-carousel>
-  </div>
-  <div class="predicas-portada-texto">
-    <h2 id="predicas-portada-titulo">{{ piezasTitulo }}</h2>
-    <p>{{ piezasDescripcion }}</p>
-    <a class="predicas-portada-enlace" [routerLink]="piezasEnlace">{{ piezasEnlaceTexto }}</a>
-  </div>
-</section>
-
-<section class="cuando-donde" aria-labelledby="cuando-donde-titulo">
-  <h2 id="cuando-donde-titulo" class="cuando-donde-titulo">Cuándo y dónde</h2>
-
-  <div class="cuando-donde-grid">
-    <div class="cuando-donde-datos">
-      <div class="cuando-donde-horario">
+    <section class="tarjeta tarjeta--clara cuando" aria-labelledby="cuando-titulo">
+      <h2 id="cuando-titulo" class="tarjeta__etiqueta">Cuándo</h2>
+      <dl class="horas">
         @for (reunion of reuniones; track reunion.id) {
-          <div class="cuando-donde-celda cuando-donde-reunion">
-            <span class="cuando-donde-dia">{{ reunion.dia }}</span>
-            <span class="cuando-donde-hora">{{ horaActual }}</span>
+          <div class="horas__fila">
+            <dt>{{ reunion.dia }}</dt>
+            <dd>{{ horaActual }} · {{ reunion.resumen }}</dd>
           </div>
         }
-      </div>
-
-      <address class="cuando-donde-celda cuando-donde-direccion">{{ direccion }}</address>
-
-      <div class="cuando-donde-celda cuando-donde-contacto">
-        <a [href]="telefonoHref">{{ telefonoTexto }}</a>
-        <a [href]="correoHref">{{ correoTexto }}</a>
-      </div>
-    </div>
-
-    <div class="cuando-donde-mapa">
-      <iframe
-        class="cuando-donde-mapa-iframe"
-        [src]="mapaUrl"
-        [title]="mapaTitulo"
-        loading="lazy"
-      ></iframe>
-    </div>
+      </dl>
+      <a class="tarjeta__enlace" routerLink="/horarios">Horarios y ubicación →</a>
+    </section>
   </div>
 
-  <p class="cuando-donde-enlaces">
-    <a routerLink="/horarios">Horarios y ubicación →</a>
-    <a [href]="mapaEnlace" target="_blank" rel="noopener">Abrir en la aplicación de mapas →</a>
-  </p>
-</section>
+  <app-portada-descubre></app-portada-descubre>
 
-<app-whatsapp-widget></app-whatsapp-widget>
+  <div class="fila fila--cierre">
+    <section class="tarjeta tarjeta--clara predica" aria-labelledby="predica-titulo">
+      <h2 id="predica-titulo" class="tarjeta__etiqueta">Última prédica</h2>
+      @if (ultimaPredica; as pieza) {
+        <app-video-card [pieza]="pieza"></app-video-card>
+      }
+      <a class="tarjeta__enlace" routerLink="/ensenanza">Todas las prédicas →</a>
+    </section>
+
+    <div class="lado">
+      <section class="tarjeta tarjeta--noche tarjeta--foto" aria-labelledby="somos-titulo">
+        <picture class="tarjeta__imagen">
+          <source type="image/webp" srcset="/photos-iglesia/asi-somos-960.webp" />
+          <img
+            src="/photos-iglesia/asi-somos-960.jpg"
+            alt="Culto en la sala de la iglesia: el grupo de alabanza en el escenario y la congregación en sus sillas"
+            width="960"
+            height="540"
+            loading="lazy"
+          />
+        </picture>
+        <div class="tarjeta__cuerpo">
+          <p class="tarjeta__etiqueta tarjeta__etiqueta--fill">Así somos</p>
+          <h2 id="somos-titulo" class="tarjeta__titulo">Una familia que camina junta</h2>
+          <p class="tarjeta__texto">
+            Más de veinte años en Barbate. Al terminar el culto, quédate a conocernos.
+          </p>
+          <a class="tarjeta__enlace tarjeta__enlace--fill" routerLink="/quienes-somos"
+            >Quiénes somos →</a
+          >
+        </div>
+      </section>
+
+      <section class="tarjeta tarjeta--clara donde" aria-labelledby="donde-titulo">
+        <h2 id="donde-titulo" class="tarjeta__etiqueta">Dónde</h2>
+        <address class="donde__direccion">{{ direccion }}</address>
+        <p class="donde__contacto">
+          <a [href]="telefonoHref">{{ telefonoTexto }}</a>
+          <a [href]="correoHref">{{ correoTexto }}</a>
+        </p>
+        <div class="donde__mapa">
+          <iframe [src]="mapaUrl" [title]="mapaTitulo" loading="lazy"></iframe>
+        </div>
+        <a class="tarjeta__enlace" [href]="mapaEnlace" target="_blank" rel="noopener"
+          >Cómo llegar →<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a
+        >
+      </section>
+    </div>
+  </div>
+</div>

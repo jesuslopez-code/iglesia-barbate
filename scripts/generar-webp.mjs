@@ -17,8 +17,6 @@ const publicDir = path.join(__dirname, '../public');
 // también entran: el carrusel los usa como el peldaño más grande del srcset de las fotos 1-4,
 // que todavía no tienen derivado -1920.
 const ficherosAConvertir = [
-  'fondo-960.jpg',
-  'fondo-1920.jpg',
   'photos-iglesia/foto1.jpg',
   'photos-iglesia/bautizo1.JPG',
   'photos-iglesia/bautizo1-960.jpg',

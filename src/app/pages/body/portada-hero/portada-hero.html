@@ -1,0 +1,32 @@
+<section class="portada">
+  <picture class="portada__imagen">
+    <source
+      type="image/webp"
+      srcset="/photos-iglesia/bautizo6-960.webp 960w, /photos-iglesia/bautizo6-1920.webp 1920w"
+      sizes="100vw"
+    />
+    <img
+      src="/photos-iglesia/bautizo6-1920.jpg"
+      srcset="/photos-iglesia/bautizo6-960.jpg 960w, /photos-iglesia/bautizo6-1920.jpg 1920w"
+      sizes="100vw"
+      alt="El grupo de la iglesia de espaldas en la playa, cogidos de la mano y con los brazos levantados hacia el mar, en el momento del bautismo"
+      width="1920"
+      height="1440"
+      fetchpriority="high"
+    />
+  </picture>
+  <div class="portada__velo" aria-hidden="true"></div>
+
+  <div class="portada__contenido">
+    <p class="portada__etiqueta">Iglesia evangélica en Barbate</p>
+    <h1>Iglesia Evangélica El Camino</h1>
+    <p class="portada__lema">Bienvenido a tu iglesia en Barbate. Ven como estés.</p>
+
+    <div class="portada__botones">
+      <a class="boton" routerLink="/primera-visita">Planifica tu visita</a>
+      <a class="boton boton--fantasma" [href]="mapaEnlace" target="_blank" rel="noopener"
+        >Cómo llegar</a
+      >
+    </div>
+  </div>
+</section>

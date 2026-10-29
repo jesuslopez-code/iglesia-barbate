@@ -1,0 +1,90 @@
+:host {
+  display: block;
+}
+
+.descubre {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ec-space-md);
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// La foto es decorativa (alt vacío): el enlace se nombra con su texto real, el título y el apoyo.
+.tarjeta {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  height: 11rem;
+  overflow: hidden;
+  border-radius: var(--ec-radius-card);
+  background: var(--ec-sidebar);
+  color: var(--ec-sidebar-ink);
+  text-decoration: none;
+
+  @media (min-width: 768px) {
+    height: 15rem;
+  }
+
+  &:hover .tarjeta__imagen img {
+    transform: scale(1.04);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring);
+  }
+}
+
+.tarjeta__imagen {
+  position: absolute;
+  inset: 0;
+  display: block;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+}
+
+// Velo desde abajo: bajo el texto la opacidad es ≥ 0,85, así que --ec-sidebar-ink da ≥ 7,6:1 incluso
+// sobre un píxel blanco; el título (texto grande) sigue por encima de 3:1 aunque suba el velo.
+.tarjeta__velo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--ec-sidebar) 94%, transparent) 0%,
+    color-mix(in srgb, var(--ec-sidebar) 85%, transparent) 40%,
+    color-mix(in srgb, var(--ec-sidebar) 10%, transparent) 80%
+  );
+}
+
+.tarjeta__texto {
+  position: relative;
+  padding: var(--ec-space-md);
+
+  h3 {
+    margin: 0 0 var(--ec-space-2xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-xl);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  small {
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta__imagen img {
+    transition: none;
+  }
+}

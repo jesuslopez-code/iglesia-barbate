@@ -1,8 +1,9 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, DestroyRef, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { SITIO_URL } from '../../../core/seo/seo';
+import { StructuredDataPagina } from '../../../core/seo/structured-data-pagina';
 import { Campana } from '../../../data/campana';
 import { fechaLarga, rutaDescarga, variantesPortada } from '../../../data/campanas.data';
 
@@ -28,6 +29,13 @@ export class CampanaDetalle {
   });
 
   protected readonly sol = computed(() => this.campana().sol ?? { x: 80, y: 35 });
+
+  constructor() {
+    const datosEstructurados = inject(StructuredDataPagina);
+    // `Event` solo si la campaña trae bloque `evento`; el componente se reutiliza al cambiar de slug.
+    effect(() => datosEstructurados.publicarEvento(this.campana()));
+    inject(DestroyRef).onDestroy(() => datosEstructurados.retirarEvento());
+  }
 
   private readonly url = computed(() => `${SITIO_URL}/campanas/${this.campana().slug}`);
 

@@ -1,0 +1,27 @@
+<section aria-labelledby="descubre-titulo">
+  <h2 id="descubre-titulo" class="visually-hidden">Descubre El Camino</h2>
+
+  <div class="descubre">
+    @for (entrada of entradas; track entrada.ruta) {
+      <a class="tarjeta" [routerLink]="entrada.ruta">
+        <picture class="tarjeta__imagen">
+          @if (entrada.webp) {
+            <source type="image/webp" [attr.srcset]="entrada.webp" />
+          }
+          <img
+            [src]="entrada.jpg"
+            alt=""
+            [attr.width]="entrada.ancho"
+            [attr.height]="entrada.alto"
+            loading="lazy"
+          />
+        </picture>
+        <span class="tarjeta__velo" aria-hidden="true"></span>
+        <div class="tarjeta__texto">
+          <h3>{{ entrada.titulo }}</h3>
+          <small>{{ entrada.apoyo }}</small>
+        </div>
+      </a>
+    }
+  </div>
+</section>

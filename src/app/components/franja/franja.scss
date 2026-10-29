@@ -1,0 +1,53 @@
+// A todo el ancho de la ventana aunque la página viva dentro de .content (centrado y con
+// max-width): el margen negativo reparte la diferencia entre el ancho de la columna (50 %) y el
+// de la ventana (50vw) hacia los dos lados. 100vw incluye la barra de scroll; lo que sobra queda
+// recortado por el overflow-x del body y el contenido sigue centrado en la columna.
+app-franja {
+  display: block;
+  margin-inline: calc(50% - 50vw);
+  margin-bottom: var(--ec-space-xl);
+}
+
+.franja {
+  box-sizing: border-box;
+  // El filo de latón separa la franja de la cabecera, que tiene el mismo azul: se leen como dos
+  // bloques. En oscuro el filo inferior de 1 px es el mismo mecanismo que el de la cabecera.
+  border-top: 2px solid var(--ec-accent-fill);
+  border-bottom: var(--ec-sidebar-edge);
+  background: var(--ec-sidebar);
+  color: var(--ec-sidebar-ink);
+}
+
+.franja__interior {
+  box-sizing: border-box;
+  max-width: var(--ec-content-max);
+  margin-inline: auto;
+  padding: var(--ec-space-lg) var(--ec-space-md);
+
+  h1 {
+    max-width: 42rem;
+    margin: 0 0 var(--ec-space-xs);
+    font-family: var(--ec-font-display);
+    font-size: var(--ec-text-3xl);
+    line-height: 1.1;
+    color: var(--ec-sidebar-ink);
+  }
+
+  p {
+    max-width: 42rem;
+    margin: 0;
+    font-family: var(--ec-font-body);
+    font-size: var(--ec-text-lg);
+    color: color-mix(in srgb, var(--ec-sidebar-ink) 85%, transparent);
+  }
+
+  a {
+    color: var(--ec-accent-fill);
+  }
+}
+
+@media (min-width: 1200px) {
+  .franja__interior {
+    padding: var(--ec-space-xl) var(--ec-space-lg);
+  }
+}

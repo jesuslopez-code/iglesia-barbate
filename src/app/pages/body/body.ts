@@ -2,14 +2,16 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CampanaAviso } from '../../components/campana-aviso/campana-aviso';
-import { WhatsappWidget } from '../../components/whatsapp-widget/whatsapp-widget';
-import { VideoCarousel } from '../../components/video-carousel/video-carousel';
+import { VideoCard } from '../../components/video-card/video-card';
+import { PortadaDescubre } from './portada-descubre/portada-descubre';
+import { PortadaHero } from './portada-hero/portada-hero';
 import { PREDICAS_REALES } from '../../data/predicas.data';
 import {
   CORREO_HREF,
   CORREO_TEXTO,
   DIRECCION_TEXTO,
   REUNIONES,
+  REUNION_DOMINGO,
   TELEFONO_HREF,
   TELEFONO_TEXTO,
   horaActual,
@@ -22,7 +24,7 @@ import {
 
 @Component({
   selector: 'app-body',
-  imports: [RouterLink, WhatsappWidget, VideoCarousel, CampanaAviso],
+  imports: [RouterLink, VideoCard, CampanaAviso, PortadaHero, PortadaDescubre],
   templateUrl: './body.html',
   styleUrl: './body.scss',
 })
@@ -30,8 +32,12 @@ export class Body {
   private readonly sanitizer = inject(DomSanitizer);
 
   // Horarios, dirección, teléfono y correo salen del mismo fichero de datos que `/horarios` y
-  // `/contacto`: este bloque los reúne, no los reescribe.
-  protected readonly reuniones = REUNIONES;
+  // `/contacto`: las tarjetas los reúnen, no los reescriben. Domingo primero: es el culto al que
+  // se invita a las visitas.
+  protected readonly reuniones = [
+    REUNION_DOMINGO,
+    ...REUNIONES.filter((reunion) => reunion.id !== REUNION_DOMINGO.id),
+  ];
   // Resumen rápido, no la referencia exhaustiva (esa es `/horarios`, enlazada aquí mismo): se
   // recalcula con la fecha real en cuanto el navegador hidrata el componente, así que solo el
   // HTML servido antes de ejecutar JS puede mostrar la hora de la temporada en que se hizo el
@@ -45,18 +51,13 @@ export class Body {
   protected readonly mapaEnlace = MAPA_UBICACION_ENLACE;
   protected readonly mapaTitulo = MAPA_UBICACION_TITULO;
 
-  // El mapa se ve directamente: ya no hay marcador ni carga bajo demanda (eso ahora solo aplica
-  // al reproductor de vídeo, donde el ahorro es mucho mayor). `loading="lazy"` en el iframe
-  // (body.html) basta para que el navegador no lo descargue hasta que se acerque al viewport.
+  // `loading="lazy"` en el iframe (body.html) basta para que el navegador no lo descargue hasta
+  // que se acerque al viewport.
   protected readonly mapaUrl: SafeResourceUrl =
     this.sanitizer.bypassSecurityTrustResourceUrl(MAPA_UBICACION_URL);
 
-  // Bloque "Últimas prédicas" de la portada: carrusel de vídeo que enlaza al archivo completo
-  // en /ensenanza. La plantilla y app-video-carousel no cambian si el contenido cambia; solo
-  // estas constantes.
-  protected readonly piezasDestacadas = PREDICAS_REALES;
-  protected readonly piezasTitulo = 'Últimas prédicas';
-  protected readonly piezasDescripcion = 'Escucha las últimas prédicas de la iglesia.';
-  protected readonly piezasEnlace = '/ensenanza';
-  protected readonly piezasEnlaceTexto = 'Ver todas las prédicas →';
+  // La tarjeta «Última prédica» muestra solo la más reciente (la lista va de más nueva a más
+  // antigua); el archivo completo está en /ensenanza. Si no hay prédicas reales, la tarjeta
+  // queda con el enlace al archivo.
+  protected readonly ultimaPredica = PREDICAS_REALES[0];
 }

@@ -8,6 +8,7 @@ import {
   faPeopleGroup,
   type IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
+import { Franja } from '../../components/franja/franja';
 
 interface Creencia {
   readonly icono: IconDefinition;
@@ -17,7 +18,7 @@ interface Creencia {
 
 @Component({
   selector: 'app-creencias',
-  imports: [FaIconComponent],
+  imports: [FaIconComponent, Franja],
   templateUrl: './creencias.html',
   styleUrl: './creencias.scss',
 })
