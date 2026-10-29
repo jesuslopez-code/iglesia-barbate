@@ -1,6 +1,6 @@
 @if (activa(); as campana) {
-  <section class="campana-aviso" [attr.aria-labelledby]="'campana-aviso-' + campana.slug">
-    <picture class="campana-aviso__imagen">
+  <section class="tarjeta tarjeta--campana" [attr.aria-labelledby]="'campana-aviso-' + campana.slug">
+    <picture class="tarjeta__imagen">
       <source
         type="image/webp"
         [attr.srcset]="portada().webp800 + ' 800w, ' + portada().webp + ' 1600w'"
@@ -16,28 +16,67 @@
         loading="lazy"
       />
     </picture>
-    <div class="campana-aviso__velo" aria-hidden="true"></div>
     <div
-      class="campana-aviso__amanecer"
+      class="tarjeta__amanecer"
       aria-hidden="true"
       [style.--sol-x]="(campana.sol?.x ?? 80) + '%'"
       [style.--sol-y]="(campana.sol?.y ?? 35) + '%'"
     ></div>
-    <div class="campana-aviso__texto">
-      <p class="campana-aviso__ocasion">{{ campana.ocasion }}</p>
-      <h2 class="campana-aviso__titulo" [id]="'campana-aviso-' + campana.slug">{{ campana.titulo }}</h2>
-      <p class="campana-aviso__lema">{{ campana.lema }}</p>
+    <div class="tarjeta__velo" aria-hidden="true"></div>
+    <div class="tarjeta__texto">
+      <p class="tarjeta__etiqueta">{{ campana.ocasion }}</p>
+      <h2 class="tarjeta__titulo" [id]="'campana-aviso-' + campana.slug">{{ campana.titulo }}</h2>
+      <p class="tarjeta__lema">{{ campana.lema }}</p>
       @if (fechaEvento(); as fecha) {
-        <p class="campana-aviso__evento">{{ fecha }} · {{ campana.evento?.hora }}</p>
+        <p class="tarjeta__evento">{{ fecha }} · {{ campana.evento?.hora }}</p>
       }
-      <div class="campana-aviso__acciones">
-        <a class="campana-aviso__boton" [routerLink]="['/campanas', campana.slug]">Ver la campaña</a>
-        <a
-          class="campana-aviso__enlace"
-          [routerLink]="['/campanas', campana.slug]"
-          fragment="descargas"
+      <div class="tarjeta__acciones">
+        <a class="tarjeta__boton" [routerLink]="['/campanas', campana.slug]">Ver la campaña</a>
+        <a class="tarjeta__enlace" [routerLink]="['/campanas', campana.slug]" fragment="descargas"
           >Descargar el cartel</a
         >
+      </div>
+    </div>
+  </section>
+} @else if (mostrarPrimeraVisita()) {
+  <section class="tarjeta tarjeta--noche" aria-labelledby="primera-vez-titulo">
+    <picture class="tarjeta__imagen">
+      <source
+        media="(max-width: 767px)"
+        type="image/webp"
+        srcset="/photos-iglesia/primera-vez-movil-960.webp"
+        width="960"
+        height="540"
+      />
+      <source
+        media="(max-width: 767px)"
+        type="image/jpeg"
+        srcset="/photos-iglesia/primera-vez-movil-960.jpg"
+        width="960"
+        height="540"
+      />
+      <source
+        type="image/webp"
+        srcset="/photos-iglesia/primera-vez-960.webp"
+        width="960"
+        height="720"
+      />
+      <img
+        src="/photos-iglesia/primera-vez-960.jpg"
+        alt="Dos mujeres charlan sentadas entre las sillas de la sala de la iglesia"
+        width="960"
+        height="720"
+      />
+    </picture>
+    <div class="tarjeta__velo" aria-hidden="true"></div>
+    <div class="tarjeta__texto">
+      <p class="tarjeta__etiqueta">¿Es tu primera vez?</p>
+      <h2 class="tarjeta__titulo" id="primera-vez-titulo">Ven como estés</h2>
+      <p class="tarjeta__lema">
+        Aquí encontrarás qué esperar del culto, a qué hora llegar y cómo encontrarnos.
+      </p>
+      <div class="tarjeta__acciones">
+        <a class="tarjeta__boton" routerLink="/primera-visita">Tu primera visita</a>
       </div>
     </div>
   </section>

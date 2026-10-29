@@ -7,10 +7,11 @@ import {
   TELEFONO_HREF,
   TELEFONO_TEXTO,
 } from '../../data/horarios.data';
+import { Franja } from '../../components/franja/franja';
 
 @Component({
   selector: 'app-contacto',
-  imports: [FormContact, Networks],
+  imports: [FormContact, Networks, Franja],
   templateUrl: './contacto.html',
   styleUrl: './contacto.scss',
 })

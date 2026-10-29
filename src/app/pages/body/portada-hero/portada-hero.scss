@@ -1,0 +1,154 @@
+// A todo el ancho dentro de .content: 100cqw es el ancho de .envoltorio (layout), que no cuenta la
+// barra de scroll como sí hace 100vw.
+:host {
+  display: block;
+  width: 100cqw;
+  margin-inline: calc(50% - 50cqw);
+}
+
+// El velo azul noche garantiza el contraste del texto sobre una foto clara: arranca muy denso
+// donde está el texto (izquierda en escritorio, abajo en móvil) y deja ver la foto en el otro
+// extremo. Con 0,88 como mínimo bajo el texto, --ec-sidebar-ink da ≥ 9:1 y el latón de las
+// etiquetas ≥ 4,9:1 incluso sobre un píxel blanco puro, en los dos modos.
+.portada {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  // Altura de composición (440 px en móvil, 420 en escritorio), no ligada al viewport: la foto es
+  // un preámbulo y las tarjetas de debajo tienen que asomar en la primera pantalla.
+  min-height: 27.5rem;
+  overflow: hidden;
+  color: var(--ec-sidebar-ink);
+  background: var(--ec-sidebar);
+  --velo: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--ec-sidebar) 97%, transparent) 0%,
+    color-mix(in srgb, var(--ec-sidebar) 90%, transparent) 85%,
+    color-mix(in srgb, var(--ec-sidebar) 55%, transparent) 100%
+  );
+}
+
+.portada__imagen {
+  position: absolute;
+  inset: 0;
+  display: block;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+}
+
+.portada__velo {
+  position: absolute;
+  inset: 0;
+  background: var(--velo);
+}
+
+.portada__contenido {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ec-space-sm);
+  width: 100%;
+  max-width: var(--ec-content-max);
+  margin-inline: auto;
+  padding: var(--ec-space-xl) var(--ec-space-md) var(--ec-space-lg);
+
+  h1 {
+    max-width: 40rem;
+    margin: 0;
+    font-family: var(--ec-font-display);
+    font-size: clamp(2.5rem, 1.7rem + 3vw, 4.25rem);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+}
+
+.portada__etiqueta {
+  margin: 0;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ec-accent-fill);
+}
+
+.portada__lema {
+  max-width: 32rem;
+  margin: 0;
+  font-family: var(--ec-font-body);
+  font-size: var(--ec-text-lg);
+  line-height: 1.45;
+}
+
+.portada__botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ec-space-sm);
+  margin-top: var(--ec-space-xs);
+}
+
+.boton {
+  display: inline-block;
+  padding: var(--ec-space-xs) var(--ec-space-md);
+  border: 2px solid var(--ec-accent-fill);
+  border-radius: var(--ec-radius-sm);
+  background: var(--ec-accent-fill);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-base);
+  font-weight: 700;
+  color: var(--ec-sidebar);
+  text-decoration: none;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring-fill);
+  }
+}
+
+.boton--fantasma {
+  border-color: currentColor;
+  background: transparent;
+  color: var(--ec-sidebar-ink);
+
+  &:hover {
+    filter: none;
+    border-color: var(--ec-accent-fill);
+    color: var(--ec-accent-fill);
+  }
+}
+
+@media (min-width: 768px) {
+  .portada {
+    align-items: center;
+    min-height: 26.25rem;
+    --velo: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--ec-sidebar) 95%, transparent) 0%,
+      color-mix(in srgb, var(--ec-sidebar) 88%, transparent) 60%,
+      color-mix(in srgb, var(--ec-sidebar) 12%, transparent) 100%
+    );
+  }
+
+  .portada__contenido {
+    gap: var(--ec-space-sm);
+    padding-block: var(--ec-space-lg);
+  }
+}
+
+@media (min-width: 1200px) {
+  .portada__contenido {
+    padding-inline: var(--ec-space-lg);
+  }
+}

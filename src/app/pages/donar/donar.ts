@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CORREO_HREF, CORREO_TEXTO, WHATSAPP_NUMERO } from '../../data/horarios.data';
+import { Franja } from '../../components/franja/franja';
 
 @Component({
   selector: 'app-donar',
-  imports: [RouterLink],
+  imports: [RouterLink, Franja],
   templateUrl: './donar.html',
 })
 export class Donar {

@@ -8,10 +8,11 @@ import {
   hoyIso,
   variantesPortada,
 } from '../../data/campanas.data';
+import { Franja } from '../../components/franja/franja';
 
 @Component({
   selector: 'app-campanas',
-  imports: [RouterLink],
+  imports: [RouterLink, Franja],
   templateUrl: './campanas.html',
   styleUrl: './campanas.scss',
 })

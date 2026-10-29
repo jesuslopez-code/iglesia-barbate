@@ -6,10 +6,11 @@ import {
   MAPA_UBICACION_URL,
 } from '../../core/location/map';
 import { DIRECCION_TEXTO, REUNIONES, TEMPORADAS } from '../../data/horarios.data';
+import { Franja } from '../../components/franja/franja';
 
 @Component({
   selector: 'app-horarios',
-  imports: [],
+  imports: [Franja],
   templateUrl: './horarios.html',
   styleUrl: './horarios.scss',
 })

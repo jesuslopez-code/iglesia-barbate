@@ -101,4 +101,6 @@ seguridad** y las **confirmaciones de acciones irreversibles**.
 - Los dos modos claro/oscuro: lo que se ve bien en uno puede ser ilegible en el otro.
 
 ## Buenas prácticas observadas
-_(vacío)_
+- Contraste real: medir con capturas Chrome (--window-size mínimo efectivo 500 px; modo oscuro inyectando localStorage `ec-theme`) y sharp sobre píxeles, no estimar.
+- Presupuestos: `anyComponentStyle` tiene error a 8 kB (body.scss 7,87 kB tras fase 6); vigilar antes de añadir SCSS a la portada.
+- Reglas globales de enlace (`.page-section a`, 0,1,1) pisan clases sueltas globales (0,1,0) pero no las de componente (0,2,0).

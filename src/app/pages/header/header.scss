@@ -1,0 +1,389 @@
+// Altos en tokens (styles.scss) porque el layout reserva el hueco con --ec-header-h y el
+// scroll-padding de las anclas usa el mismo valor: los tres deben cambiar juntos.
+// Nada de transform ni filter en .site-header: el panel móvil es position: fixed y un ancestro
+// con transform lo encerraría dentro de la barra.
+.site-header {
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  z-index: 1090;
+  box-sizing: border-box;
+  height: var(--ec-header-h);
+  background: var(--ec-sidebar);
+  color: var(--ec-sidebar-ink);
+  border-bottom: var(--ec-sidebar-edge);
+  box-shadow: var(--ec-shadow-sm);
+  transition: height 0.25s ease;
+
+  &--compacto {
+    height: var(--ec-header-h-compact);
+  }
+}
+
+// Anillo de foco único: --ec-focus-ring-fill hacia fuera; dentro de los menús (elementos pegados
+// entre sí) la misma mezcla hacia dentro para que no se solape con el vecino.
+.brand,
+.boton-visita,
+.nav-toggle,
+.panel a,
+.donar-link {
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--ec-focus-ring-fill);
+  }
+}
+
+.nav-item__boton,
+.nav-item__menu a {
+  &:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--ec-accent-fill) 60%, transparent);
+  }
+}
+
+.panel a.is-active,
+.nav-item__menu a.is-active {
+  border-left-color: var(--ec-accent-fill);
+  color: var(--ec-accent-fill);
+  font-weight: 700;
+}
+
+.barra {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--ec-space-sm);
+  height: 100%;
+  padding-inline: var(--ec-space-md);
+  background: var(--ec-sidebar);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--ec-space-xs);
+  flex: none;
+  color: var(--ec-sidebar-ink);
+  text-decoration: none;
+}
+
+.brand__logo {
+  flex: none;
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  transition: width 0.25s ease, height 0.25s ease;
+}
+
+.brand__logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.site-header--compacto .brand__logo {
+  width: 2rem;
+  height: 2rem;
+}
+
+.brand__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  line-height: 1;
+}
+
+.brand__nombre {
+  font-family: var(--ec-font-display);
+  font-weight: 700;
+  font-size: var(--ec-text-base);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.brand__lugar {
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: var(--ec-space-sm);
+  margin-left: auto;
+}
+
+.nav-desktop,
+.donar-link,
+.acciones__tema,
+.solo-escritorio {
+  display: none;
+}
+
+.boton-visita {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--ec-space-xs) var(--ec-space-sm);
+  border-radius: 2px;
+  background: var(--ec-accent-fill);
+  color: var(--ec-sidebar);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-sm);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.nav-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid color-mix(in srgb, var(--ec-sidebar-ink) 45%, transparent);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ec-sidebar-ink);
+  cursor: pointer;
+}
+
+.panel {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  display: grid;
+  align-content: start;
+  gap: var(--ec-space-lg);
+  padding: calc(var(--ec-header-h) + var(--ec-space-md)) var(--ec-space-md) var(--ec-space-lg);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--ec-sidebar);
+  color: var(--ec-sidebar-ink);
+}
+
+.panel__titulo {
+  margin: 0 0 var(--ec-space-xs);
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ec-accent-fill);
+}
+
+.panel__grupo ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panel__grupo a {
+  display: block;
+  padding: var(--ec-space-xs) var(--ec-space-sm);
+  border-left: 2px solid transparent;
+  font-family: var(--ec-font-ui);
+  font-size: var(--ec-text-lg);
+  color: var(--ec-sidebar-ink);
+  text-decoration: none;
+}
+
+.panel__pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ec-space-sm);
+  padding-top: var(--ec-space-md);
+  border-top: 1px solid color-mix(in srgb, var(--ec-sidebar-ink) 25%, transparent);
+}
+
+.panel__donar {
+  padding: var(--ec-space-xs) var(--ec-space-md);
+  border: 1px solid var(--ec-accent-fill);
+  border-radius: 2px;
+  font-family: var(--ec-font-ui);
+  font-weight: 700;
+  color: var(--ec-accent-fill);
+  text-decoration: none;
+}
+
+@media (min-width: 480px) {
+  .panel {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .panel__pie {
+    grid-column: 1 / -1;
+  }
+}
+
+// 1200px: con cuatro desplegables, «Donar», el interruptor y el botón, por debajo de eso la fila
+// se aprieta. Debe coincidir con DESKTOP_BREAKPOINT de header.ts.
+@media (min-width: 1200px) {
+  .barra {
+    padding-inline: var(--ec-space-lg);
+    gap: var(--ec-space-md);
+  }
+
+  .brand__logo {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .site-header--compacto .brand__logo {
+    width: 2.125rem;
+    height: 2.125rem;
+  }
+
+  .brand__nombre {
+    font-size: var(--ec-text-lg);
+  }
+
+  .nav-toggle,
+  .solo-movil,
+  .panel {
+    display: none;
+  }
+
+  .donar-link,
+  .solo-escritorio {
+    display: inline;
+  }
+
+  .acciones__tema {
+    display: block;
+  }
+
+  .acciones {
+    gap: var(--ec-space-md);
+  }
+
+  .boton-visita {
+    padding: var(--ec-space-xs) var(--ec-space-md);
+  }
+
+  .nav-desktop {
+    display: block;
+    align-self: stretch;
+    margin-inline: auto;
+  }
+
+  .nav-desktop__lista {
+    display: flex;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-item {
+    position: relative;
+    display: flex;
+    height: 100%;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-inline: var(--ec-space-sm);
+      bottom: 0;
+      height: 2px;
+      background: var(--ec-accent-fill);
+      transform: scaleX(0);
+      transition: transform 0.2s ease;
+    }
+
+    &--activo::after,
+    &--abierto::after {
+      transform: scaleX(1);
+    }
+  }
+
+  .nav-item__boton {
+    display: flex;
+    align-items: center;
+    gap: var(--ec-space-xs);
+    padding: 0 var(--ec-space-sm);
+    border: 0;
+    background: transparent;
+    color: var(--ec-sidebar-ink);
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--ec-accent-fill);
+    }
+  }
+
+  .nav-item__flecha {
+    transition: transform 0.2s ease;
+  }
+
+  .nav-item--abierto .nav-item__flecha {
+    transform: rotate(180deg);
+  }
+
+  .nav-item__menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 15rem;
+    margin: 0;
+    padding: var(--ec-space-2xs) 0;
+    list-style: none;
+    background: var(--ec-sidebar);
+    border: 1px solid color-mix(in srgb, var(--ec-sidebar-ink) 22%, transparent);
+    border-top: 0;
+    box-shadow: var(--ec-shadow-md);
+
+    &[hidden] {
+      display: none;
+    }
+
+    a {
+      display: block;
+      padding: var(--ec-space-xs) var(--ec-space-md);
+      border-left: 2px solid transparent;
+      font-family: var(--ec-font-ui);
+      font-size: var(--ec-text-sm);
+      color: var(--ec-sidebar-ink);
+      text-decoration: none;
+
+      &:hover {
+        background: color-mix(in srgb, var(--ec-sidebar-ink) 9%, transparent);
+      }
+    }
+  }
+
+  .donar-link {
+    padding: var(--ec-space-2xs) var(--ec-space-xs);
+    color: var(--ec-sidebar-ink);
+    font-family: var(--ec-font-ui);
+    font-size: var(--ec-text-sm);
+    text-decoration: none;
+
+    &:hover,
+    &.is-active {
+      color: var(--ec-accent-fill);
+    }  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .brand__logo,
+  .nav-item::after,
+  .nav-item__flecha {
+    transition: none;
+  }
+}

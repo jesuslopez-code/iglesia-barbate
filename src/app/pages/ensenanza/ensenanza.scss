@@ -9,25 +9,6 @@
   margin-inline: auto;
 }
 
-.ensenanza__intro {
-  margin-bottom: var(--ec-space-xl);
-
-  h1 {
-    margin: 0 0 var(--ec-space-sm);
-    font-family: var(--ec-font-display);
-    font-size: var(--ec-text-3xl);
-    line-height: 1.1;
-    color: var(--ec-ink);
-  }
-
-  p {
-    margin: 0;
-    font-family: var(--ec-font-body);
-    font-size: var(--ec-text-lg);
-    color: var(--ec-ink-soft);
-  }
-}
-
 .ensenanza__cita {
   margin: 0 0 var(--ec-space-xl);
   padding-left: var(--ec-space-md);
